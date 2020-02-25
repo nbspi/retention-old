@@ -1,0 +1,21 @@
+{
+	"ProgressBilling":[ 
+		{
+			"CODE":"000",
+			"NAME":""
+			
+		},
+		{
+			"CODE":"1",
+			"NAME":"First Billing"
+		},
+		{
+			"CODE":"2",
+			"NAME":"Subsequent Billing"
+		},
+		{
+			"CODE":"3",
+			"NAME":"Final Billing"
+		}
+	]
+}

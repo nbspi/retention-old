@@ -1,0 +1,13 @@
+{
+	"TransactionType":[
+		{
+			"CODE":"0",
+			"NAME":"Down Payment"
+		},
+		{
+			"CODE":"1",
+			"NAME":"Progress BIlling"
+		}
+	],
+	"KEY":"1"
+}

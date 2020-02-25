@@ -1,0 +1,12 @@
+{
+	"TaxType":[
+		{
+			"CODE":"0",
+			"NAME":"With Tax"
+		},
+		{
+			"CODE":"1",
+			"NAME":"Without Tax"
+		}
+	]
+}

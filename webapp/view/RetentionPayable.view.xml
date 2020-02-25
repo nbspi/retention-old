@@ -1,0 +1,313 @@
+ <mvc:View controllerName="com.apptech.app-retention.controller.RetentionPayable"
+xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:uxap="sap.uxap"
+	xmlns:f="sap.ui.layout.form" 
+	xmlns:l="sap.ui.layout"
+	xmlns:u="sap.ui.unified"
+	xmlns:tnt="sap.tnt" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:t="sap.ui.table">
+	<App>
+		<pages>
+			<Page title="Contract Billing and Retention Payable" id="pageRetention">
+				<content>
+					<IconTabBar id="idIconTabBarInlineMode" headerMode="Inline" upperCase="true" expandable="false" class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter id="tab1" text="Records" count="" key="tab1">
+								<Select id="selectRecordGroup" items="{Purchase>/PurchaseOrder}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
+									<core:ListItem key="{Purchase>CODE}" text="{Purchase>NAME}"/>
+								</Select>
+								<t:Table id="tblRetention" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="oFilterValue"
+									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
+									<t:extension>
+										<Toolbar>
+											<content>
+												<Button text="Process" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+												<ToolbarSpacer/>
+											</content>
+										</Toolbar>
+									</t:extension>
+									<!--DocNum-->
+									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true" filterProperty="DocNum">
+										<Label text="DocNum"/>
+										<t:template>
+											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--VendorName-->
+									<t:Column id="colVendor" width="12rem" filterValue="" filtered="true" filterOperator="" filterProperty="Vendor">
+										<Label text="VendorName"/>
+										<t:template>
+											<Text text="{oModelOpenPO>CardName}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Posting Date-->
+									<t:Column width="12rem">
+										<Label text="Posting Date"/>
+										<t:template>
+											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Doctotal-->
+									<t:Column width="12rem">
+										<Label text="DocTotal"/>
+										<t:template>
+											<Text text="{oModelOpenPO>DocTotal}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Document Status-->
+									<t:Column width="12rem">
+										<Label text="Document Status"/>
+										<t:template>
+											<Text id="DocStat" text="{oModelOpenPO>DocStatus}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:Table>
+							</IconTabFilter>
+							<IconTabFilter id="tab2" text="PO No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
+								<Button id="btn1" text="Save as Draft" tooltip="Add" press="onSave" icon="sap-icon://add"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://save"/>
+								<VBox class="sapUiTinyMargin">
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
+										<!--Vendor/Supplier Code-->
+										<Label text="Vendor/Supplier" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="VenSupCode" required="true" value="{oModelPurchase>/POFields/CardCode}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<Label text="Transaction No." width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="TransNo" value="{oTransID>/count/DocNum}" editable="false">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Name-->
+										<Label text="Name" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="Name" editable="false" required="true" value="{oModelPurchase>/POFields/CardName}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Document Number-->
+										<Label text="PO Number" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="DocNum" required="true" value="{oModelPurchase>/POFields/DocNum}" editable="false">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Posting Date-->
+										<Label text="Posting Date" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="DateFrom" valueFormat="2020-01-01" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
+											value="{oModelPurchase>/POFields/DocDate}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>
+										<!--<Input width="100%" id="DateFrom" editable="false" required="true" value="">-->
+										<!--	<layoutData>-->
+										<!--		<l:GridData span="L3 M4 S12"/>-->
+										<!--	</layoutData>-->
+										<!--</Input>-->
+										<!--Transaction Date-->
+										<Label text="Transaction Date" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="TransDate" editable="false" valueFormat="" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
+											dateValue="{/date}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>
+										<!--Transaction Type-->
+										<Label text="Transaction Type" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<ComboBox id="TransType" width="100%" items="{TransTypes>/TransactionType}" selectionChange="onSelectionChangeTranType"
+											loadItems="TransCode">
+											<core:Item key="{TransTypes>CODE}" text="{TransTypes>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</ComboBox>
+										<!--Tax Type-->
+										<Label text="Tax Type." width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<ComboBox id="TaxType" width="100%" items="{TaxType>/TaxType}" selectedKey="" selectionChange="onSelectionWTX" loadItems="TransCode">
+											<core:Item key="{TaxType>CODE}" text="{TaxType>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</ComboBox>
+										<!--RETENTION AMOUNT-->
+										<Label text="Retention Amount." width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="RentAmount" placeholder="0.00" editable="false" textAlign="Right" value="{oModelPurchase>/POFields/Price}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Progress Billing%-->
+										<Label text="Progress Billing %" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="ProgBill" placeholder="0.00" textAlign="Right" liveChange="ProgressBIll"
+											value="{InputHeader>/InputHeader/ProgressBilling}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--DownPayment-->
+										<Label text="DP %" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="DPayment" enabled="true" placeholder="0.00" textAlign="Right" liveChange="onRetentionAmount"
+											value="{InputHeader>/InputHeader/DP}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Progress Billing Type-->
+										<Label text="Progress Billing Type." width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<ComboBox id="PBType" width="100%" items="{PBType>/ProgressBilling}" selectionChange="ProgressBillingType" loadItems="TransCode">
+											<core:Item key="{PBType>CODE}" text="{PBType>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</ComboBox>
+										<!--<Select id="PBType" items="{PBType>/ProgressBilling}" selectedKey="" showSecondaryValues="true">-->
+										<!--	<core:ListItem key="{PBType>CODE}" text="{PBType>NAME}"/>-->
+										<!--	<layoutData>-->
+										<!--		<l:GridData span="L3 M4 S12"/>-->
+										<!--	</layoutData>-->
+										<!--</Select>-->
+										<!--CONTRACT AMOUNT-->
+										<Label text="Contract Amount." width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="Doctotal" editable="false" placeholder="0.00" textAlign="Right" value="{oModelPurchase>/POFields/DocTotal}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+									</f:SimpleForm>
+									<!--Details-->
+									<t:Table id="tblDetails" selectionMode="Single" visibleRowCount="6" ariaLabelledBy="title" rows="{DTRetention>/DetailesRetention}">
+										<t:columns>
+											<!--CWIP-->
+											<t:Column width="8rem">
+												<Label text="CWIP"/>
+												<t:template>
+													<Input id="CWIP" value="{DTRetention>CWIP}" textAlign="Center" enabled="false" fieldWidth="100%" width="100%"/>
+												</t:template>
+											</t:Column>
+											<!--Gross Amount-->
+											<t:Column width="9rem">
+												<Label text="Gross Amount"/>
+												<t:template>
+													<Input value="{DTRetention>GrossAmount}" textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
+												</t:template>
+											</t:Column>
+											<!--WTX-->
+											<t:Column width="7rem">
+												<Label text="Wtx"/>
+												<t:template>
+													<Input value="{DTRetention>WTX}" textAlign="End" fieldWidth="80%" enabled="false" width="100%"/>
+												</t:template>
+											</t:Column>
+											<!--Net Down Payment Amount-->
+											<!--<t:Column width="13rem">-->
+											<!--	<Label text="Net Down Payment Amount"/>-->
+											<!--	<t:template>-->
+											<!--		<Input value="{DTRetention>NetDownPaymentAmount}" textAlign="End" fieldWidth="80%" width="100%"/>-->
+											<!--	</t:template>-->
+											<!--</t:Column>-->
+											<!--Prorated DP-->
+											<t:Column width="8rem">
+												<Label text="Prorated DP"/>
+												<t:template>
+													<Input id="ProratedDP" value="{DTRetention>ProratedDP}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+												</t:template>
+											</t:Column>
+											<!--Prorated Retention-->
+											<t:Column width="11rem">
+												<Label text="Prorated Retention"/>
+												<t:template>
+													<Input value="{DTRetention>ProratedRetention}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+												</t:template>
+											</t:Column>
+											<!--Net Progress Billing Amount-->
+											<t:Column width="13rem">
+												<Label text="Net Progress Billing Amount"/>
+												<t:template>
+													<Input value="{DTRetention>NetProgress}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+												</t:template>
+											</t:Column>
+										</t:columns>
+									</t:Table>
+									<!--FileUploader-->
+									<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
+										uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
+									<!--Remarks-->
+									<Label text="Remarks." width="100%">
+										<layoutData>
+											<l:GridData span="L3 M2 S12"/>
+										</layoutData>
+									</Label>
+									<TextArea id="TextArea" cols="200" width="100%" height="100px">
+										<layoutData>
+											<l:GridData span="L9 M10 S12"/>
+										</layoutData>
+									</TextArea>
+								</VBox>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

@@ -1,0 +1,15 @@
+{
+	"DetailesRetention":[
+		{
+			"CWIP":"",
+			"CWIPEnabled":true,
+			"GrossAmount":"",
+			"WTX":"",
+			"NetDownPaymentAmount":"",
+			"ProratedDP":"",
+			"ProratedRetention":"",
+			"NetProgress":"",
+			"KEY":""
+		}
+		]
+}

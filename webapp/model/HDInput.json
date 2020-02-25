@@ -1,0 +1,19 @@
+{
+	"InputHeader":[
+		{
+		"VendorSupplier":"V0001",
+		"Name":"",
+		"PostingDate":"",
+		"TransactionType":"",
+		"RetentionAmount":5,
+		"DP":0,
+		"TransactionNo":"",
+		"DocumentNo":"",
+		"TransactionDate":"",
+		"TaxType":"",
+		"ProgressBilling":"",
+		"ProgressType":"",
+		"Enable":true
+		}
+	]
+}

@@ -1,0 +1,27 @@
+{
+	"PurchaseOrder": [
+	{
+		"CODE": "0",
+		"NAME": "1 - For DownPayment"
+	}, {
+		"CODE": "1",
+		"NAME": "2 - Down Payment with Outgoing Payment (Not yet Paid.) "
+	}, {
+		"CODE": "2",
+		"NAME": "3 - Complete DownPayment"
+	}, {
+		"CODE": "3",
+		"NAME": "4 - For First Progress Billing"
+	}, {
+		"CODE": "4",
+		"NAME": "5 - For Subsequent Billing"
+	}, {
+		"CODE": "5",
+		"NAME": "6 - For Final Billing"
+	}, {
+		"CODE":"5",
+		"NAME":"7 - Completed Transaction"
+		
+	}
+	]
+}
