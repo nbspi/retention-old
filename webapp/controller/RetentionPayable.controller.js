@@ -795,7 +795,7 @@ sap.ui.define([
 					"Access-Control-Allow-Origin" : "*"
 				},
 				beforeSend: function(xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("asd:ads"));
 				},
 				xhrFields: {
 					withCredentials: true
