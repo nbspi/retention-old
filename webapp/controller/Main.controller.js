@@ -61,7 +61,29 @@ sap.ui.define([
 			default:
 
 			}
+		},
+
+		onLogout: function (oEvent) {			
+
+			$.ajax({
+				url: "/destinations/BiotechSL/b1s/v1/Logout",
+				type: "POST",
+				contentType: "application/json",
+				xhrFields: {
+					withCredentials: true
+				},
+				error: function (xhr, status, error) {
+					MessageToast.show(xhr.responseText);
+				},
+				context: this,
+				success: function (json) {
+					sap.m.MessageToast.show("Session End");
+					jQuery.sap.storage.Storage.clear();
+					sap.ui.core.UIComponent.getRouterFor(this).navTo("Login");
+				}
+			});
 		}
+
 
 
 
