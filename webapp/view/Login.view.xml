@@ -4,7 +4,7 @@ xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
 	<Shell id="shell">
 		<App id="app">
 			<pages>
-				<Page title="BFI BANK INTEGRATION" id="pageLogin" busyIndicatorDelay="500">
+				<Page title="BFI RETENTION PAY" id="pageLogin" busyIndicatorDelay="500">
 					<content>
 						<Panel xmlns="sap.m" class="sapUiResponsiveContentPadding" width="auto" expandable="true" expanded="true" id="panel0"
 							headerText="Panel with SimpleForm">
