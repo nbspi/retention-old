@@ -1,16 +1,16 @@
 sap.ui.define([
-  "sap/m/MessageBox",
+	"sap/m/MessageBox",
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator"
-], function(MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator) {
-  "use strict";
+], function (MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator) {
+	"use strict";
 
-  return Controller.extend("com.apptech.app-retention.controller.RetentionPayable", {
+	return Controller.extend("com.apptech.app-retention.controller.RetentionPayable", {
 
-    _data: {
+		_data: {
 			"date": new Date()
 		},
 
@@ -379,6 +379,7 @@ sap.ui.define([
 				"url": "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				"method": "POST",
 				"timeout": 0,
+				"crossDomain": true,
 				"headers": {
 					"Content-Type": "application/json"
 				},
@@ -458,6 +459,7 @@ sap.ui.define([
 							"url": "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 							"method": "POST",
 							"timeout": 0,
+							"crossDomain": true,
 							"headers": {
 								"Content-Type": "application/json"
 							},
@@ -509,6 +511,7 @@ sap.ui.define([
 				"url": "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				"method": "POST",
 				"timeout": 0,
+				"crossDomain": true,
 				"headers": {
 					"Content-Type": "application/json"
 				},
@@ -578,6 +581,7 @@ sap.ui.define([
 							"url": "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 							"method": "POST",
 							"timeout": 0,
+							"crossDomain": true,
 							"headers": {
 								"Content-Type": "application/json"
 							},
@@ -631,6 +635,7 @@ sap.ui.define([
 				"url": "https://18.136.35.41:50000/b1s/v1/PurchaseDownPayments",
 				"method": "POST",
 				"timeout": 0,
+				"crossDomain": true,
 				"headers": {
 					"Content-Type": "application/json"
 				},
@@ -758,7 +763,7 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 
 			$.ajax({
-				url: "https://18.136.35.41:4300/appxsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=&value3=&value4=",
 				type: "GET",
 				async: false,
@@ -787,20 +792,12 @@ sap.ui.define([
 			// Viewing Open Purchase Order Transaction
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
-				url: "https://18.136.35.41:4300/appxsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=getAllUnprocessedPO&value1=Y&value2=&value3=&value4=",
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=getPOwithAPDP&value1=Y&value2=&value3=&value4",
 				type: "GET",
-				crossDomain:true,
-				dataType:"json",
-				headers : {
-					"Access-Control-Allow-Origin" : "*"
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 				},
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("asd:ads"));
-				},
-				xhrFields: {
-					withCredentials: true
-				},
-				
 				error: function (xhr, status, error) {
 					MessageToast.show(error);
 				},
@@ -908,8 +905,9 @@ sap.ui.define([
 					oDocEntry +
 					"&value2=&value3=&value4=",
 				type: "GET",
-				xhrFields: {
-					withCredentials: true
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 				},
 				error: function (xhr, status, error) {
 					MessageToast.show(xhr.responseText);
@@ -1045,8 +1043,9 @@ sap.ui.define([
 				url: "https://18.136.35.41:4300/appxsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=" + queryTag +
 					"&value1=&value2=&value3=&value4=",
 				type: "GET",
-				xhrFields: {
-					withCredentials: true
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 				},
 				error: function (xhr, status, error) {
 					MessageToast.show(xhr.responseText);
@@ -1228,6 +1227,7 @@ sap.ui.define([
 					type: "POST",
 					contentType: "multipart/mixed;boundary=a",
 					data: sBodyRequest,
+					crossDomain: true,
 					xhrFields: {
 						withCredentials: true
 					},
@@ -1292,9 +1292,9 @@ sap.ui.define([
 			$.ajax({
 				url: "https://18.136.35.41:4300/appxsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
 				type: "GET",
-				async: false,
-				xhrFields: {
-					withCredentials: true
+				dataType:"json",
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 				},
 				error: function (xhr, status, error) {
 					jQuery.sap.log.error("This should never have happened!");
@@ -1313,7 +1313,7 @@ sap.ui.define([
 		},
 
 		oFilterValue: function (oEvent) {
-			
+
 			this.oFilter.getData().GridFilter.DocNum = oEvent.mParameters.value;
 			this.oFilter.getData().GridFilter.CardName = oEvent.mParameters.value;
 			this.oFilter.refresh();
@@ -1321,13 +1321,13 @@ sap.ui.define([
 			var oDocNum = this.oFilter.getData().GridFilter.DocNum;
 			var oCardName = this.oFilter.getData().GridFilter.CarName;
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
-			
+
 			// Filter For DocNum
 			if (oDocNum !== "") {
 
 				if (PoStatus === "0") {
 					this.eNableAllFields("1");
-					this.oGetFilterValues("oDownPaymentFilterDocNum",oDocNum);
+					this.oGetFilterValues("oDownPaymentFilterDocNum", oDocNum);
 				} else if (PoStatus === "1") {
 					// this.eNableAllFields("0");
 					// this.oGetFilterValues("oDownPaymentFilterCardName",filterStatus);
@@ -1341,12 +1341,12 @@ sap.ui.define([
 					// this.eNableAllFields("1");
 					// this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
 				}
-					
-			} else if (oCardName !== ""){
-		  		
-		  		if (PoStatus === "0") {
+
+			} else if (oCardName !== "") {
+
+				if (PoStatus === "0") {
 					this.eNableAllFields("0");
-					this.oGetFilterValues("oDownPaymentFilterCardName",oCardName);
+					this.oGetFilterValues("oDownPaymentFilterCardName", oCardName);
 				} else if (PoStatus === "1") {
 					// this.eNableAllFields("0");
 					// this.oGetFilterValues("oDownPaymentFilterCardName",filterStatus);
@@ -1360,8 +1360,8 @@ sap.ui.define([
 					// this.eNableAllFields("1");
 					// this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
 				}
-		  	
-			}else {
+
+			} else {
 
 				if (PoStatus === "0") {
 					this.eNableAllFields("1");
@@ -1379,14 +1379,14 @@ sap.ui.define([
 					// this.eNableAllFields("1");
 					// this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
 				}
-					
+
 			}
-				
+
 			// // Filter for CardName
 			// var oCardName = this.oFilter.getData().GridFilter.DocNum;
-			
+
 			// if (oCardName !== "") {
-				
+
 			// 	if (PoStatus === "0") {
 			// 		this.eNableAllFields("0");
 			// 		this.oGetFilterValues("oDownPaymentFilterCardName",oCardName);
@@ -1403,9 +1403,9 @@ sap.ui.define([
 			// 		// this.eNableAllFields("1");
 			// 		// this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
 			// 	}
-				
+
 			// }else{
-					
+
 			// 	if (PoStatus === "0") {
 			// 		this.eNableAllFields("1");
 			// 		this.oFilterPurchaseOrderTransaction("getAllUnprocessedPO");
@@ -1422,22 +1422,23 @@ sap.ui.define([
 			// 		// this.eNableAllFields("1");
 			// 		// this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
 			// 	}
-				
+
 			// }
-					
+
 
 		},
 
-		oGetFilterValues: function (queryTag,oValue) {
+		oGetFilterValues: function (queryTag, oValue) {
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
 				url: "https://18.136.35.41:4300/appxsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=" + queryTag +
-					"&value1="+ oValue +"&value2=&value3=&value4=",
-				type: "GET",
-				xhrFields: {
-					withCredentials: true
-				},
+					"&value1=" + oValue + "&value2=&value3=&value4=",
+					type: "GET",
+					dataType:"json",
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					},
 				error: function (xhr, status, error) {
 					MessageToast.show(xhr.responseText);
 				},
@@ -1453,5 +1454,5 @@ sap.ui.define([
 		}
 
 
-  });
+	});
 });
