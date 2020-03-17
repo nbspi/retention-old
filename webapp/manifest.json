@@ -91,6 +91,13 @@
 					"target": [
 						"RetentionPayable"
 					]
+				},
+				{
+					"name": "PurchaseOrder",
+					"pattern": "PurchaseOrder",
+					"target": [
+						"PurchaseOrder"
+					]
 				}
 			],
 			"targets": {
@@ -106,8 +113,23 @@
 					"parent": "Main",
 					"controlId": "pageContainer",
 					"controlAggregation": "pages",
-					"transition": "flip",
+					"transition": "null",
 					"viewLevel": 3
+				},
+				"PurchaseOrder": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "PurchaseOrder",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"Login": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "Login"
 				}
 			}
 		}

@@ -46,12 +46,22 @@ sap.ui.define([
 			}).done(function (results) {
 				if (results) {
 					sap.m.MessageToast.show("Welcome:" + sUserName.getValue());
+					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
+					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
+					jQuery.sap.storage.put("isLogin", true);
+					jQuery.sap.intervalCall(1800000, this, "hidePanelAgain", [this]);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
 				}
 			});
 
 		},
-
+		hidePanelAgain: function (passedthis) {
+			MessageToast.show("Timed Out");
+			jQuery.sap.storage.Storage.clear();
+			this.oLogin.getData().Login.Pass = "";
+			this.oLogin.refresh;
+			sap.ui.core.UIComponent.getRouterFor(this).navTo("Login");
+		},
 		action: function (oEvent) {
 			var that = this;
 			var actionParameters = JSON.parse(oEvent.getSource().data("wiring").replace(/'/g, "\""));

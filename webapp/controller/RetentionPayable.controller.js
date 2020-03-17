@@ -117,6 +117,14 @@ sap.ui.define([
 					this.oSetTransacationType("5");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
+				} else if (oPoStatus === "7") {
+					this.DeleteData();
+					this.oGetDatafromHeaderUDT("Rent");
+					this.oSetTransacationType("7");
+					this.oFilter.getData().SaveDraft.oDraft = "Update";
+					this.oFilter.refresh();
+				} else if (oPoStatus === "2") {
+					this.oGetDatafromHeaderUDT("DP");
 				}
 
 				var tab1 = this.getView().byId("idIconTabBarInlineMode");
@@ -139,6 +147,7 @@ sap.ui.define([
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "4") {
+					this.oGetRemainingPrograte(sCode);
 					this.oSetTransacationType("4");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
@@ -148,7 +157,19 @@ sap.ui.define([
 					this.oFilter.refresh();
 					this.getView().byId("TaxType").setSelectedKey("0");
 					this.oGetRemainingPrograte(sCode);
+
 					this.ProgressBIll();
+				} else if (oPoStatus === "7") {
+					this.oSetTransacationType("7");
+					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
+					this.oFilter.refresh();
+					this.getView().byId("TaxType").setEnabled(false);
+					this.ProgressBIll();
+
+					this.DTRetention.getData().DetailesRetention[0].GrossAmount = this.oModelPurchase.getData().POFields.Price;
+					this.DTRetention.getData().DetailesRetention[0].NetProgress = this.oModelPurchase.getData().POFields.Price;
+					this.DTRetention.refresh();
+
 				}
 
 				var otab1 = this.getView().byId("idIconTabBarInlineMode");
@@ -1062,21 +1083,12 @@ sap.ui.define([
 			// Viewing Open Purchase Order Transaction
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
-				"&procName=spAppRetention&queryTag=getAllUnprocessedPO&value1=Y&value2=&value3=&value4=",
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&queryTag=getPOwithAPDP&value1=Y&value2=&value3=&value4",
 				type: "GET",
-				crossDomain:true,
-				dataType:"json",
-				headers : {
-					"Access-Control-Allow-Origin" : "*"
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 				},
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("asd:ads"));
-				},
-				xhrFields: {
-					withCredentials: true
-				},
-				
 				error: function (xhr, status, error) {
 					MessageToast.show(error);
 				},
@@ -1570,8 +1582,9 @@ sap.ui.define([
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=&value2=&value3=&value4=",
 				type: "GET",
-				xhrFields: {
-					withCredentials: true
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 				},
 				error: function (xhr, status, error) {
 					MessageToast.show(xhr.responseText);

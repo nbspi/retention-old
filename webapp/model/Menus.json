@@ -1,6 +1,11 @@
 {
 	"navigation": [
 		{
+			"title": "Purchase Order",
+			"icon": "sap-icon://manager-insight",
+			"key": "purchaseorder"
+		},
+		{
 			"title": "Retention Payable",
 			"icon": "sap-icon://manager-insight",
 			"key": "paymentprocessing"
