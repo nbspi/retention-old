@@ -34,9 +34,6 @@ sap.ui.define([
 				url: "https://18.136.35.41:50000/b1s/v1/Login",
 				data: JSON.stringify(oLoginCredentials),
 				type: "POST",
-				xhrFields: {
-					withCredentials: true
-				},
 				crossDomain: true,
 				error: function (xhr, status, error) {
 					MessageToast.show("Invalid Credentials");
@@ -49,7 +46,7 @@ sap.ui.define([
 					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("isLogin", true);
-					jQuery.sap.intervalCall(1800000, this, "hidePanelAgain", [this]);
+					// jQuery.sap.intervalCall(1800000, this, "hidePanelAgain", [this]);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
 				}
 			});

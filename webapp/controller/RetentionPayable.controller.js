@@ -255,6 +255,9 @@ sap.ui.define([
 				"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 				sCode + "&value2=&value3=&value4=",
 				type: "GET",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
 				async: false,
 				xhrFields: {
 					withCredentials: true
@@ -286,6 +289,9 @@ sap.ui.define([
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" + sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 				type: "GET",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
 				async: false,
 				xhrFields: {
 					withCredentials: true
@@ -378,6 +384,9 @@ sap.ui.define([
 				sCode +
 				"&value2=" + oDocStatus + "&value3=&value4=",
 				type: "GET",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
 				async: false,
 				xhrFields: {
 					withCredentials: true
@@ -985,6 +994,9 @@ sap.ui.define([
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 				"&procName=spAppRetention&queryTag=getTransCount&value1=&value2=&value3=&value4=",
 				type: "GET",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
 				xhrFields: {
 					withCredentials: true
 				},
@@ -1057,6 +1069,9 @@ sap.ui.define([
 				"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 				sCode + "&value2=&value3=&value4=",
 				type: "GET",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
 				async: false,
 				xhrFields: {
 					withCredentials: true

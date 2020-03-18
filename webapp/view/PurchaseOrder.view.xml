@@ -1,7 +1,14 @@
 <mvc:View controllerName="com.apptech.app-retention.controller.PurchaseOrder"
-xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
-xmlns="sap.m" xmlns:uxap="sap.uxap" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:u="sap.uiunified" xmlns:tnt="sap.tnt"
-xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
+xmlns:core="sap.ui.core" 
+xmlns:mvc="sap.ui.core.mvc"
+xmlns="sap.m" 
+xmlns:uxap="sap.uxap" 
+xmlns:f="sap.ui.layout.form" 
+xmlns:l="sap.ui.layout" 
+xmlns:u="sap.ui.unified" 
+xmlns:tnt="sap.tnt"
+xmlns:html="http://www.w3.org/1999/xhtml" 
+xmlns:t="sap.ui.table">
 	<App>
 		<pages>
 			<Page title="PO Creation">
@@ -9,7 +16,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 					<VBox class="sapUiResponsiveMargin">
                      <Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
 						<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
-							<!---Vendor Name-->
+						<!-- -Vendor Name -->
 							<Label text="Vendor" width="100%">
 								<layoutData>
 									<l:GridData span="L3 M2 S12"/>
@@ -21,7 +28,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 									<l:GridData span="L3 M4 S12"/>
 								</layoutData>
 							</Input>
-							<!--Document Number-->
+						<!-- Document Number -->
 							<Label text="Document Number" width="100%">
 								<layoutData>
 									<l:GridData span="L3 M2 S12"/>
@@ -33,7 +40,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 									<l:GridData span="L3 M4 S12"/>
 								</layoutData>
 							</Input>
-							<!--Retention-->
+						<!--Retention-->
 							<Label text="Retention" width="100%">
 								<layoutData>
 									<l:GridData span="L3 M2 S12"/>
@@ -46,7 +53,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 									<l:GridData span="L3 M4 S12"/>
 								</layoutData>
 							</ComboBox>
-							<!--Posting Date-->
+						<!--Posting Date-->
 							<Label text="Posting Date" width="100%">
 								<layoutData>
 									<l:GridData span="L3 M2 S12"/>
@@ -58,7 +65,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 									<l:GridData span="L3 M4 S12"/>
 								</layoutData>
 							</DatePicker>
-							<!---Contract Amount-->
+						<!---Contract Amount-->
 							<Label text="Contract Amount" width="100%">
 								<layoutData>
 									<l:GridData span="L3 M2 S12"/>
@@ -70,10 +77,9 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 									<l:GridData span="L3 M4 S12"/>
 								</layoutData>
 							</Input>
-							<!--FileUploader-->
-							<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
-								uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
-							<!--Remarks-->
+						<!--FileUploader-->
+							<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server" uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
+						<!--Remarks-->
 							<Label text="Remarks." width="100%">
 								<layoutData>
 									<l:GridData span="L3 M2 S12"/>
@@ -84,7 +90,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:t="sap.ui.table">
 									<l:GridData span="L9 M10 S12"/>
 								</layoutData>
 							</TextArea>
-						</f:SimpleForm>
+						</f:SimpleForm>			
 					</VBox>
 				</content>
 			</Page>

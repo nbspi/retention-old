@@ -100,127 +100,146 @@ sap.ui.define([
 				oRecord.selected = (oRecord.CardCode === sInputValue);
 			});
 		},
-		// onSave: function () {
+		onSave: function () {
 
-		// 	// PURCHASE ORDER POSTING
+			// PURCHASE ORDER POSTING
 
-		// 	var oDatabase = this.Database;
+			var oDatabase = this.Database;
 
-		// 	var Vendor = this.getView().byId("BPCode").getValue();
-		// 	var Retention = this.POData.getData().POCreation.Retention;
-		// 	var PostingDate = this.getView().byId("DateFrom").getValue();
-		// 	var Remarks = this.getView().byId("TextArea").getValue();
-		// 	var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
+			var Vendor = this.getView().byId("BPCode").getValue();
+			var Retention = this.POData.getData().POCreation.Retention;
+			var PostingDate = this.getView().byId("DateFrom").getValue();
+			var Remarks = this.getView().byId("TextArea").getValue();
+			var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
 
-		// 	if (Vendor === "") {
-		// 		sap.m.MessageToast.show("Input Data First");
-		// 		this.DeleteData();
-		// 	} else {
+			if (Vendor === "") {
+				sap.m.MessageToast.show("Input Data First");
+				this.DeleteData();
+			} else {
 
-		// 		var oPO = {};
-		// 		var oPOLines1 = {};
-		// 		var oPOLines2 = {};
+				var oPO = {};
+				var oPOLines1 = {};
+				var oPOLines2 = {};
 
-		// 		if (Retention === "0") { // YES
+				if (Retention === "0") { // YES
 
-		// 			var oContract = Number([ContranctAmount]);
+					var oContract = Number([ContranctAmount]);
 
-		// 			var oContract2 = oContract * 0.1;
-		// 			var Retention = Number([oContract2]); //For Retention
+					var oContract2 = oContract * 0.1;
+					var Retention = Number([oContract2]); //For Retention
 
-		// 			var oContract3 = oContract - Retention;
-		// 			var oCWIP = Number([oContract3]); //For CWIP
+					var oContract3 = oContract - Retention;
+					var oCWIP = Number([oContract3]); //For CWIP
 
-		// 			oPO.CardCode = Vendor;
-		// 			oPO.DocDate = PostingDate;
-		// 			oPO.DocumentLines = [];
-		// 			oPO.DocType = "dDocument_Service";
-		// 			oPO.U_APP_IsForRetention = "Y";
+					oPO.CardCode = Vendor;
+					oPO.DocDate = PostingDate;
+					oPO.DocumentLines = [];
+					oPO.DocType = "dDocument_Service";
+					oPO.U_APP_IsForRetention = "Y";
 
-		// 			oPOLines1.LineNum = 0;
-		// 			oPOLines1.AccountCode = 161111; //CWIP
-		// 			oPOLines1.UnitPrice = oCWIP;
-		// 			oPOLines1.VatGroup = "IVAT-EXC";
-		// 			oPOLines1.U_APP_RtnRowType = "C";
-		// 			oPO.DocumentLines.push(oPOLines1);
+					oPOLines1.LineNum = 0;
+					oPOLines1.AccountCode = 161111; //CWIP
+					oPOLines1.UnitPrice = oCWIP;
+					oPOLines1.VatGroup = "IVAT-EXC";
+					oPOLines1.U_APP_RtnRowType = "C";
+					oPO.DocumentLines.push(oPOLines1);
 
-		// 			oPOLines2.LineNum = 1;
-		// 			oPOLines2.AccountCode = 242001; //Retention
-		// 			oPOLines2.UnitPrice = Retention;
-		// 			oPOLines2.VatGroup = "IVAT-EXC";
-		// 			oPOLines2.U_APP_RtnRowType = "R";
-		// 			oPO.DocumentLines.push(oPOLines2);
+					oPOLines2.LineNum = 1;
+					oPOLines2.AccountCode = 242001; //Retention
+					oPOLines2.UnitPrice = Retention;
+					oPOLines2.VatGroup = "IVAT-EXC";
+					oPOLines2.U_APP_RtnRowType = "R";
+					oPO.DocumentLines.push(oPOLines2);
 
-		// 			oPO.Comments = Remarks;
+					oPO.Comments = Remarks;
 
-		// 			$.ajax({
 
-		// 				url: "/destinations/BiotechSL/b1s/v1/PurchaseOrders",
-		// 				type: "POST",
-		// 				contentType: "application/json",
-		// 				data: JSON.stringify(oPO),
-		// 				error: function (xhr, status, error) {
-		// 					var Message = xhr.responseJSON["error"].message.value;
-		// 					sap.m.MessageToast.show(Message);
-		// 				},
-		// 				success: function (json) {
-		// 					sap.m.MessageToast.show("Added Successfully");
-		// 				},
-		// 				context: this
+					$.ajax({
+						url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+						data: JSON.stringify(oPO),
+						type: "POST",
+						crossDomain: true,
+						error: function (xhr, status, error) {
+							// MessageToast.show("Invalid Credentials");
+							console.log("Purchase Order ERROR : " + JSON.stringify(xhr));
+						},
+						context: this,
+						success: function (json) {}
+					}).done(function (results) {
+						console.logd(results);
+					});
+					// $.ajax({
 
-		// 			}).done(function (results) {
-		// 				if (results) {
-		// 					sap.m.MessageToast.show("Added Successfully");
-		// 				}
+					// 	url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+					// 	type: "POST",
+					// 	timeout: 0,
+					// 	data: JSON.stringify(oPO),
+					// 	contentType: "application/json",
+					// 	error: function (xhr, status, error) {
+					// 		var Message = xhr.responseJSON["error"].message.value;
+					// 		sap.m.MessageToast.show(Message);
+					// 	},
+					// 	success: function (json) {
+					// 		sap.m.MessageToast.show("Added Successfully");
+					// 	},
+					// 	context: this
 
-		// 			});
+					// }).done(function (results) {
+					// 	if (results) {
+					// 		sap.m.MessageToast.show("Added Successfully");
+					// 	}
 
-		// 		} else { //NO
+					// });
+
+				} else { //NO
 				
-		// 			var oContract = Number([ContranctAmount]);
+					var oContract = Number([ContranctAmount]);
 
-		// 			oPO.CardCode = Vendor;
-		// 			oPO.DocDate = PostingDate;
-		// 			oPO.U_APP_IsForRetention = "Y";
-		// 			oPO.DocumentLines = [];
-		// 			oPO.DocType = "dDocument_Service";
+					oPO.CardCode = Vendor;
+					oPO.DocDate = PostingDate;
+					oPO.U_APP_IsForRetention = "Y";
+					oPO.DocumentLines = [];
+					oPO.DocType = "dDocument_Service";
 
-		// 			oPOLines1.LineNum = 0;
-		// 			oPOLines1.AccountCode = 161111; //CWIP
-		// 			oPOLines1.UnitPrice = oContract;
-		// 			oPOLines1.VatGroup = "IVAT-EXC";
-		// 			oPOLines1.U_APP_RtnRowType = "C";
-		// 			oPO.DocumentLines.push(oPOLines1);
+					oPOLines1.LineNum = 0;
+					oPOLines1.AccountCode = 161111; //CWIP
+					oPOLines1.UnitPrice = oContract;
+					oPOLines1.VatGroup = "IVAT-EXC";
+					oPOLines1.U_APP_RtnRowType = "C";
+					oPO.DocumentLines.push(oPOLines1);
 
-		// 			oPO.Comments = Remarks;
+					oPO.Comments = Remarks;
 
-		// 			$.ajax({
+					$.ajax({
 
-		// 				url: "/destinations/BiotechSL/b1s/v1/PurchaseOrders",
-		// 				type: "POST",
-		// 				contentType: "application/json",
-		// 				data: JSON.stringify(oPO),
-		// 				error: function (xhr, status, error) {
-		// 					var Message = xhr.responseJSON["error"].message.value;
-		// 					sap.m.MessageToast.show(Message);
-		// 				},
-		// 				success: function (json) {
-		// 					sap.m.MessageToast.show("Added Successfully");
-		// 				},
-		// 				context: this
+						url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+						type: "POST",
+						xhrFields: {
+							withCredentials: true
+						},
+						contentType: "application/json",
+						data: JSON.stringify(oPO),
+						error: function (xhr, status, error) {
+							var Message = xhr.responseJSON["error"].message.value;
+							sap.m.MessageToast.show(Message);
+						},
+						success: function (json) {
+							sap.m.MessageToast.show("Added Successfully");
+						},
+						context: this
 
-		// 			}).done(function (results) {
-		// 				if (results) {
-		// 					sap.m.MessageToast.show("Added Successfully");
-		// 				}
+					}).done(function (results) {
+						if (results) {
+							sap.m.MessageToast.show("Added Successfully");
+						}
 
-		// 			});
+					});
 
-		// 		}
-		// 		this.DeleteData();
-		// 	}
+				}
+				this.DeleteData();
+			}
 
-		// },
+		},
 		DeleteData: function (oEvent) {
 			this.byId("BPCode").setValue("");
 			this.POData.getData().POCreation.Retention = "";
