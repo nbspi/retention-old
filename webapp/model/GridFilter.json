@@ -3,5 +3,18 @@
 	{
 			"DocNum":"",
 			"Vendor":""	
+	},
+	"Process":
+	{
+		"ProcName":"Process"
+
+	},
+	"SaveDraft":
+	{
+		"oDraft":"Save As Draft"
+	},
+	"NetAmount":
+	{
+		"NAME":"Net Down Payment Amount"
 	}
 }

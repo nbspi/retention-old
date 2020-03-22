@@ -21,7 +21,6 @@ sap.ui.define([
 
             this.router = this.getOwnerComponent().getRouter();
 
-            this.router.navTo("PurchaseOrder");
 
         },
 
@@ -62,6 +61,12 @@ sap.ui.define([
                     break;
                 case "configuration":
                     // this.router.navTo("CreateUDT_UDF");
+                    break;
+                case "contractreport":
+                    // this.router.navTo("CreateUDT_UDF");
+                    break;
+                case "transactionrecords":
+                    this.router.navTo("TransactionOrder");
                     break;
                 default:
 

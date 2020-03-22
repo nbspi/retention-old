@@ -10,7 +10,7 @@ sap.ui.define([
 		onInit: function () {
 			//get all databse
 			this.oMdlDatabase = new JSONModel("model/Database.json");
-			this.getView().setModel(this.oMdlDatabase, "oMdlDatabase");
+			this.getAllRecords("getAllDB");
 
 			//get User and Pass
 			this.oLogin = new JSONModel("model/Login.json");
@@ -21,10 +21,7 @@ sap.ui.define([
 		// ''--------------- LOGIN FUNCTION ---------------''
 
 		onLogin: function (oEvent) {
-			// //	sap.ui.core.UIComponent.getRouterFor(this).navTo("Dashboard");
-			var sUserName = this.getView().byId("Username");
-			// // this.getView().byId("Username");
-			// var sPassword = this.getView().byId("Password");
+
 			var sDBCompany = this.getView().byId("selectDatabase").getSelectedKey();
 			var oLoginCredentials = {};
 			oLoginCredentials.CompanyDB = sDBCompany;
@@ -35,21 +32,25 @@ sap.ui.define([
 				data: JSON.stringify(oLoginCredentials),
 				type: "POST",
 				crossDomain: true,
-				error: function (xhr, status, error) {
-					MessageToast.show("Invalid Credentials");
+                xhrFields: {
+					withCredentials: true
 				},
-				context: this,
-				success: function (json) {}
-			}).done(function (results) {
-				if (results) {
-					sap.m.MessageToast.show("Welcome:" + sUserName.getValue());
+                error: function (xhr, status, error) {
+                    MessageToast.show("Invalid Credentials");
+                },
+                context: this,
+                success: function (json) { }
+            }).done(function (results) {
+                if (results) {
+					sap.m.MessageToast.show("Welcome:" + this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("isLogin", true);
-					// jQuery.sap.intervalCall(1800000, this, "hidePanelAgain", [this]);
+					jQuery.sap.intervalCall(1800000, this, "hidePanelAgain", [this]);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
-				}
-			});
+                }
+		    }); 
+
 
 		},
 		hidePanelAgain: function (passedthis) {
@@ -89,6 +90,30 @@ sap.ui.define([
 					this.getOwnerComponent().getRouter().navTo(oNavigation.routeName);
 				}
 			}
+		},
+		//---- Get All Database
+		getAllRecords: function(queryTag){
+			
+			// var aReturnResult = [];
+			$.ajax({
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&QUERYTAG="+ queryTag +"&value1=&value2=&value3=&value4=",
+				type: "GET",
+				dataType: "json",
+				  beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			  	},
+				error: function (xhr, status, error) {
+					MessageToast.show(error);
+				},
+				success: function (json) {},
+				context: this
+			}).done(function (results) {
+				if (results) {
+					this.oMdlDatabase.setJSON("{\"Database\" : " + JSON.stringify(results) + "}");
+					this.getView().setModel(this.oMdlDatabase, "oMdlDatabase");
+				}
+			});
+		
 		}
 
 	});

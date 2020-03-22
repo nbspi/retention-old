@@ -1,12 +1,19 @@
 {
-	"POCreation":
-		{
-		"Vendor":"",
-		"DocumentNum":"",
-		"Retention":"",
-		"PostingDate":"",
-		"Attachment":"",
-		"ContractAmount":0,
-		"Remarks":""
-		}
+	"POCreation": {
+		"Vendor": "",
+		"DocumentNum": "",
+		"Retention": "",
+		"PostingDate": "",
+		"Attachment": "",
+		"ContractAmount": 0,
+		"Remarks": ""
+	},
+	"POSelection": [{
+		"CODE": "0",
+		"NAME": "1 - PO Draft"
+	}, {
+		"CODE": "1",
+		"NAME": "2 - PO Added"
+	}]
+
 }

@@ -1,4 +1,4 @@
-<mvc:View controllerName="com.apptech.app-retention.controller.PurchaseOrder"
+ <mvc:View controllerName="com.apptech.app-retention.controller.TransactionOrder"
 xmlns:core="sap.ui.core" 
 xmlns:mvc="sap.ui.core.mvc"
 xmlns="sap.m" 
@@ -11,15 +11,65 @@ xmlns:html="http://www.w3.org/1999/xhtml"
 xmlns:t="sap.ui.table">
 	<App>
 		<pages>
-			<Page title="PO Creation">
+			<Page title="PO Transaction">
 				<content>
 					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
 						class="sapUiResponsiveContentPadding">
 						<items>
-							<IconTabFilter id="tab1">
-								<Button id="btn1" text="Save as Draft" tooltip="Add" press="onDraft" icon="sap-icon://add"/>
+							<IconTabFilter id="tab1" text="Records" key="tab1">
+								<Select id="selectRecordGroup" items="{POData>/POSelection}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
+									<core:ListItem key="{POData>CODE}" text="{POData>NAME}"/>
+								</Select>
+								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="oFilterValue"
+									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
+									<t:extension>
+										<Toolbar>
+											<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+											<ToolbarSpacer/>
+										</Toolbar>
+									</t:extension>
+									<!--DocNum-->
+									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
+										filterProperty="DocNum">
+										<Label text="DocNum"/>
+										<t:template>
+											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--VendorName-->
+									<t:Column id="colVendor" width="12rem" filterValue="" filtered="true" filterOperator="" filterProperty="Vendor">
+										<Label text="VendorName"/>
+										<t:template>
+											<Text text="{oModelOpenPO>CardName}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Posting Date-->
+									<t:Column width="12rem">
+										<Label text="Posting Date"/>
+										<t:template>
+											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Doctotal-->
+									<t:Column width="12rem">
+										<Label text="DocTotal"/>
+										<t:template>
+											<Text text="{oModelOpenPO>DocTotal}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Document Status-->
+									<t:Column width="12rem">
+										<Label text="Document Status"/>
+										<t:template>
+											<Text id="DocStat" text="{oModelOpenPO>DocStatus}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:Table>
+							</IconTabFilter>
+							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
+								<Button id="btn1" text="Update" tooltip="Add" press="onDraft" icon="sap-icon://add"/>
 								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
-								<VBox class="sapUiResponsiveMargin">
+								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!---Vendor Name-->
 										<Label text="Vendor" width="100%">
@@ -76,8 +126,8 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
-											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier" liveChange="ContractAmount"  >
+										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{POData>/POCreation/ContractAmount}" type="Number"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -105,4 +155,4 @@ xmlns:t="sap.ui.table">
 			</Page>
 		</pages>
 	</App>
-</mvc:View>
+</mvc:View> 

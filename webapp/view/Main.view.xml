@@ -7,38 +7,43 @@ xmlns="sap.m"
 xmlns:f="sap.f" 
 xmlns:l="sap.ui.layout" 
 xmlns:tnt="sap.tnt">
-    <tnt:ToolPage id="toolPage">
-        <tnt:header>
-            <f:ShellBar title="BFI RETENTION PAYABLE ADD ON" class="myShellBar" secondTitle="" showMenuButton="true" showCopilot="false" menuButtonPressed="onMenuButtonPress" showProductSwitcher="false">
-                <f:additionalContent>
-                    <Button text="Admin" icon="sap-icon://customer" type="Transparent" press="handleOpen">
-                        <layoutData>
-                            <OverflowToolbarLayoutData priority="NeverOverflow" />
-                        </layoutData>
-                    </Button>
-                </f:additionalContent>
-            </f:ShellBar>
-        </tnt:header>
-        <tnt:sideContent>
-            <tnt:SideNavigation expanded="true" selectedKey="" itemSelect="onItemSelect">
-                <tnt:NavigationList items="{path: '/navigation'}">
-                    <tnt:NavigationListItem text="{title}" icon="{icon}" enabled="true" expanded="false" items="{items}" key="{key}">
-                        <tnt:NavigationListItem text="{title}" key="{key}" enabled="true"></tnt:NavigationListItem>
-                    </tnt:NavigationListItem>
-                </tnt:NavigationList>
-                <tnt:fixedItem>
-                    <!--<tnt:NavigationList items="{path: '/fixedNavigation'}">-->
-                    <!--	<tnt:NavigationListItem text="{title}" icon="{icon}"></tnt:NavigationListItem>-->
-                    <!--</tnt:NavigationList>-->
-                </tnt:fixedItem>
-            </tnt:SideNavigation>
-        </tnt:sideContent>
-        <tnt:mainContents>
-            <NavContainer id="pageContainer">
-                <pages>
+<tnt:ToolPage id="toolPage">
+    <tnt:header>
+        <f:ShellBar title="BFI RETENTION PAYABLE ADD ON" class="myShellBar" secondTitle="" showMenuButton="true" showCopilot="false" menuButtonPressed="onMenuButtonPress" showProductSwitcher="false">
+            <f:additionalContent>
+                <Button text="Admin" icon="sap-icon://customer" type="Transparent" press="handleOpen">
+                    <layoutData>
+                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                    </layoutData>
+                </Button>
+            </f:additionalContent>
+        </f:ShellBar>
+    </tnt:header>
+    <tnt:sideContent>
+        <tnt:SideNavigation expanded="true" selectedKey="" itemSelect="onItemSelect">
 
-                </pages>
-            </NavContainer>
-        </tnt:mainContents>
-    </tnt:ToolPage>
+            <tnt:NavigationList>
+                <tnt:NavigationListItem expanded="false" text="Contracts" icon="sap-icon://contacts">
+                    <tnt:NavigationListItem text="Create Transaction" key="purchaseorder" />
+                    <tnt:NavigationListItem text="Transaction Records" key="transactionrecords" />
+                </tnt:NavigationListItem>
+                <tnt:NavigationListItem text="Retention Payable" key="paymentprocessing" icon="sap-icon://employee" />
+                <tnt:NavigationListItem text="Configuration" key="configuration" icon="sap-icon://developer-settings" />
+            </tnt:NavigationList>
+
+            <tnt:fixedItem>
+            <tnt:NavigationList>
+            	<tnt:NavigationListItem text="Contract Status Report" key="contractreport" icon="sap-icon://travel-expense-report" />
+            </tnt:NavigationList>
+            </tnt:fixedItem>
+        </tnt:SideNavigation>
+    </tnt:sideContent>
+    <tnt:mainContents>
+        <NavContainer id="pageContainer">
+            <pages>
+
+            </pages>
+        </NavContainer>
+    </tnt:mainContents>
+</tnt:ToolPage>
 </core:View>
