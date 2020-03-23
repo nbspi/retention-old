@@ -11,11 +11,11 @@ xmlns:html="http://www.w3.org/1999/xhtml"
 xmlns:t="sap.ui.table">
 	<App>
 		<pages>
-			<Page title="Contract Billing and Retention Payable" id="pageRetention" >
-				<content>
-					<IconTabBar id="idIconTabBarInlineMode" headerMode="Inline" upperCase="true" expandable="false" class="sapUiResponsiveContentPadding">
+			<Page title="Contract Billing and Retention Payable" id="pageRetention">
+			    <content>
+			       <IconTabBar id="idIconTabBarInlineMode" select = "IconTabSelect" headerMode="Inline" upperCase="true"  expandable="false" class="sapUiResponsiveContentPadding">
 						<items>
-							<IconTabFilter id="tab1" text="Records" count="" key="tab1">
+							<IconTabFilter id="tab1" text="Records" key="tab1">
 								<Select id="selectRecordGroup" items="{Purchase>/PurchaseOrder}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
 									<core:ListItem key="{Purchase>CODE}" text="{Purchase>NAME}"/>
 								</Select>
@@ -24,13 +24,15 @@ xmlns:t="sap.ui.table">
 									<t:extension>
 										<Toolbar>
 											<content>
-												<Button text="Process" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+												<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+												<Button text="Refresh" press="onRefresh"/>
 												<ToolbarSpacer/>
 											</content>
 										</Toolbar>
 									</t:extension>
 									<!--DocNum-->
-									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true" filterProperty="DocNum">
+									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
+										filterProperty="DocNum">
 										<Label text="DocNum"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
@@ -67,7 +69,7 @@ xmlns:t="sap.ui.table">
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
-								<Button id="btn1" text="Save as Draft" tooltip="Add" press="onSave" icon="sap-icon://add"/>
+								<Button id="btn1" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://add"/>
 								<Button id="btn2" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://save"/>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
@@ -88,7 +90,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="TransNo" value="{oTransID>/count/DocNum}" editable="false">
+										<Input width="100%" id="TransNo" value="{oTransIDs>/count/DocNum}" editable="false">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -121,17 +123,12 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<DatePicker id="DateFrom" valueFormat="2020-01-01" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
+										<DatePicker id="DateFrom" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
 											value="{oModelPurchase>/POFields/DocDate}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</DatePicker>
-										<!--<Input width="100%" id="DateFrom" editable="false" required="true" value="">-->
-										<!--	<layoutData>-->
-										<!--		<l:GridData span="L3 M4 S12"/>-->
-										<!--	</layoutData>-->
-										<!--</Input>-->
 										<!--Transaction Date-->
 										<Label text="Transaction Date" width="100%">
 											<layoutData>
@@ -186,7 +183,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProgBill" placeholder="0.00" textAlign="Right" liveChange="ProgressBIll"
+										<Input width="100%" id="ProgBill" placeholder="" textAlign="Right" liveChange="ProgressBIll"
 											value="{InputHeader>/InputHeader/ProgressBilling}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
@@ -210,18 +207,12 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="PBType" width="100%" items="{PBType>/ProgressBilling}" selectionChange="ProgressBillingType" loadItems="TransCode">
+										<ComboBox id="PBType" width="100%" items="{PBType>/ProgressBilling}" enabled = "false" selectionChange="ProgressBillingType" loadItems="TransCode">
 											<core:Item key="{PBType>CODE}" text="{PBType>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</ComboBox>
-										<!--<Select id="PBType" items="{PBType>/ProgressBilling}" selectedKey="" showSecondaryValues="true">-->
-										<!--	<core:ListItem key="{PBType>CODE}" text="{PBType>NAME}"/>-->
-										<!--	<layoutData>-->
-										<!--		<l:GridData span="L3 M4 S12"/>-->
-										<!--	</layoutData>-->
-										<!--</Select>-->
 										<!--CONTRACT AMOUNT-->
 										<Label text="Contract Amount." width="100%">
 											<layoutData>
@@ -241,30 +232,23 @@ xmlns:t="sap.ui.table">
 											<t:Column width="8rem">
 												<Label text="CWIP"/>
 												<t:template>
-													<Input id="CWIP" value="{DTRetention>CWIP}" textAlign="Center" enabled="false" fieldWidth="100%" width="100%"/>
+													<Input id="CWIP" value="{DTRetention>CWIP}" textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
 												</t:template>
 											</t:Column>
 											<!--Gross Amount-->
 											<t:Column width="9rem">
 												<Label text="Gross Amount"/>
 												<t:template>
-													<Input value="{DTRetention>GrossAmount}" textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
+													<Input id="GrossAmount" value="{DTRetention>GrossAmount}" textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
 												</t:template>
 											</t:Column>
 											<!--WTX-->
 											<t:Column width="7rem">
 												<Label text="Wtx"/>
 												<t:template>
-													<Input value="{DTRetention>WTX}" textAlign="End" fieldWidth="80%" enabled="false" width="100%"/>
+													<Input id="WTX" value="{DTRetention>WTX}" textAlign="End" fieldWidth="80%" enabled="false" width="100%"/>
 												</t:template>
 											</t:Column>
-											<!--Net Down Payment Amount-->
-											<!--<t:Column width="13rem">-->
-											<!--	<Label text="Net Down Payment Amount"/>-->
-											<!--	<t:template>-->
-											<!--		<Input value="{DTRetention>NetDownPaymentAmount}" textAlign="End" fieldWidth="80%" width="100%"/>-->
-											<!--	</t:template>-->
-											<!--</t:Column>-->
 											<!--Prorated DP-->
 											<t:Column width="8rem">
 												<Label text="Prorated DP"/>
@@ -276,14 +260,14 @@ xmlns:t="sap.ui.table">
 											<t:Column width="11rem">
 												<Label text="Prorated Retention"/>
 												<t:template>
-													<Input value="{DTRetention>ProratedRetention}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+													<Input id="ProratedReten" value="{DTRetention>ProratedRetention}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
 												</t:template>
 											</t:Column>
 											<!--Net Progress Billing Amount-->
 											<t:Column width="13rem">
-												<Label text="Net Progress Billing Amount"/>
+												<Label text="{oFilter>/NetAmount/NAME}"/>
 												<t:template>
-													<Input value="{DTRetention>NetProgress}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+													<Input id="NetAmount" value="{DTRetention>NetProgress}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
 												</t:template>
 											</t:Column>
 										</t:columns>
@@ -306,7 +290,7 @@ xmlns:t="sap.ui.table">
 							</IconTabFilter>
 						</items>
 					</IconTabBar>
-				</content>
+			    </content>
 			</Page>
 		</pages>
 	</App>
