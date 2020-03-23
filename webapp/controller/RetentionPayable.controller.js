@@ -143,7 +143,6 @@ sap.ui.define([
 					this.oSetTransacationType("5");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
-					this.ProgressBIll();
 				} else if (oPoStatus === "7") {
 					this.DeleteData();
 					this.oGetDatafromHeaderUDT("RentPB");
@@ -187,7 +186,6 @@ sap.ui.define([
 					this.oFilter.refresh();
 					this.getView().byId("TaxType").setSelectedKey("0");
 					this.oGetRemainingPrograte(this.oSCode);
-					this.ProgressBIll();
 				} else if (oPoStatus === "7") {
 					this.oSetTransacationType("7");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
@@ -1698,7 +1696,7 @@ sap.ui.define([
 					} else if (ProgType === "2") {
 						this.onSavingSubsequentBilling();
 					} else if (ProgType === "3") {
-						// this.onSavingFinalBilling();
+						this.onSavingFinalBilling();
 					} else if (ProgType === "4") {
 						// this.onSavingRetention();
 						// this.Tag = "0";
@@ -1850,7 +1848,7 @@ sap.ui.define([
 				},
 				context: this,
 				success: function (json) {
-					sap.m.MessageToast.show("Added Successfully");
+					// sap.m.MessageToast.show("Added Successfully");
 				}
 			}).done(function (results) {
 				if (results) {
@@ -2098,38 +2096,35 @@ sap.ui.define([
 								}
 							}).done(function (results) {
 								if (results) {
-									sap.m.MessageToast.show("Added Successfully");
-									this.onDraft();
+
+							// For Closing A/P Invoice
+
+							sap.m.MessageToast.show("DocNum #" + results.DocNum + "Added Successfully");
+										
+									this.oTransID = new JSONModel();
+									$.ajax({
+										url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+										type: "POST",
+										xhrFields: {
+											withCredentials: true
+										},
+										error: function (xhr, status, error) {
+											var Message = xhr.resposeJSON.error.message.value;
+											sap.m.MessageToast.show(Message);
+										},
+										success: function (json) {},
+										context: this
+									}).done(function (oresults) {
+										if (oresults) {
+											this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]					", "") + "}");
+											this.getView().setModel(this.oTransID, "oTransID");
+										}
+									});
+
 								}
 		
 							}); 
 
-
-							// For Closing A/P Invoice
-							$.ajax(fPbInv).done(function (firstAPresponse) {
-								sap.m.MessageToast.show("DocNum #" + firstAPresponse.DocNum + "Added Successfully");
-
-								this.oTransID = new JSONModel();
-								$.ajax({
-									url: "/destinations/BiotechSL/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
-									type: "POST",
-									xhrFields: {
-										withCredentials: true
-									},
-									error: function (xhr, status, error) {
-										var Message = xhr.resposeJSON.error.message.value;
-										sap.m.MessageToast.show(Message);
-									},
-									success: function (json) {},
-									context: this
-								}).done(function (oresults) {
-									if (oresults) {
-										this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
-										this.getView().setModel(this.oTransID, "oTransID");
-									}
-								});
-
-							});
 						}
 
 					});
@@ -2139,6 +2134,184 @@ sap.ui.define([
 
 			this.DeleteData();
 
+		},
+		onSavingFinalBilling: function () {
+
+			var oDatabase = this.Database;
+
+			// ADDING GRPO
+			var oFGRPO = {};
+			var oFGRPOLines = {};
+
+			var GRPOCardCode = this.oModelPurchase.getData().POFields.CardCode;
+			var oPrice = this.oModelPurchase.getData().POFields.Price;
+			var oGlAccount = this.oModelPurchase.getData().POFields.AcctCode;
+
+			oFGRPO.CardCode = GRPOCardCode;
+			oFGRPO.DocType = "dDocument_Service";
+			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
+			oFGRPO.U_APP_RETTranstype = 4;
+			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
+			oFGRPO.DocumentLines = [];
+
+			oFGRPOLines.BaseLine = 0;
+			oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
+			oFGRPOLines.BaseType = 22;
+			oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			oFGRPOLines.VatGroup = "IVAT-EXC";
+			oFGRPOLines.U_APP_RtnRowType = "C";
+			oFGRPOLines.WTLiable = "tNO";
+
+			oFGRPO.DocumentLines.push(oFGRPOLines);
+
+			var PoDocEntry = this.oModelPurchase.getData().POFields.DocEntry;
+			var INVGRPOCardCode = this.oModelPurchase.getData().POFields.CardCode;
+			var APWTCode = this.oModelPurchase.getData().POFields.WTCode;
+			var APRemarks = this.getView().byId("TextArea").getValue();
+			var APUnitPrice = this.DTRetention.getData().DetailesRetention[0].CWIP;
+			var APWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
+
+			var oCWIP = this.DTRetention.getData().DetailesRetention[0].CWIP;
+			var nCWIP = Number([oCWIP]);
+			var oGrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			var nGrossAmount = Number([oGrossAmount]);
+			var oWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
+			var nWTX = Number([oWTX]);
+			var oProratedDP = this.DTRetention.getData().DetailesRetention[0].ProratedDP;
+			var nProratedDP = Number([oProratedDP]);
+			var oProRetention = this.DTRetention.getData().DetailesRetention[0].ProratedRetention;
+			var nProRetention = Number([oProRetention]);
+			var oProgBill = this.DTRetention.getData().DetailesRetention[0].NetProgress;
+			var nProgBill = Number([oProgBill]);
+
+			$.ajax({
+
+				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
+				data: JSON.stringify(oFGRPO),
+				type: "POST",
+					xhrFields: {
+						withCredentials: true
+					},
+					error: function (xhr, status, error) {
+						var Message = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(Message);
+					},
+					context: this,
+					success: function (json) {
+						sap.m.MessageToast.show("Added Successfully");
+					}
+			}).done(function (results) {
+				if (results) {
+					// sap.m.MessageToast.show("Added Successfully");
+
+					// ADDING A/P INVOICE
+
+					var GRPODocEntry = results.DocEntry;
+
+					this.oModelAPINV = new JSONModel();
+					$.ajax({
+						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
+							PoDocEntry + "&value2=&value3=&value4=",
+							type: "GET",
+							async: false,
+							beforeSend: function (xhr) {
+								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+							  },
+			
+							error: function (xhr, status, error) {
+								jQuery.sap.log.error("This should never have happened!");
+							},
+							success: function (json) {
+								// generatedCode = json[0][""];
+			
+							},
+							context: this
+					}).done(function (FirstProgress) {
+						if (FirstProgress) {
+
+							var DpDocEntry = FirstProgress[0].DocEntry;
+							var DpDocNum = FirstProgress[0].DocNum;
+							var DPDocTotal = FirstProgress[0].DocTotal;
+
+							var oAPINV = {};
+							var oAPINVlines1 = {};
+							var oAPINVlines2 = {};
+							var oAPINVWTlines = {};
+
+							oAPINV.CardCode = INVGRPOCardCode;
+							oAPINV.DocType = "dDocument_Service";
+							oAPINV.Comments = APRemarks;
+							oAPINV.U_APP_RETTranstype = 4;
+							oAPINV.U_APP_CWIP = nCWIP;
+							oAPINV.U_APP_GrossAmount = nGrossAmount;
+							oAPINV.U_APP_WTX = nWTX;
+							oAPINV.U_APP_ProratedDP = nProratedDP;
+							oAPINV.U_APP_ProRetention = nProRetention;
+							oAPINV.U_APP_ProgBillAmount = nProgBill;
+
+							oAPINV.DocumentLines = [];
+
+							oAPINVlines1.BaseType = 20;
+							oAPINVlines1.BaseEntry = GRPODocEntry;
+							oAPINVlines1.BaseLine = 0;
+							oAPINVlines1.Price = 0;
+							oAPINVlines1.PriceAfterVAT = 0;
+							oAPINVlines1.UnitPrice = APUnitPrice;
+							oAPINVlines1.U_APP_RtnRowType = "C";
+
+							oAPINV.DocumentLines.push(oAPINVlines1);
+
+							oAPINVlines2.BaseType = "";
+							oAPINVlines2.BaseEntry = "";
+							oAPINVlines2.BaseLine = "";
+							oAPINVlines2.AccountCode = oGlAccount;
+							oAPINVlines2.Price = 0;
+							oAPINVlines2.PriceAfterVAT = 0;
+							var UnitPrice = -1 * oPrice;
+							oAPINVlines2.UnitPrice = UnitPrice;
+							oAPINVlines2.VatGroup = "IVAT-EXC";
+							oAPINVlines2.U_APP_RtnRowType = "R";
+
+							oAPINV.DocumentLines.push(oAPINVlines2);
+
+							oAPINV.WithholdingTaxDataCollection = [];
+							oAPINVWTlines.WTCode = APWTCode;
+							oAPINVWTlines.WTAmount = APWTX;
+
+							oAPINV.WithholdingTaxDataCollection.push(oAPINVWTlines);
+
+							$.ajax({
+								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
+								data: JSON.stringify(oAPINV),
+								type: "POST",
+								xhrFields: {
+									withCredentials: true
+								},
+								error: function (xhr, status, error) {
+									var Message = xhr.responseJSON["error"].message.value;
+									sap.m.MessageToast.show(Message);
+								},
+								context: this,
+								success: function (json) {
+									sap.m.MessageToast.show("Added Successfully");
+								}
+							}).done(function (results) {
+								if (results) {
+									sap.m.MessageToast.show("Added Successfully");
+									this.onDraft();
+								}
+		
+							}); 
+
+						}
+
+					});
+
+				}
+			});
+
+			this.DeleteData();
 		},
 		oGetRemainingPrograte: function (oDocEntry) {
 			$.ajax({
@@ -2175,6 +2348,10 @@ sap.ui.define([
 							this.getView().byId("ProgBill").setValue("");
 							this.DeleteDetailes();
 						} else if (soProg_Rate === 100) {
+							MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
+							this.getView().byId("ProgBill").setValue("");
+							this.DeleteDetailes();
+						} else if ( this.oModelPrograte.getData().Rate.ProgRate === soProg_Rate1 ){
 							MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
 							this.getView().byId("ProgBill").setValue("");
 							this.DeleteDetailes();
