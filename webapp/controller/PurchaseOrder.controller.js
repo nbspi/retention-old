@@ -73,6 +73,7 @@ sap.ui.define([
 			oEvent.getSource().getBinding("items").filter([]);
 			this.getView().byId("BPCode").setValue(CardDetails[0].CardCode);
 			this.CardName = CardDetails[0].CardName;
+			this.oGetTransactionNumber();
 		},
 		///BP LIST FROM FRAGMENT
 		handleValueBPMaster: function () {
@@ -282,7 +283,7 @@ sap.ui.define([
 				oDraft.U_App_CreatedBy = this.UserName;
 	
 	
-				if (this.PurchaseAdd = "1"){
+				if (this.PurchaseAdd === "1"){
 					oDraft.U_App_Status = "Y";
 				}
 	

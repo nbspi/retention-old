@@ -67,7 +67,7 @@ xmlns:t="sap.ui.table">
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
-								<Button id="btn1" text="Update" tooltip="Add" press="onDraft" icon="sap-icon://add"/>
+								<Button id="btn1" text="Update" tooltip="Add" enabled="false" press="onDraft" icon="sap-icon://add"/>
 								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
@@ -126,8 +126,9 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{POData>/POCreation/ContractAmount}" type="Number"
-											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier">
+										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
+											liveChange="ContractAmount" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
