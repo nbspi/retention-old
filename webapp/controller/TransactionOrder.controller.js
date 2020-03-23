@@ -245,6 +245,8 @@ sap.ui.define([
 			this.getView().byId("Retention").setSelectedKey(results[0].Retention);
 			this.oMdlAllBP.getData().allbp.Vendor = results[0].CardName;
 			this.oMdlAllBP.refresh();
+			this.POData.getData().POCreation.ContractAmount = ooDocTotal;
+			this.POData.refresh();
 			this.oPOStatus = results[0].DocStatus;
 		});
 	},
@@ -483,6 +485,36 @@ sap.ui.define([
 		}
 
 	},
+	oUPdate: function () {
+
+		var oCode = this.DraftCode;
+
+		var oPo = {};
+
+		oPo.U_App_Status = "Y";
+
+		$.ajax({
+			url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
+			data: JSON.stringify(oPO),
+			type: "PATCH",
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function (xhr, status, error) {
+				var Message = xhr.responseJSON["error"].message.value;
+				sap.m.MessageToast.show(Message);
+			},
+			context: this,
+			success: function (json) {
+				// sap.m.MessageToast.show("Added Successfully");
+			}
+		}).done(function (results1) {
+			if (results1) {
+				this.DraftCode = "";
+			}
+		});
+
+	},
 	onDraft: function () {
 
 		var oCode = this.DraftCode;
@@ -520,6 +552,63 @@ sap.ui.define([
 		});
 		this.DeleteData();
 	},
+	oFilterValue: function (oEvent) {
+
+		var value = oEvent.mParameters.column.sId;
+		var oVAlue1 = oEvent.mParameters.value;
+		var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
+
+		if (oVAlue1 !== "") {
+			if (value === "__xmlview3--colDoc" || value === "__xmlview2--colDoc" || value === "__xmlview1--colDoc") {
+
+				if (PoStatus === "0") {
+					this.oGetFilterValues("getFilterUDTCPORDocNum", oVAlue1);
+				} else if (PoStatus === "1") {
+					this.oGetFilterValues("getFilterPOTransactionsDocNum", oVAlue1);
+				}
+
+			} else if (value === "__xmlview3--colVendor" || value === "__xmlview2--colVendor" || value === "__xmlview1--colVendor") {
+
+				if (PoStatus === "0") {
+					this.oGetFilterValues("getFilterUDTCPORCardName", oVAlue1);
+				} else if (PoStatus === "1") {
+					this.oGetFilterValues("getFilterPOTransactionsCardName", oVAlue1);
+				}
+
+			}
+		} else {
+
+			if (PoStatus === "0") {
+				this.oFilterPurchaseOrderTransaction("getUDTCPOR");
+			} else if (PoStatus === "1") {
+				this.oFilterPurchaseOrderTransaction("getPOTransactions");
+			}
+		}
+
+	},
+	oGetFilterValues: function (queryTag, oValue) {
+
+		this.oModelOpenPO = new JSONModel();
+		$.ajax({
+			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+				"&value1=" + oValue + "&value2=&value3=&value4=",
+				type: "GET",
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
+				error: function(xhr, status, error) {
+					MessageToast.show(error);
+				},
+				success: function(json) {},
+				context: this
+		}).done(function (results) {
+			if (results) {
+				this.oModelOpenPO.setJSON("{\"allbp\" : " + JSON.stringify(results) + "}");
+				this.getView().setModel(this.oModelOpenPO, "oModelOpenPO");
+			}
+		});
+
+	}
 
   });
 });
