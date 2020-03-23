@@ -1,0 +1,108 @@
+<mvc:View controllerName="com.apptech.app-retention.controller.PurchaseOrder"
+xmlns:core="sap.ui.core" 
+xmlns:mvc="sap.ui.core.mvc"
+xmlns="sap.m" 
+xmlns:uxap="sap.uxap" 
+xmlns:f="sap.ui.layout.form" 
+xmlns:l="sap.ui.layout" 
+xmlns:u="sap.ui.unified" 
+xmlns:tnt="sap.tnt"
+xmlns:html="http://www.w3.org/1999/xhtml" 
+xmlns:t="sap.ui.table">
+	<App>
+		<pages>
+			<Page title="PO Creation">
+				<content>
+					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter id="tab1">
+								<Button id="btn1" text="Save as Draft" tooltip="Add" press="onDraft" icon="sap-icon://add"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
+								<VBox class="sapUiResponsiveMargin">
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
+										<!---Vendor Name-->
+										<Label text="Vendor" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input id="BPCode" type="Text" value="{oMdlAllBP>/allbp/Vendor}" showValueHelp="true" valueHelpOnly="true"
+											valueHelpRequest="handleValueBPMaster" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Document Number-->
+										<Label text="Transaction Number" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="Docnum" required="true" value="{POData>/POCreation/DocumentNum}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Retention-->
+										<Label text="Retention" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<ComboBox id="Retention" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
+											selectionChange="onSelectRetention" loadItems="TransCode">
+											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</ComboBox>
+										<!--Posting Date-->
+										<Label text="Posting Date" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="DateFrom" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
+											value="{POData>/POCreation/PostingDate}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>
+										<!---Contract Amount-->
+										<Label text="Contract Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier" liveChange="ContractAmount"  >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--FileUploader-->
+										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
+											uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
+										<!--Remarks-->
+										<Label text="Remarks." width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<TextArea id="TextArea" cols="200" width="100%" height="100px">
+											<layoutData>
+												<l:GridData span="L9 M10 S12"/>
+											</layoutData>
+										</TextArea>
+									</f:SimpleForm>
+								</VBox>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

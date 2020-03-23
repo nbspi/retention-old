@@ -1,12 +1,25 @@
 {
-	"TaxType":[
+	"TaxType": [
 		{
-			"CODE":"0",
-			"NAME":"With Tax"
+			"CODE": "0",
+			"NAME": "YES"
+		}, 
+		{
+			"CODE": "1",
+			"NAME": "NO"
+		}
+	],
+	"Retention": [
+		{
+			"CODE": "0",
+			"NAME":"YES"
 		},
 		{
 			"CODE":"1",
-			"NAME":"Without Tax"
+			"NAME":"NO"
 		}
-	]
+	],
+	"POCount":{
+		"PONum":""
+	}
 }

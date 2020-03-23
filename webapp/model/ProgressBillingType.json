@@ -1,9 +1,8 @@
 {
 	"ProgressBilling":[ 
 		{
-			"CODE":"000",
-			"NAME":""
-			
+			"CODE":"0",
+			"NAME":"-"
 		},
 		{
 			"CODE":"1",
@@ -16,6 +15,10 @@
 		{
 			"CODE":"3",
 			"NAME":"Final Billing"
+		},
+		{
+			"CODE":"4",
+			"NAME":"Retention Payment"
 		}
 	]
 }

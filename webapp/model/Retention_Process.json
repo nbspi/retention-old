@@ -5,7 +5,7 @@
 		"NAME": "1 - For DownPayment"
 	}, {
 		"CODE": "1",
-		"NAME": "2 - Down Payment with Outgoing Payment (Not yet Paid.) "
+		"NAME": "2 - Down Payment (Not yet Paid.) "
 	}, {
 		"CODE": "2",
 		"NAME": "3 - Complete DownPayment"
@@ -18,9 +18,14 @@
 	}, {
 		"CODE": "5",
 		"NAME": "6 - For Final Billing"
-	}, {
-		"CODE":"5",
-		"NAME":"7 - Completed Transaction"
+	}, 
+	{
+		"CODE":"7",
+		"NAME":"7- For Retention Payment "
+	},
+	{
+		"CODE":"6",
+		"NAME":"8 - Completed Transaction"
 		
 	}
 	]
