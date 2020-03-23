@@ -18,7 +18,7 @@ sap.ui.define([
 
 			//Getting Data From LoginView
 			this.Database = jQuery.sap.storage.get("Database");
-			this.UserNmae = jQuery.sap.storage.get("Usename");
+			this.UserNmae = jQuery.sap.storage.get("Usename ");
 
 			// Get DateToday
 			var oDate = new JSONModel(this._data);

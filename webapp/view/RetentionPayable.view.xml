@@ -11,7 +11,7 @@ xmlns:html="http://www.w3.org/1999/xhtml"
 xmlns:t="sap.ui.table">
 	<App>
 		<pages>
-			<Page title="Contract Billing and Retention Payable" id="pageRetention">
+			<Page title="Contract Billing and Retention Payable" id="pageRetention" >
 				<content>
 					<IconTabBar id="idIconTabBarInlineMode" headerMode="Inline" upperCase="true" expandable="false" class="sapUiResponsiveContentPadding">
 						<items>
