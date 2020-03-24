@@ -16,9 +16,6 @@ sap.ui.define([
 
         onInit: function() {
 
-            this.oMdlMenu = new JSONModel("model/Menus.json");
-            this.getView().setModel(this.oMdlMenu);
-
             this.router = this.getOwnerComponent().getRouter();
 
 

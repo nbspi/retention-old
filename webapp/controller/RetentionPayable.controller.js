@@ -78,6 +78,7 @@ sap.ui.define([
 				this.FinCWIP = "";
 				this.POSelects = this.getView().byId("selectRecordGroup").getSelectedKey();
 		},
+		// Icontab Sekector
 		IconTabSelect: function () {
 			var Tab = this.getView().byId("idIconTabBarInlineMode").getSelectedKey();
 
@@ -85,6 +86,7 @@ sap.ui.define([
 				this.onRefresh();
 			}
 		},
+		//Process Transaction 
 		onProcess: function () {
 		
 			this.DeleteData();
@@ -117,6 +119,7 @@ sap.ui.define([
 
 			that.DocTotalProcess = oRowSelected.DocTotal;
 
+			//  Get Data From UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
 
 				if (oPoStatus === "2" || oPoStatus === "1") {
@@ -212,6 +215,7 @@ sap.ui.define([
 			}
 		
 		},
+		// To set Transaction Type
 		oSetTransacationType: function (TransCode) {
 
 			if (TransCode === "0") {
@@ -269,6 +273,7 @@ sap.ui.define([
 				this.getView().byId("ProgBill").setEnabled(false);
 			}
 		},
+		// To Get HEADER/DETAILEs Data from UDT
 		oGetDatafromHeaderUDT: function (oDocStatus) {
 
 			var that = this;
@@ -289,6 +294,7 @@ sap.ui.define([
 			that.DocTotalProcess = oRowSelected.DocTotal;
 
 			this.oModelOpenPO = new JSONModel();
+			// To get PO Transaction 
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
@@ -312,9 +318,7 @@ sap.ui.define([
 
 			});
 
-			// SET VALUE FROM UDT
-			// Header Information
-
+			// To Get Header Value in UDT and set on Fields
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
 					sCode +
@@ -330,9 +334,7 @@ sap.ui.define([
 					context: this
 			}).done(function (results) {
 				if (results.length === 0) {
-					// MessageToast.show("No Retention Row to process");
-					// //resetting of POFields.json model
-					// that.DeleteData();
+					MessageToast.show(error);
 				} else {
 
 					that.oModelUDT.setJSON("{\"UDTFields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
@@ -396,10 +398,7 @@ sap.ui.define([
 				}
 
 			});
-
-			// DETAILES INFORMATION
-			// getUDTdtl
-
+			//To get value in UDT and set on fields
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
 					sCode +
@@ -415,7 +414,7 @@ sap.ui.define([
 					context: this
 			}).done(function (oresults) {
 				if (oresults.length === 0) {
-
+					MessageToast.show(error);
 				} else {
 					that.oModelUDF.setJSON("{\"UDFFields\" : " + JSON.stringify(oresults).replace("[", "").replace("]", "") + "}");
 					that.getView().setModel(that.oModelUDF, "oModelUDF");
@@ -448,6 +447,7 @@ sap.ui.define([
 			});
 
 		},
+		// To Refresh all Fields
 		onRefresh: function () {
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
@@ -471,6 +471,7 @@ sap.ui.define([
 			this.DeleteData();
 			this.DeleteDetailes();
 		},
+		// Combobox Purchase Order Transaction
 		onSelectPurchaseTransaction: function () {
 
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
@@ -525,6 +526,7 @@ sap.ui.define([
 				this.oFilter.refresh();
 			}
 		},
+		// To Get all Data of Purchase Order
 		oFilterPurchaseOrderTransaction: function (queryTag) {
 
 			this.oModelOpenPO = new JSONModel();
@@ -548,6 +550,7 @@ sap.ui.define([
 			});
 
 		},
+		// To Delete All Value in Fields
 		DeleteData: function (oEvent) {
 
 			this.getView().byId("TransNo").setValue("");
@@ -575,7 +578,7 @@ sap.ui.define([
 			this.DTRetention.refresh();
 
 		},
-
+		// To Delete All Detaile Value in Fields
 		DeleteDetailes: function (oEvent) {
 			this.DTRetention.getData().DetailesRetention[0].CWIP = "";
 			this.DTRetention.getData().DetailesRetention[0].WTX = "";
@@ -586,6 +589,7 @@ sap.ui.define([
 
 			this.DTRetention.refresh();
 		},
+		// For Enable Fields
 		eNableAllFields: function (oCode) {
 
 			if (oCode === "0") {
@@ -632,6 +636,7 @@ sap.ui.define([
 
 			}
 		},
+		//To Get PO Data from GRID
 		oGetRetentionProcess: function (sCode, ColType) {
 			this.oModelOpenPO = new JSONModel();
 
@@ -659,6 +664,7 @@ sap.ui.define([
 				}
 			});
 		},
+		// To Get the Count of Transaction Number
 		oGetTransactionNumber: function () {
 
 			var oDatabase = this.Database;
@@ -679,13 +685,12 @@ sap.ui.define([
 					context: this
 			}).done(function (results) {
 				if (results) {
-					// this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results));
-					// this.getView().setModel(this.oTransIDs, "oTransIDs");
 					this.getView().byId("TransNo").setValue(results[0].DocNum);
 				}
 			});
 
 		},
+		// Formula for Retention Amount
 		onRetentionAmount: function (oEvent) {
 
 			var DPValue = this.getView().byId("DPayment").getValue();
@@ -736,6 +741,7 @@ sap.ui.define([
 			}
 
 		},
+		//Formula for Witholding Tax
 		onSelectionWTX: function () {
 
 			var TaxType = this.getView().byId("TaxType").getSelectedKey();
@@ -743,45 +749,7 @@ sap.ui.define([
 			var oProgType = this.getView().byId("PBType").getSelectedKey();
 
 			if (Transaction_Type === "0") {
-
-				if (TaxType === "0") {
-
-				} else {
-					// // // COMPUTATION FOR GROSS AMOUNT
-					// var PoDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
-					// var Down_Payment = this.getView().byId("DPayment").getValue();
-					// var oDowPayment = Down_Payment / 100;
-					// var oDowPayment1 = Number([oDowPayment]);
-					// var oDownPayment = oDowPayment1.toFixed(2);
-
-					// var oToTal = PoDocTotal * oDownPayment;
-					// var oTotal5 = Number([oToTal]);
-					// var oTotal4 = oTotal5.toFixed(2);
-
-					// // //Computation for WTX
-
-					// var Gross_Amount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
-					// var oWTX1 = Gross_Amount / 1.12;
-					// var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
-					// var sWTHTaxRate1 = sWTHTaxRate / 100;
-					// var oTotalWTX = oWTX1 * sWTHTaxRate1;
-					// var oTotal = Number([oTotalWTX]);
-					// var FTotalFWTX = oTotal.toFixed(2);
-
-					// this.DTRetention.getData().DetailesRetention[0].WTX = FTotalFWTX;
-					// this.DTRetention.refresh();
-
-					// // //Computation for Net DownPayment Amount
-
-					// var Total1 = oTotal4;
-					// var Total2 = FTotalFWTX;
-
-					// var oNetDP = Total1 - Total2;
-
-					// this.DTRetention.getData().DetailesRetention[0].NetProgress = oNetDP;
-					// this.DTRetention.refresh();
-				}
-
+				//-----Downpayment WTX------//
 			} else if (Transaction_Type === "1") {
 
 				if (oProgType === "1") {
@@ -868,6 +836,7 @@ sap.ui.define([
 			}
 
 		},
+		//Progress Biling Rate Formula
 		ProgressBIll: function () {
 
 			var oValue = this.getView().byId("ProgBill").getValue();
@@ -919,6 +888,7 @@ sap.ui.define([
 					oDocEntry = this.oModelUDT.getData().UDTFields.U_App_DocEntry;
 				}
 
+				// To get Data in UDT Details
 				$.ajax({
 					url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 						"&procName=spAppRetention&queryTag=getUDTdtls&value1=" +
@@ -946,6 +916,7 @@ sap.ui.define([
 
 							var oProgTypess = this.getView().byId("PBType").getSelectedKey();
 
+							// if oProgTypess = 'PO with Retention' else 'PO Without Retention' 							
 							if (oProgTypess === "2") {
 
 								var RetentionAmount = this.oModelPurchase.getData().POFields.Price;
@@ -972,8 +943,8 @@ sap.ui.define([
 								this.DTRetention.refresh();
 							}
 
+							// if oProgTypess = 'PO with Retention' else 'PO Without Retention' 
 							if (oProgTypess === "2") {
-
 								// PRORATED RETENTION COMPUTATION
 								var RetentionAmount = this.oModelPurchase.getData().POFields.Price;
 								var oRates = this.oModelPrograte.getData().Rate.ProgRate;
@@ -1017,9 +988,7 @@ sap.ui.define([
 						} else if (oProgType === "3") {
 							this.ProgressBillingType();
 						} else {
-							// this.ProgressBillingType();
-							// WITH HOLDING TAX COMPUTAION
-							// this.onSelectionWTX();
+							//-----Retention-----//
 						}
 
 					}
@@ -1027,6 +996,7 @@ sap.ui.define([
 			}
 
 		},
+		// Formula for Each Progress Billing Type
 		ProgressBillingType: function () {
 
 			var ProgType = this.getView().byId("PBType").getSelectedKey();
@@ -1104,17 +1074,16 @@ sap.ui.define([
 				this.DTRetention.getData().DetailesRetention[0].NetProgress = PBAmtn3;
 				this.DTRetention.refresh();
 
+		//Computation for Subequent Billing
 			} else if (ProgType === "2") {
 
 				// Computation for CWIP
 
 				var oRate = this.oModelPrograte.getData().Rate.ProgRate;
 				var oRate1 = this.getView().byId("ProgBill").getValue() - oRate;
-				// var oProgresBill = this.getView().byId("ProgBill").getValue();
 				var oProgresBill = oRate1 / 100;
 
 				var PODocTotal = this.oModelPurchase.getData().POFields.DocTotal;
-				// var ProgresBill = this.getView().byId("ProgBill").getValue();
 				var ProDP = this.DTRetention.getData().DetailesRetention[0].ProratedDP;
 				var oProdDP = Number([ProDP]);
 				var ProReten = this.DTRetention.getData().DetailesRetention[0].ProratedRetention;
@@ -1123,16 +1092,16 @@ sap.ui.define([
 				var oGrossamount = Number([Grossmount]);
 				var APDocTotal = this.oAPDocTotal.getData().doctotal[0].U_App_GrossAmnt;
 
-				// var oProgbillRate = oProgresBill / 100;
 				var CWIP1 = PODocTotal * oProgresBill;
 				var oCWIP1 = Number([CWIP1]);
 				var CWIP2 = oCWIP1 - oProdDP;
 				var CWIP3 = CWIP2 - oProReten;
-				// var CWIP4 = CWIP3 + APDocTotal;
 				var TotalCWIP = CWIP3.toFixed(2);
 
 				this.DTRetention.getData().DetailesRetention[0].CWIP = TotalCWIP;
 				this.DTRetention.refresh();
+
+				// Computation for Net Progress Billing Amoun
 
 				var GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 				var oGrossAmount = Number([GrossAmount]);
@@ -1148,7 +1117,6 @@ sap.ui.define([
 				var NetProgress2 = oNerProgress1 - oProratedRetetion;
 				var oNetProgress2 = Number([NetProgress2]);
 				var NetProgress3 = oNetProgress2 - oWTX;
-
 				var PBAmtn3 = NetProgress3.toFixed(2);
 
 				this.DTRetention.getData().DetailesRetention[0].NetProgress = PBAmtn3;
@@ -1157,12 +1125,9 @@ sap.ui.define([
 			} else if (ProgType === "3") {
 
 				//Computation for CWIP
-
 				var fDocEntry = this.oModelPurchase.getData().POFields.DocEntry;
-
-				// for AP DownPAyment Total
+				// To Get the DownPAyment Total
 				this.oModelAPDPTotal = new JSONModel();
-
 				$.ajax({
 					url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 						"&procName=spAppRetention&queryTag=getDocTotalAPDP&value1=" +
@@ -1183,7 +1148,6 @@ sap.ui.define([
 						this.getView().setModel(this.oModelAPDPTotal, "oModelAPDPTotal");
 
 						var DPDocTotal = this.oModelAPDPTotal.getData().Total.DocTotal;
-
 						this.FirstBillingCWIP = new JSONModel();
 						$.ajax({
 							url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getFbCWIP&value1=" +
@@ -1205,7 +1169,7 @@ sap.ui.define([
 
 								this.FirstBilling_CWIP = this.FirstBillingCWIP.getData().Total.Price;
 
-								// for Subsequent CWIP
+								// for Get All CWIP of Subsequent
 								this.SubBillingCWIP = new JSONModel();
 								$.ajax({
 									url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
@@ -1228,6 +1192,7 @@ sap.ui.define([
 
 										this.All_Subsequent_CWIP = this.SubBillingCWIP.getData().Total.Price;
 
+										//to Get PO Retention Amount
 										$.ajax({
 											url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 												"&procName=spAppRetention&queryTag=getPORentAmount&value1=" + fDocEntry + "&value2=&value3=&value4=",
@@ -1242,16 +1207,14 @@ sap.ui.define([
 												context: this
 										}).done(function (Fresults) {
 
-											// var All_Subsequent_CWIP = this.SubBillingCWIP.getData().Total.Price;
-
-
+											//Computation for CWIP
 											var oDowPaymentTotal = DPDocTotal;
 											var oFirstBilling_CWIP = this.FirstBilling_CWIP;
 											var AllSub_CWIP = this.All_Subsequent_CWIP;
 											var PoDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
 											var Retention_Amount = this.oModelPurchase.getData().POFields.Price;
 
-
+											// if POCoung = "1" Without Retention Amount
 											if(this.POCount === "1"){
 												var oTotalCWIP = this.FinCWIP;
 											}else{
@@ -1264,20 +1227,17 @@ sap.ui.define([
 
 											var TaxType = this.getView().byId("TaxType").getSelectedKey();
 
+											//Computation for WTX
+											// if TaxType = 0 No WTX
 											if (TaxType === "0") {
 
+												// if POCoung = "1" Without Retention Amount
 												if(this.POCount === "1"){
 
 													var GrossAmount = this.FinCWIP;
 													var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
 													var sGrossCount = sWTHTaxRate / 100;
 
-													// var PO_DocTotal = PoDocTotal;
-													// var ALL_CWIP = this.FinCWIP;
-													// var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
-													// var sGrossCount = sWTHTaxRate / 100;
-	
-													// var FWTX1 = PO_DocTotal - ALL_CWIP;
 													var FWTX2 = GrossAmount / 1.12;
 													var FWTX3 = FWTX2 * sGrossCount;
 	
@@ -1298,7 +1258,6 @@ sap.ui.define([
 
 												}
 
-
 												this.DTRetention.getData().DetailesRetention[0].WTX = FTotalFWTX;
 												this.DTRetention.refresh();
 
@@ -1308,13 +1267,9 @@ sap.ui.define([
 												this.DTRetention.refresh();
 											}
 
-											// -- Net Progress Billing Amount
-
+											// Computation for Net Progress Billing
 											var PO_ALL_CWIP = this.DTRetention.getData().DetailesRetention[0].CWIP;
 											var PO_PBWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
-											// var oPoDocTotal = PoDocTotal;
-											// var oFinalPB3 = oPoDocTotal - PO_ALL_CWIP;
-											// var oFInalPB = oFinalPB3 - PO_PBWTX;
 											var oPor = this.oModelPurchase.getData().POFields.Price;
 											var oFInalPB = PO_ALL_CWIP - PO_PBWTX;
 											var oFinalPOF = oFInalPB - oPor;
@@ -1336,8 +1291,10 @@ sap.ui.define([
 			}
 
 		},
+		//Saving and Getting Data  on Draft
 		onSave: function () {
 
+			//if PO has Draft..Get Data in UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
 
 				var oCode = this.oSCode;
@@ -1356,6 +1313,7 @@ sap.ui.define([
 					Status = "RentPB";
 				}
 
+				//To Get Data from UDT
 				this.onGetHeaderUDT(oCode, Status);
 				this.onGetDetailsUDT(oCode, Status);
 
@@ -1363,7 +1321,9 @@ sap.ui.define([
 				var DetlCode = this.oGetDETAILES.getData().Fields.Code;
 
 				this.onUpdate(HeadCode, DetlCode);
+
 			} else {
+			// Proceed Transaction in Draft
 
 				var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
@@ -1465,6 +1425,7 @@ sap.ui.define([
 					}
 
 					var sBodyRequest = this.prepareBatchRequestBody(batchArray);
+					// Post Draft Using Batch
 					$.ajax({
 						url: "https://18.136.35.41:50000/b1s/v1/$batch",
 						type: "POST",
@@ -1501,6 +1462,7 @@ sap.ui.define([
 			}
 
 		},
+		//Prepare Value fot UDF Code
 		generateUDTCode: function (docType) {
 
 			var generatedCode = "";
@@ -1528,11 +1490,13 @@ sap.ui.define([
 			});
 			return generatedCode;
 		},
+		//Date Value
 		getTodaysDate: function () {
 			var today = new Date();
 			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 			return date;
 		},
+		//Batch Request for Saving Draft
 		prepareBatchRequestBody: function (oRequest) {
 
 			var batchRequest = "";
@@ -1557,6 +1521,7 @@ sap.ui.define([
 			return batchRequest;
 
 		},
+		//Update Data on Draft
 		onUpdate: function (oHeaderCode, oDetaileCode) {
 
 			//-------Update Header
@@ -1564,6 +1529,7 @@ sap.ui.define([
 
 			oHeader.U_App_PostDate = this.oModelPurchase.getData().POFields.DocDate;
 			var DP = this.getView().byId("DPayment").getValue();
+
 			if (DP === "") {
 				oHeader.U_App_DwnPymnt = 0;
 			} else {
@@ -1663,6 +1629,7 @@ sap.ui.define([
 			});
 
 		},
+		// To Get Data From Header UDT
 		onGetHeaderUDT: function (sCode, oDocStatus) {
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
@@ -1682,6 +1649,7 @@ sap.ui.define([
 				this.getView().setModel(this.oGetHEADER, "oGetHEADER");
 			});
 		},
+		// To Get Data from Detailes UDT
 		onGetDetailsUDT: function (sCode, oDocStatus) {
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
@@ -1701,6 +1669,7 @@ sap.ui.define([
 				this.getView().setModel(this.oGetDETAILES, "oGetDETAILES");
 			});
 		},
+		//Saving Process in SAP
 		onAddingSAP: function () {
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
@@ -1716,7 +1685,6 @@ sap.ui.define([
 					if (this.STatus !== "Draft") {
 						this.onSave();
 					}
-
 					this.DeleteData();
 					this.DeleteDetailes();
 
@@ -1732,19 +1700,15 @@ sap.ui.define([
 						this.onSavingSubsequentBilling();
 					} else if (ProgType === "3") {
 						this.onSavingFinalBilling();
-
 						if (this.POCount === "1"){
 							this.onSave();
 						}
-
 					} else if (ProgType === "4") {
 						this.onSavingRetention();
 						this.Tag = "0";
-
 						if (this.STatus !== "Draft") {
 							this.onSave();
 						}
-
 						this.DeleteData();
 						this.DeleteDetailes();
 
@@ -1758,6 +1722,7 @@ sap.ui.define([
 			}
 
 		},
+		//Saving DownPayment in SAP
 		onSavingDownPayment: function () {
 
 			// var SupplierCode = this.getView().byId("VenSupCode").getValue();
@@ -1775,6 +1740,7 @@ sap.ui.define([
 			oAPDown.Comments = this.getView().byId("TextArea").getValue();
 			oAPDown.U_APP_RETTranstype = 1;
 			oAPDown.DownPaymentType = "dptInvoice";
+			oAPDown.U_APP_IsForRetention = "Y";
 			oAPDown.U_APP_GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oAPDown.U_APP_WTX = this.DTRetention.getData().DetailesRetention[0].WTX;
 			oAPDown.U_APP_DPAmount = this.DTRetention.getData().DetailesRetention[0].NetProgress;
@@ -1802,8 +1768,8 @@ sap.ui.define([
 
 			oAPDown.WithholdingTaxDataCollection.push(oAPINVWTlines);
 
+			// POsting DownPayment in SAP
 			$.ajax({
-
 				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDownPayments",
 				data: JSON.stringify(oAPDown),
 				type: "POST",
@@ -1815,9 +1781,7 @@ sap.ui.define([
 					sap.m.MessageToast.show(Message);
 				},
 				context: this,
-				success: function (json) {
-					// sap.m.MessageToast.show("Added Successfully");
-				}
+				success: function (json) {}
 			}).done(function (results) {
 				if (results) {
 					sap.m.MessageToast.show("DocNum #" + results.DocNum + " Added Successfully");
@@ -1825,6 +1789,7 @@ sap.ui.define([
 			});
 
 		},
+		//Saving First Progress Billing in SAP
 		onSavingFirstProgressBilling: function () {
 
 			var oDatabase = this.Database;
@@ -1840,6 +1805,7 @@ sap.ui.define([
 			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 2;
+			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
 			oFGRPO.DocumentLines = [];
 
@@ -1875,6 +1841,7 @@ sap.ui.define([
 			var oProgBill = this.DTRetention.getData().DetailesRetention[0].NetProgress;
 			var nProgBill = Number([oProgBill]);
 
+			//Posting GRPO in SAP
 			$.ajax({
 				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
@@ -1887,34 +1854,32 @@ sap.ui.define([
 					sap.m.MessageToast.show(Message);
 				},
 				context: this,
-				success: function (json) {
-					// sap.m.MessageToast.show("Added Successfully");
-				}
+				success: function (json) {}
 			}).done(function (results) {
 				if (results) {
 
 					// A/P Invoice Posting
 
-					var GRPODocEntry = results.DocEntry;
+					// var GRPODocEntry = results.DocEntry;
 
-					this.oModelAPINV = new JSONModel();
-					$.ajax({
-						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
-						type: "GET",
-						beforeSend: function (xhr) {
-							xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-						  },
-						error: function (xhr, status, error) {
-							MessageToast.show(error);
-						},
-						success: function (json) {},
-						context: this
-					}).done(function (FirstProgress) {
-						if (FirstProgress) {
+					// this.oModelAPINV = new JSONModel();
+					// $.ajax({
+					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
+					// 	type: "GET",
+					// 	beforeSend: function (xhr) {
+					// 		xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					// 	  },
+					// 	error: function (xhr, status, error) {
+					// 		MessageToast.show(error);
+					// 	},
+					// 	success: function (json) {},
+					// 	context: this
+					// }).done(function (FirstProgress) {
+					// 	if (FirstProgress) {
 
-							var DpDocEntry = FirstProgress[0].DocEntry;
-							var DpDocNum = FirstProgress[0].DocNum;
-							var DPDocTotal = FirstProgress[0].DocTotal;
+							var DpDocEntry = results.DocEntry;
+							var DpDocNum = results.DocNum;
+							var DPDocTotal = results.DocTotal;
 
 							var oAPINV = {};
 							var oAPINVlines = {};
@@ -1928,6 +1893,7 @@ sap.ui.define([
 							oAPINV.U_APP_CWIP = nCWIP;
 							oAPINV.U_APP_GrossAmount = nGrossAmount;
 							oAPINV.U_APP_WTX = nWTX;
+							oAPINV.U_APP_IsForRetention = "Y";
 							oAPINV.U_APP_ProratedDP = nProratedDP;
 							oAPINV.U_APP_ProRetention = nProRetention;
 							oAPINV.U_APP_ProgBillAmount = nProgBill;
@@ -1935,7 +1901,6 @@ sap.ui.define([
 							oAPINV.DocumentLines = [];
 
 							oAPINVlines.BaseType = 20;
-							// oAPINVlines.BaseEntry = GRPODocEntry;
 							oAPINVlines.BaseEntry = GRPODocEntry;
 							oAPINVlines.BaseLine = 0;
 							oAPINVlines.Price = 0;
@@ -1960,6 +1925,7 @@ sap.ui.define([
 
 							oAPINV.WithholdingTaxDataCollection.push(oAPINVWTlines);
 
+							//Posting A/P Invoice in SAP
 							$.ajax({
 								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
@@ -1972,9 +1938,7 @@ sap.ui.define([
 									sap.m.MessageToast.show(Message);
 								},
 								context: this,
-								success: function (json) {
-									// sap.m.MessageToast.show("Added Successfully");
-								}
+								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
@@ -1982,9 +1946,9 @@ sap.ui.define([
 		
 							}); 
 
-						}
+						// }
 
-					});
+					// });
 
 				}
 			});
@@ -1992,11 +1956,11 @@ sap.ui.define([
 			this.DeleteData();
 
 		},
+		//Saving Subsequent Billing in SAP
 		onSavingSubsequentBilling: function () {
 
 			var oDatabase = this.Database;
 
-			// ADDING GRPO
 			var oFGRPO = {};
 			var oFGRPOLines = {};
 
@@ -2006,6 +1970,7 @@ sap.ui.define([
 			oFGRPO.DocType = "dDocument_Service";
 			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
+			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_RETTranstype = 3;
 			var oRate = this.oModelPrograte.getData().Rate.ProgRate;
 			var oRate1 = this.getView().byId("ProgBill").getValue() - oRate;
@@ -2042,6 +2007,7 @@ sap.ui.define([
 			var oProgBill = this.DTRetention.getData().DetailesRetention[0].NetProgress;
 			var nProgBill = Number([oProgBill]);
 
+			//Posting GRPO in SAP
 			$.ajax({
 				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
@@ -2064,25 +2030,25 @@ sap.ui.define([
 
 					var GRPODocEntry = results.DocEntry;
 
-					this.oModelAPINV = new JSONModel();
-					$.ajax({
-						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
-							PoDocEntry + "&value2=&value3=&value4=",
-							type: "GET",
-							beforeSend: function (xhr) {
-								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-							  },
-							error: function (xhr, status, error) {
-								MessageToast.show(error);
-							},
-							success: function (json) {},
-							context: this
-					}).done(function (FirstProgress) {
-						if (FirstProgress) {
+					// this.oModelAPINV = new JSONModel();
+					// $.ajax({
+					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
+					// 		PoDocEntry + "&value2=&value3=&value4=",
+					// 		type: "GET",
+					// 		beforeSend: function (xhr) {
+					// 			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					// 		  },
+					// 		error: function (xhr, status, error) {
+					// 			MessageToast.show(error);
+					// 		},
+					// 		success: function (json) {},
+					// 		context: this
+					// }).done(function (FirstProgress) {
+					// 	if (FirstProgress) {
 
-							var DpDocEntry = FirstProgress[0].DocEntry;
-							var DpDocNum = FirstProgress[0].DocNum;
-							var DPDocTotal = FirstProgress[0].DocTotal;
+							var DpDocEntry = results.DocEntry;
+							var DpDocNum = 	 results.DocNum;
+							var DPDocTotal = results.DocTotal;
 
 							var oAPINV = {};
 							var oAPINVlines = {};
@@ -2091,6 +2057,7 @@ sap.ui.define([
 							oAPINV.CardCode = INVGRPOCardCode;
 							oAPINV.DocType = "dDocument_Service";
 							oAPINV.Comments = APRemarks;
+							oAPINV.U_APP_IsForRetention = "Y";
 							oAPINV.U_APP_RETTranstype = 3;
 							oAPINV.U_APP_CWIP = nCWIP;
 							oAPINV.U_APP_GrossAmount = nGrossAmount;
@@ -2102,7 +2069,6 @@ sap.ui.define([
 							oAPINV.DocumentLines = [];
 
 							oAPINVlines.BaseType = 20;
-							// oAPINVlines.BaseEntry = GRPODocEntry;
 							oAPINVlines.BaseEntry = GRPODocEntry;
 							oAPINVlines.BaseLine = 0;
 							oAPINVlines.Price = 0;
@@ -2118,6 +2084,7 @@ sap.ui.define([
 
 							oAPINV.WithholdingTaxDataCollection.push(oAPINVWTlines);
 
+							//Posting A/P Invoice in SAP
 							$.ajax({
 								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
@@ -2130,14 +2097,11 @@ sap.ui.define([
 									sap.m.MessageToast.show(Message);
 								},
 								context: this,
-								success: function (json) {
-									// sap.m.MessageToast.show("Added Successfully");
-								}
+								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 
 							// For Closing A/P Invoice
-
 							sap.m.MessageToast.show("DocNum #" + results.DocNum + "Added Successfully");
 										
 									this.oTransID = new JSONModel();
@@ -2162,9 +2126,9 @@ sap.ui.define([
 
 								}
 		
-							}); 
+						// 	}); 
 
-						}
+						// }
 
 					});
 
@@ -2174,11 +2138,11 @@ sap.ui.define([
 			this.DeleteData();
 
 		},
+		//Saving Final Billing in SAP
 		onSavingFinalBilling: function () {
 
 			var oDatabase = this.Database;
 
-			// ADDING GRPO
 			var oFGRPO = {};
 			var oFGRPOLines = {};
 
@@ -2191,6 +2155,7 @@ sap.ui.define([
 			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 4;
+			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
 			oFGRPO.DocumentLines = [];
 
@@ -2240,6 +2205,7 @@ sap.ui.define([
 
 			$.ajax({
 
+				// Posting GRPO in SAP
 				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
 				type: "POST",
@@ -2256,36 +2222,33 @@ sap.ui.define([
 					}
 			}).done(function (results) {
 				if (results) {
-					// sap.m.MessageToast.show("Added Successfully");
-
-					// ADDING A/P INVOICE
 
 					var GRPODocEntry = results.DocEntry;
 
-					this.oModelAPINV = new JSONModel();
-					$.ajax({
-						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
-							PoDocEntry + "&value2=&value3=&value4=",
-							type: "GET",
-							async: false,
-							beforeSend: function (xhr) {
-								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-							  },
+					// this.oModelAPINV = new JSONModel();
+					// $.ajax({
+					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
+					// 		PoDocEntry + "&value2=&value3=&value4=",
+					// 		type: "GET",
+					// 		async: false,
+					// 		beforeSend: function (xhr) {
+					// 			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					// 		  },
 			
-							error: function (xhr, status, error) {
-								jQuery.sap.log.error("This should never have happened!");
-							},
-							success: function (json) {
-								// generatedCode = json[0][""];
+					// 		error: function (xhr, status, error) {
+					// 			jQuery.sap.log.error("This should never have happened!");
+					// 		},
+					// 		success: function (json) {
+					// 			// generatedCode = json[0][""];
 			
-							},
-							context: this
-					}).done(function (FirstProgress) {
-						if (FirstProgress) {
+					// 		},
+					// 		context: this
+					// }).done(function (FirstProgress) {
+					// 	if (FirstProgress) {
 
-							var DpDocEntry = FirstProgress[0].DocEntry;
-							var DpDocNum = FirstProgress[0].DocNum;
-							var DPDocTotal = FirstProgress[0].DocTotal;
+							var DpDocEntry = results.DocEntry;
+							var DpDocNum = 	 results.DocNum;
+							var DPDocTotal = results.DocTotal;
 
 							var oAPINV = {};
 							var oAPINVlines1 = {};
@@ -2295,6 +2258,7 @@ sap.ui.define([
 								oAPINV.CardCode = INVGRPOCardCode;
 								oAPINV.DocType = "dDocument_Service";
 								oAPINV.Comments = APRemarks;
+								oAPINV.U_APP_IsForRetention = "Y";
 								oAPINV.U_APP_RETTranstype = 4;
 								oAPINV.U_APP_CWIP = nCWIP;
 								oAPINV.U_APP_GrossAmount = nGrossAmount;
@@ -2351,6 +2315,7 @@ sap.ui.define([
 
 							oAPINV.WithholdingTaxDataCollection.push(oAPINVWTlines);
 
+							//Posting AP Invoice in SAP
 							$.ajax({
 								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
@@ -2369,11 +2334,33 @@ sap.ui.define([
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
+
+									// For Forced Closed GRPO
+									this.oTransID = new JSONModel();
+									$.ajax({
+										url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes(" + results.DocNum + ")/Close",
+										type: "POST",
+										xhrFields: {
+											withCredentials: true
+										},
+										error: function (xhr, status, error) {
+											var Message = xhr.resposeJSON.error.message.value;
+											sap.m.MessageToast.show(Message);
+										},
+										success: function (json) {},
+										context: this
+									}).done(function (oresults) {
+										if (oresults) {
+											this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]					", "") + "}");
+											this.getView().setModel(this.oTransID, "oTransID");
+										}
+									});
+
 								}
 		
-							}); 
+						// 	}); 
 
-						}
+						// }
 
 					});
 
@@ -2382,11 +2369,11 @@ sap.ui.define([
 
 			this.DeleteData();
 		},
+		//Saving Retention in SAP
 		onSavingRetention: function () {
 
 			var oDatabase = this.Database;
 
-			// ADDING GRPO
 			var oFGRPO = {};
 			var oFGRPOLines = {};
 
@@ -2399,6 +2386,7 @@ sap.ui.define([
 			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 5;
+			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
 			oFGRPO.DocumentLines = [];
 
@@ -2419,8 +2407,8 @@ sap.ui.define([
 			var APUnitPrice = this.DTRetention.getData().DetailesRetention[0].CWIP;
 			var APWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
 
+			//Posting GRPO in
 			$.ajax({
-
 				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
 				type: "POST",
@@ -2432,39 +2420,37 @@ sap.ui.define([
 					sap.m.MessageToast.show(Message);
 				},
 				context: this,
-				success: function (json) {
-					// sap.m.MessageToast.show("Added Successfully");
-				}
+				success: function (json) {}
 			}).done(function (results) {
 				if (results) {
-					// ADDING A/P INVOICE
+
 
 					var GRPODocEntry = results.DocEntry;
 
-					this.oModelAPINV = new JSONModel();
-					$.ajax({
-						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
-							PoDocEntry + "&value2=&value3=&value4=",
-							type: "GET",
-							async: false,
-							beforeSend: function (xhr) {
-								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-							  },
+					// this.oModelAPINV = new JSONModel();
+					// $.ajax({
+					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
+					// 		PoDocEntry + "&value2=&value3=&value4=",
+					// 		type: "GET",
+					// 		async: false,
+					// 		beforeSend: function (xhr) {
+					// 			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					// 		  },
 			
-							error: function (xhr, status, error) {
-								jQuery.sap.log.error("This should never have happened!");
-							},
-							success: function (json) {
-								// generatedCode = json[0][""];
+					// 		error: function (xhr, status, error) {
+					// 			jQuery.sap.log.error("This should never have happened!");
+					// 		},
+					// 		success: function (json) {
+					// 			// generatedCode = json[0][""];
 			
-							},
-							context: this
-					}).done(function (FirstProgress) {
-						if (FirstProgress) {
+					// 		},
+					// 		context: this
+					// }).done(function (FirstProgress) {
+					// 	if (FirstProgress) {
 
-							var DpDocEntry = FirstProgress[0].DocEntry;
-							var DpDocNum = FirstProgress[0].DocNum;
-							var DPDocTotal = FirstProgress[0].DocTotal;
+							var DpDocEntry = results.DocEntry;
+							var DpDocNum =   results.DocNum;
+							var DPDocTotal = results.DocTotal;
 
 							var oAPINV = {};
 							var oAPINVlines1 = {};
@@ -2475,15 +2461,13 @@ sap.ui.define([
 							oAPINV.DocType = "dDocument_Service";
 							oAPINV.Comments = APRemarks;
 							oAPINV.U_APP_RETTranstype = 5;
+							oAPINV.U_APP_IsForRetention = "Y";
 
 							oAPINV.DocumentLines = [];
 
 							oAPINVlines1.BaseType = 20;
 							oAPINVlines1.BaseEntry = GRPODocEntry;
 							oAPINVlines1.BaseLine = 0;
-							// oAPINVlines1.Price = 0;
-							// oAPINVlines1.PriceAfterVAT = 0;
-							// oAPINVlines1.UnitPrice = this.DTRetention.getData().DetailesRetention[0].NetProgress;
 							oAPINVlines1.U_APP_RtnRowType = "C";
 
 							oAPINV.DocumentLines.push(oAPINVlines1);
@@ -2494,7 +2478,7 @@ sap.ui.define([
 
 							oAPINV.WithholdingTaxDataCollection.push(oAPINVWTlines);
 
-
+							//Posting AP Invoice in SAP
 							$.ajax({
 								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
@@ -2507,17 +2491,15 @@ sap.ui.define([
 									sap.m.MessageToast.show(Message);
 								},
 								context: this,
-								success: function (json) {
-									// sap.m.MessageToast.show("Added Successfully");
-								}
+								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
 								}
 		
-							}); 
+						// 	}); 
 
-						}
+						// }
 
 					});
 
@@ -2525,6 +2507,7 @@ sap.ui.define([
 			});
 
 		},
+		// To get the Remainin Progress Billing Rate
 		oGetRemainingPrograte: function (oDocEntry) {
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
@@ -2555,18 +2538,26 @@ sap.ui.define([
 						var soProg_Rate = ProgressRate - this.oModelPrograte.getData().Rate.ProgRate;
 						var soProg_Rate1 = this.oModelPrograte.getData().Rate.ProgRate + soProg_Rate;
 
-						if (soProg_Rate1 > 100) {
-							MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
-							this.getView().byId("ProgBill").setValue("");
-							this.DeleteDetailes();
-						} else if (soProg_Rate === 100) {
-							MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
-							this.getView().byId("ProgBill").setValue("");
-							this.DeleteDetailes();
-						} else if ( this.oModelPrograte.getData().Rate.ProgRate === soProg_Rate1 ){
-							MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
-							this.getView().byId("ProgBill").setValue("");
-							this.DeleteDetailes();
+						if (progRate !== "" ){
+
+							if (soProg_Rate1 > 100) {
+								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
+								this.getView().byId("ProgBill").setValue("");
+								this.DeleteDetailes();
+							} else if (soProg_Rate === 100) {
+								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
+								this.getView().byId("ProgBill").setValue("");
+								this.DeleteDetailes();
+							} else if ( this.oModelPrograte.getData().Rate.ProgRate === soProg_Rate1 ){
+								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
+								this.getView().byId("ProgBill").setValue("");
+								this.DeleteDetailes();
+							} else if ( soProg_Rate1 < this.oModelPrograte.getData().Rate.ProgRate ){
+								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
+								this.getView().byId("ProgBill").setValue("");
+								this.DeleteDetailes();
+							}
+
 						}
 
 					} else {
@@ -2581,6 +2572,7 @@ sap.ui.define([
 
 			});
 		},
+		// For Filtering Grid Table
 		oFilterValue: function (oEvent) {
 
 			var value = oEvent.mParameters.column.sId;
@@ -2640,7 +2632,6 @@ sap.ui.define([
 			}
 
 		},
-
 		oGetFilterValues: function (queryTag, oValue) {
 
 			this.oModelOpenPO = new JSONModel();
@@ -2666,7 +2657,7 @@ sap.ui.define([
 			});
 
 		},
-
+		//For Refresh
 		onRefresh: function () {
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 

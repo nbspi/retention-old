@@ -14,6 +14,7 @@ sap.ui.define([
 	_data : {
 		"number" : ""
 	},
+	// Contract Amount Value
 	ContractAmount: function (){
 
 		var oContractValue = this.byId("CntAmount").getValue();
@@ -21,7 +22,6 @@ sap.ui.define([
 		this.POData.refresh();
 		
 	},
-
     onInit: function () {
 
 			//Getting Data From LoginView
@@ -48,17 +48,20 @@ sap.ui.define([
 			this.DraftNumber = "";
 			this.PurchaseAdd = "";
 			this.CardName = "";
+			this.CardCode = "";
 			this.oGetTransactionNumber();
 
 
-		},
-		handleSearchBP: function (oEvent) {
+	},
+	//BP Search Fragment
+	handleSearchBP: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter("CardCode", FilterOperator.Contains, sValue);
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter([oFilter]);
-		},
-		handleValueHelpCloseBatch: function (oEvent) {
+	},
+	//BP Close Fragment
+	handleValueHelpCloseBatch: function (oEvent) {
 			var aContexts = oEvent.getParameter("selectedContexts");
 			var CardDetails = {};
 			if (aContexts && aContexts.length) {
@@ -71,12 +74,13 @@ sap.ui.define([
 				});
 			}
 			oEvent.getSource().getBinding("items").filter([]);
-			this.getView().byId("BPCode").setValue(CardDetails[0].CardCode);
+			this.getView().byId("BPCode").setValue(CardDetails[0].CardName);
 			this.CardName = CardDetails[0].CardName;
+			this.CardCode = CardDetails[0].CardCode;
 			this.oGetTransactionNumber();
-		},
-		///BP LIST FROM FRAGMENT
-		handleValueBPMaster: function () {
+	},
+	///BP LIST FROM FRAGMENT
+	handleValueBPMaster: function () {
 			if (!this._oValueHelpDialogs) {
 				Fragment.load({
 					name: "com.apptech.app-retention.view.fragments.BPMasterFragment",
@@ -91,8 +95,9 @@ sap.ui.define([
 				this._configValueHelpDialogs();
 				this._oValueHelpDialogs.open();
 			}
-		},
-		_configValueHelpDialogs: function () {
+	},
+	//BP Fragment Dialog Configuration
+	_configValueHelpDialogs: function () {
 			var Database = this.Database;
 			var sInputValue = this.byId("BPCode").getValue();
 			if (this.oMdlAllBP.getData().allbp.length <= 0) {
@@ -123,15 +128,14 @@ sap.ui.define([
 			aList.forEach(function (oRecord) {
 				oRecord.selected = (oRecord.CardCode === sInputValue);
 			});
-		},
-		onSave: function () {
-
-			// PURCHASE ORDER POSTING
+	},
+	//Posting Purchase Order in SAP
+	onSave: function () {
 
 			var oDatabase = this.Database;
 			this.PurchaseAdd = "1";
 
-			var Vendor = this.getView().byId("BPCode").getValue();
+			var Vendor = this.CardCode;
 			var ContractAmount = this.getView().byId("CntAmount").getValue();
 			var Retention = this.POData.getData().POCreation.Retention;
 			var PostingDate = this.getView().byId("DateFrom").getValue();
@@ -183,7 +187,7 @@ sap.ui.define([
 
 					oPO.Comments = Remarks;
 					
-
+					//Posting of PO in SAP
 					$.ajax({
 						url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
 						data: JSON.stringify(oPO),
@@ -253,8 +257,9 @@ sap.ui.define([
 				}
 			}
 
-		},
-		onDraft: function () {
+	},
+	// Posting Draft
+	onDraft: function () {
 
 			var oDraft = {};
 			var Vendor = this.getView().byId("BPCode").getValue();
@@ -271,7 +276,8 @@ sap.ui.define([
 
 				oDraft.Code = Code;
 				oDraft.Name = Code;
-				oDraft.U_App_Vendor = this.oMdlAllBP.getData().allbp.Vendor;
+				oDraft.U_App_Vendor = this.CardCode;
+				oDraft.U_App_VendorName = this.oMdlAllBP.getData().allbp.Vendor;
 				oDraft.U_App_TranNum = this.byId("Docnum").getValue();
 				oDraft.U_App_Retention = this.POData.getData().POCreation.Retention;
 				oDraft.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
@@ -286,7 +292,8 @@ sap.ui.define([
 				if (this.PurchaseAdd === "1"){
 					oDraft.U_App_Status = "Y";
 				}
-	
+				
+				//Postinf Draft in SAP
 				$.ajax({
 					url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR",
 					data: JSON.stringify(oDraft),
@@ -317,8 +324,9 @@ sap.ui.define([
 			}
 
 			this.DeleteData();
-		},
-		DeleteData: function () {
+	},
+	//Delete Data
+	DeleteData: function () {
 			this.byId("BPCode").setValue("");
 			this.POData.getData().POCreation.Retention = "";
 			this.POData.getData().POCreation.PostingDate = "";
@@ -328,11 +336,13 @@ sap.ui.define([
 			this.byId("CntAmount").setValue("");
 			this.getView().byId("TextArea").setValue("");
 			this.POData.refresh();
-		},
-		generateUDTCode: function (docType) {
+	},
+	//To get UDT Code
+	generateUDTCode: function (docType) {
 
 			var generatedCode = "";
 
+			//To Get Code for UDT
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
 				type: "GET",
@@ -355,8 +365,9 @@ sap.ui.define([
 				}
 			});
 			return generatedCode;
-		},
-		oGetTransactionNumber: function () {
+	},
+	//To get Transaction Number	
+	oGetTransactionNumber: function () {
 
 			var oDatabase = this.Database;
 
@@ -380,12 +391,13 @@ sap.ui.define([
 					this.POData.refresh();
 				}
 			});
-		},
-		getTodaysDate: function () {
+	},
+	//To get Date Today
+	getTodaysDate: function () {
 			var today = new Date();
 			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 			return date;
-		},
+	},
 
   });
 });
