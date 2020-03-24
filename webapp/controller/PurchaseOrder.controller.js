@@ -24,6 +24,9 @@ sap.ui.define([
 	},
     onInit: function () {
 
+			var oModel = new JSONModel(this._data);
+			this.getView().setModel(oModel);
+
 			//Getting Data From LoginView
 			this.Database = jQuery.sap.storage.get("Database");
 			this.UserNmae = jQuery.sap.storage.get("Usename");

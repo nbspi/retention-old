@@ -77,7 +77,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Label>
 										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
-											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier" liveChange="ContractAmount"  >
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
