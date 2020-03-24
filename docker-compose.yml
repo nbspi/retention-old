@@ -11,7 +11,7 @@ services:
             - ./:/usr/scr/app
             - app_retention_node_modules:/usr/src/app/node_modules
         ports:
-            - 8011:80
+            - 8082:80
 
 volumes:
     app_retention_node_modules:
