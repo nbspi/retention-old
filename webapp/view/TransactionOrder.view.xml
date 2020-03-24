@@ -67,6 +67,7 @@ xmlns:t="sap.ui.table">
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
+								<Button id="btn1" text="Update" tooltip="Add" press="onDraft" icon="sap-icon://add"/>
 								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
