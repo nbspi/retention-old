@@ -75,6 +75,7 @@ sap.ui.define([
 				this.ColType = "";
 				this.PoCount = "";
 				this.FinalBillingRate = "";
+				this.FinCWIP = "";
 				this.POSelects = this.getView().byId("selectRecordGroup").getSelectedKey();
 		},
 		IconTabSelect: function () {
@@ -706,6 +707,7 @@ sap.ui.define([
 				var oTotal5 = Number([oToTal]);
 				var oTotal4 = oTotal5.toFixed(2);
 
+
 				this.DTRetention.getData().DetailesRetention[0].GrossAmount = oTotal4;
 				this.DTRetention.refresh();
 
@@ -904,6 +906,7 @@ sap.ui.define([
 					var oCount = oProgresBill / 100;
 					var oToTal = ProgressBill * oCount;
 					var oTotal4 = oToTal.toFixed(2);
+					this.FinCWIP = oTotal4;
 					this.DTRetention.getData().DetailesRetention[0].GrossAmount = oTotal4;
 					this.DTRetention.refresh();
 
@@ -993,7 +996,6 @@ sap.ui.define([
 							if (this.POCount !== "1"){
 								this.DTRetention.getData().DetailesRetention[0].ProratedRetention = oProrated;
 								this.DTRetention.refresh();
-								this.POCount = "";
 							}
 
 
@@ -1242,19 +1244,20 @@ sap.ui.define([
 
 											// var All_Subsequent_CWIP = this.SubBillingCWIP.getData().Total.Price;
 
+
 											var oDowPaymentTotal = DPDocTotal;
 											var oFirstBilling_CWIP = this.FirstBilling_CWIP;
 											var AllSub_CWIP = this.All_Subsequent_CWIP;
 											var PoDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
 											var Retention_Amount = this.oModelPurchase.getData().POFields.Price;
 
-											// var fCWIP1 = PoDocTotal - oDowPaymentTotal;
-											// var fCWIP2 = fCWIP1 - oFirstBilling_CWIP;
-											// var fCWIP3 = fCWIP2 - AllSub_CWIP;
-											// var oTotalCWIP = fCWIP3 + Retention_Amount;
 
-											var fCWIP1 = PoDocTotal - oFirstBilling_CWIP;
-											var oTotalCWIP = fCWIP1 - AllSub_CWIP;
+											if(this.POCount === "1"){
+												var oTotalCWIP = this.FinCWIP;
+											}else{
+												var fCWIP1 = PoDocTotal - oFirstBilling_CWIP;
+												var oTotalCWIP = fCWIP1 - AllSub_CWIP;
+											}
 
 											this.DTRetention.getData().DetailesRetention[0].CWIP = oTotalCWIP;
 											this.DTRetention.refresh();
@@ -1263,16 +1266,38 @@ sap.ui.define([
 
 											if (TaxType === "0") {
 
-												var PO_DocTotal = PoDocTotal;
-												var ALL_CWIP = oFirstBilling_CWIP + AllSub_CWIP;
-												var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
-												var sGrossCount = sWTHTaxRate / 100;
+												if(this.POCount === "1"){
 
-												var FWTX1 = PO_DocTotal - ALL_CWIP;
-												var FWTX2 = FWTX1 / 1.12;
-												var FWTX3 = FWTX2 * sGrossCount;
+													var GrossAmount = this.FinCWIP;
+													var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+													var sGrossCount = sWTHTaxRate / 100;
 
-												var FTotalFWTX = FWTX3.toFixed(2);
+													// var PO_DocTotal = PoDocTotal;
+													// var ALL_CWIP = this.FinCWIP;
+													// var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+													// var sGrossCount = sWTHTaxRate / 100;
+	
+													// var FWTX1 = PO_DocTotal - ALL_CWIP;
+													var FWTX2 = GrossAmount / 1.12;
+													var FWTX3 = FWTX2 * sGrossCount;
+	
+													var FTotalFWTX = FWTX3.toFixed(2);
+
+												}else {
+
+													var PO_DocTotal = PoDocTotal;
+													var ALL_CWIP = oFirstBilling_CWIP + AllSub_CWIP;
+													var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+													var sGrossCount = sWTHTaxRate / 100;
+	
+													var FWTX1 = PO_DocTotal - ALL_CWIP;
+													var FWTX2 = FWTX1 / 1.12;
+													var FWTX3 = FWTX2 * sGrossCount;
+	
+													var FTotalFWTX = FWTX3.toFixed(2);
+
+												}
+
 
 												this.DTRetention.getData().DetailesRetention[0].WTX = FTotalFWTX;
 												this.DTRetention.refresh();
@@ -1707,6 +1732,11 @@ sap.ui.define([
 						this.onSavingSubsequentBilling();
 					} else if (ProgType === "3") {
 						this.onSavingFinalBilling();
+
+						if (this.POCount === "1"){
+							this.onSave();
+						}
+
 					} else if (ProgType === "4") {
 						this.onSavingRetention();
 						this.Tag = "0";
@@ -2164,13 +2194,27 @@ sap.ui.define([
 			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
 			oFGRPO.DocumentLines = [];
 
-			oFGRPOLines.BaseLine = 0;
-			oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
-			oFGRPOLines.BaseType = 22;
-			oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
-			oFGRPOLines.VatGroup = "IVAT-EXC";
-			oFGRPOLines.U_APP_RtnRowType = "C";
-			oFGRPOLines.WTLiable = "tNO";
+			if (this.POCount === "1"){
+
+				oFGRPOLines.BaseLine = 0;
+				oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
+				oFGRPOLines.BaseType = 22;
+				oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+				oFGRPOLines.VatGroup = "IVAT-EXC";
+				oFGRPOLines.U_APP_RtnRowType = "C";
+				oFGRPOLines.WTLiable = "tNO";
+
+			} else {
+
+				oFGRPOLines.BaseLine = 0;
+				oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
+				oFGRPOLines.BaseType = 22;
+				oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+				oFGRPOLines.VatGroup = "IVAT-EXC";
+				oFGRPOLines.U_APP_RtnRowType = "C";
+				oFGRPOLines.WTLiable = "tNO";
+
+			}
 
 			oFGRPO.DocumentLines.push(oFGRPOLines);
 
@@ -2248,41 +2292,58 @@ sap.ui.define([
 							var oAPINVlines2 = {};
 							var oAPINVWTlines = {};
 
-							oAPINV.CardCode = INVGRPOCardCode;
-							oAPINV.DocType = "dDocument_Service";
-							oAPINV.Comments = APRemarks;
-							oAPINV.U_APP_RETTranstype = 4;
-							oAPINV.U_APP_CWIP = nCWIP;
-							oAPINV.U_APP_GrossAmount = nGrossAmount;
-							oAPINV.U_APP_WTX = nWTX;
-							oAPINV.U_APP_ProratedDP = nProratedDP;
-							oAPINV.U_APP_ProRetention = nProRetention;
-							oAPINV.U_APP_ProgBillAmount = nProgBill;
+								oAPINV.CardCode = INVGRPOCardCode;
+								oAPINV.DocType = "dDocument_Service";
+								oAPINV.Comments = APRemarks;
+								oAPINV.U_APP_RETTranstype = 4;
+								oAPINV.U_APP_CWIP = nCWIP;
+								oAPINV.U_APP_GrossAmount = nGrossAmount;
+								oAPINV.U_APP_WTX = nWTX;
+								oAPINV.U_APP_ProratedDP = nProratedDP;
+								oAPINV.U_APP_ProRetention = nProRetention;
+								oAPINV.U_APP_ProgBillAmount = nProgBill;
+	
+								oAPINV.DocumentLines = [];
 
-							oAPINV.DocumentLines = [];
+								
+							if (this.POCount === "1"){
 
-							oAPINVlines1.BaseType = 20;
-							oAPINVlines1.BaseEntry = GRPODocEntry;
-							oAPINVlines1.BaseLine = 0;
-							oAPINVlines1.Price = 0;
-							oAPINVlines1.PriceAfterVAT = 0;
-							oAPINVlines1.UnitPrice = APUnitPrice;
-							oAPINVlines1.U_APP_RtnRowType = "C";
+								oAPINVlines1.BaseType = 20;
+								oAPINVlines1.BaseEntry = GRPODocEntry;
+								oAPINVlines1.BaseLine = 0;
+								oAPINVlines1.Price = 0;
+								oAPINVlines1.PriceAfterVAT = 0;
+								oAPINVlines1.UnitPrice = nGrossAmount;
+								oAPINVlines1.U_APP_RtnRowType = "C";
+	
+								oAPINV.DocumentLines.push(oAPINVlines1);
 
-							oAPINV.DocumentLines.push(oAPINVlines1);
+							}else{
+	
+								oAPINVlines1.BaseType = 20;
+								oAPINVlines1.BaseEntry = GRPODocEntry;
+								oAPINVlines1.BaseLine = 0;
+								oAPINVlines1.Price = 0;
+								oAPINVlines1.PriceAfterVAT = 0;
+								oAPINVlines1.UnitPrice = APUnitPrice;
+								oAPINVlines1.U_APP_RtnRowType = "C";
+	
+								oAPINV.DocumentLines.push(oAPINVlines1);
+	
+								oAPINVlines2.BaseType = "";
+								oAPINVlines2.BaseEntry = "";
+								oAPINVlines2.BaseLine = "";
+								oAPINVlines2.AccountCode = oGlAccount;
+								oAPINVlines2.Price = 0;
+								oAPINVlines2.PriceAfterVAT = 0;
+								var UnitPrice = -1 * oPrice;
+								oAPINVlines2.UnitPrice = UnitPrice;
+								oAPINVlines2.VatGroup = "IVAT-EXC";
+								oAPINVlines2.U_APP_RtnRowType = "R";
+	
+								oAPINV.DocumentLines.push(oAPINVlines2);
 
-							oAPINVlines2.BaseType = "";
-							oAPINVlines2.BaseEntry = "";
-							oAPINVlines2.BaseLine = "";
-							oAPINVlines2.AccountCode = oGlAccount;
-							oAPINVlines2.Price = 0;
-							oAPINVlines2.PriceAfterVAT = 0;
-							var UnitPrice = -1 * oPrice;
-							oAPINVlines2.UnitPrice = UnitPrice;
-							oAPINVlines2.VatGroup = "IVAT-EXC";
-							oAPINVlines2.U_APP_RtnRowType = "R";
-
-							oAPINV.DocumentLines.push(oAPINVlines2);
+							}
 
 							oAPINV.WithholdingTaxDataCollection = [];
 							oAPINVWTlines.WTCode = APWTCode;
@@ -2520,6 +2581,115 @@ sap.ui.define([
 
 			});
 		},
+		oFilterValue: function (oEvent) {
+
+			var value = oEvent.mParameters.column.sId;
+			var oVAlue1 = oEvent.mParameters.value;
+			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
+
+			if (oVAlue1 !== "") {
+
+				if (value === "__xmlview3--colVendor" || value === "__xmlview2--colVendor" || value === "__xmlview1--colVendor") {
+					if (PoStatus === "0") {
+						this.eNableAllFields("1");
+						this.oGetFilterValues("oDownPaymentFilterCardName", oVAlue1);
+					} else if (PoStatus === "1") {
+						this.eNableAllFields("1");
+						this.oGetFilterValues("oDownPaymentNPdFilterCardName", oVAlue1);
+					} else if (PoStatus === "2") {
+						this.eNableAllFields("0");
+						this.oGetFilterValues("getFilterPOwithAPDPCardName", oVAlue1);
+					} else if (PoStatus === "3") {
+						this.eNableAllFields("0");
+						this.oGetFilterValues("getFilterFirstBillingCardName", oVAlue1);
+					} else if (PoStatus === "4") {
+						this.oGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
+					} else if (PoStatus === "5") {
+						this.oGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
+					} else if (PoStatus === "6") {
+						this.oGetFilterValues("getFilterCompleteTransactionCardName", oVAlue1);
+					} else if (PoStatus === "7") {
+						this.oGetFilterValues("getFilterRetentionBillingCardName", oVAlue1);
+					}			
+				} else if (value === "__xmlview3--colDoc" || value === "__xmlview2--colDoc" || value === "__xmlview1--colDoc") {
+					if (PoStatus === "0") {
+						this.eNableAllFields("1");
+						this.oGetFilterValues("oDownPaymentFilterDocNum", oVAlue1);
+					} else if (PoStatus === "1") {
+						this.eNableAllFields("1");
+						this.oGetFilterValues("oDownPaymentNPdFilterDocNum", oVAlue1);
+					} else if (PoStatus === "2") {
+						this.eNableAllFields("0");
+						this.oGetFilterValues("getFilterPOwithAPDPDocNum", oVAlue1);
+					} else if (PoStatus === "3") {
+						this.oGetFilterValues("getFilterFirstBillingDocNum", oVAlue1);
+					} else if (PoStatus === "4") {
+						this.oGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
+					} else if (PoStatus === "5") {
+						this.oGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
+					} else if (PoStatus === "6") {
+						this.oGetFilterValues("getFilterCompleteTransactionDocNum", oVAlue1);
+					} else if (PoStatus === "7") {
+						this.oGetFilterValues("getFilterRetentionBillingDocNum", oVAlue1);
+					}	
+				} else {
+					this.onRefresh();
+				}
+			} else {
+				this.onRefresh();
+			}
+
+		},
+
+		oGetFilterValues: function (queryTag, oValue) {
+
+			this.oModelOpenPO = new JSONModel();
+			$.ajax({
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+					"&value1=" + oValue + "&value2=&value3=&value4=",
+					type: "GET",
+					dataType: "json",
+				  beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			  	},
+					error: function (xhr, status, error) {
+						// var Message = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(error);
+					},
+					success: function (json) {},
+					context: this
+			}).done(function (results) {
+				if (results) {
+					this.oModelOpenPO.setJSON("{\"allbp\" : " + JSON.stringify(results) + "}");
+					this.getView().setModel(this.oModelOpenPO, "oModelOpenPO");
+				}
+			});
+
+		},
+
+		onRefresh: function () {
+			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
+
+			if (PoStatus === "0") {
+				this.oFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+			} else if (PoStatus === "1") {
+				this.oFilterPurchaseOrderTransaction("getDPwthOP");
+			} else if (PoStatus === "2") {
+				this.oFilterPurchaseOrderTransaction("getPOwithAPDP");
+			} else if (PoStatus === "3") {
+				this.oFilterPurchaseOrderTransaction("getFirstBilling");
+			} else if (PoStatus === "4") {
+				this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
+			} else if (PoStatus === "5") {
+				this.oFilterPurchaseOrderTransaction("getFinalBilling");
+			} else if (PoStatus === "6") {
+				this.oFilterPurchaseOrderTransaction("getCompleteTransaction");
+			} else if (PoStatus === "7") {
+				this.oFilterPurchaseOrderTransaction("getRetentionBilling");
+			}
+			this.DeleteData();
+			this.DeleteDetailes();
+		}
 
   });
 });
