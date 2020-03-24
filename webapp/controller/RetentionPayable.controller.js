@@ -74,6 +74,7 @@ sap.ui.define([
 				this.oSCode = "";
 				this.ColType = "";
 				this.PoCount = "";
+				this.FinalBillingRate = "";
 				this.POSelects = this.getView().byId("selectRecordGroup").getSelectedKey();
 		},
 		IconTabSelect: function () {
@@ -94,14 +95,18 @@ sap.ui.define([
 
 			var iIndex = this.oTable.getSelectedIndex();
 			var sCode = "";
+			var Rent = "";
+			var RentTotal = "";
 
 			var oRowSelected = that.oTable.getBinding().getModel().getData().allbp[that.oTable.getBinding().aIndices[iIndex]];
 			this.STatus = oRowSelected.DocStatus;
 			this.oSCode = oRowSelected.DocEntry;
 			this.POCount = oRowSelected.POCount; 
-			var POType = oRowSelected.POCount;
-			if (POType === "2") {
+			// var POType = oRowSelected.POCount;
+			if (this.POCount === "2") {
 				this.ColType = "R";
+				Rent = 	oRowSelected.DocTotal * 0.1;
+				RentTotal = Number([Rent]);
 			} else {
 				this.ColType = "C";
 			}
@@ -193,8 +198,8 @@ sap.ui.define([
 					this.getView().byId("TaxType").setEnabled(false);
 					this.ProgressBIll();
 
-					this.DTRetention.getData().DetailesRetention[0].GrossAmount = this.oModelPurchase.getData().POFields.Price;
-					this.DTRetention.getData().DetailesRetention[0].NetProgress = this.oModelPurchase.getData().POFields.Price;
+					this.DTRetention.getData().DetailesRetention[0].GrossAmount = RentTotal;
+					this.DTRetention.getData().DetailesRetention[0].NetProgress = RentTotal;
 					this.DTRetention.refresh();
 
 				}
@@ -864,6 +869,7 @@ sap.ui.define([
 		ProgressBIll: function () {
 
 			var oValue = this.getView().byId("ProgBill").getValue();
+			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 			if (oValue === "") {
 				this.DeleteDetailes();
@@ -890,7 +896,11 @@ sap.ui.define([
 
 					// COMPUTATION FOR GROSS AMOUNT
 					var ProgressBill = this.oModelPurchase.getData().POFields.DocTotal;
-					var oProgresBill = this.getView().byId("ProgBill").getValue();
+					if (PoStatus === "5") {
+						var oProgresBill = this.FinalBillingRate;
+					}else{
+						var oProgresBill = this.getView().byId("ProgBill").getValue();	
+					}
 					var oCount = oProgresBill / 100;
 					var oToTal = ProgressBill * oCount;
 					var oTotal4 = oToTal.toFixed(2);
@@ -1698,15 +1708,15 @@ sap.ui.define([
 					} else if (ProgType === "3") {
 						this.onSavingFinalBilling();
 					} else if (ProgType === "4") {
-						// this.onSavingRetention();
-						// this.Tag = "0";
+						this.onSavingRetention();
+						this.Tag = "0";
 
-						// if (this.STatus !== "Draft") {
-						// 	this.onSave();
-						// }
+						if (this.STatus !== "Draft") {
+							this.onSave();
+						}
 
-						// this.DeleteData();
-						// this.DeleteDetailes();
+						this.DeleteData();
+						this.DeleteDetailes();
 
 					}
 
@@ -1776,7 +1786,7 @@ sap.ui.define([
 				},
 				context: this,
 				success: function (json) {
-					sap.m.MessageToast.show("Added Successfully");
+					// sap.m.MessageToast.show("Added Successfully");
 				}
 			}).done(function (results) {
 				if (results) {
@@ -1933,12 +1943,11 @@ sap.ui.define([
 								},
 								context: this,
 								success: function (json) {
-									sap.m.MessageToast.show("Added Successfully");
+									// sap.m.MessageToast.show("Added Successfully");
 								}
 							}).done(function (results) {
 								if (results) {
-									sap.m.MessageToast.show("Added Successfully");
-									this.onDraft();
+									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
 								}
 		
 							}); 
@@ -2092,7 +2101,7 @@ sap.ui.define([
 								},
 								context: this,
 								success: function (json) {
-									sap.m.MessageToast.show("Added Successfully");
+									// sap.m.MessageToast.show("Added Successfully");
 								}
 							}).done(function (results) {
 								if (results) {
@@ -2294,12 +2303,11 @@ sap.ui.define([
 								},
 								context: this,
 								success: function (json) {
-									sap.m.MessageToast.show("Added Successfully");
+									// sap.m.MessageToast.show("Added Successfully");
 								}
 							}).done(function (results) {
 								if (results) {
-									sap.m.MessageToast.show("Added Successfully");
-									this.onDraft();
+									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
 								}
 		
 							}); 
@@ -2312,6 +2320,149 @@ sap.ui.define([
 			});
 
 			this.DeleteData();
+		},
+		onSavingRetention: function () {
+
+			var oDatabase = this.Database;
+
+			// ADDING GRPO
+			var oFGRPO = {};
+			var oFGRPOLines = {};
+
+			var GRPOCardCode = this.oModelPurchase.getData().POFields.CardCode;
+			var oPrice = this.oModelPurchase.getData().POFields.Price;
+			var oGlAccount = this.oModelPurchase.getData().POFields.AcctCode;
+
+			oFGRPO.CardCode = GRPOCardCode;
+			oFGRPO.DocType = "dDocument_Service";
+			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
+			oFGRPO.U_APP_RETTranstype = 5;
+			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
+			oFGRPO.DocumentLines = [];
+
+			oFGRPOLines.BaseLine = 1;
+			oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
+			oFGRPOLines.BaseType = 22;
+			oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			oFGRPOLines.VatGroup = "IVAT-EXC";
+			oFGRPOLines.U_APP_RtnRowType = "C";
+			oFGRPOLines.WTLiable = "tNO";
+
+			oFGRPO.DocumentLines.push(oFGRPOLines);
+
+			var PoDocEntry = this.oModelPurchase.getData().POFields.DocEntry;
+			var INVGRPOCardCode = this.oModelPurchase.getData().POFields.CardCode;
+			var APWTCode = this.oModelPurchase.getData().POFields.WTCode;
+			var APRemarks = this.getView().byId("TextArea").getValue();
+			var APUnitPrice = this.DTRetention.getData().DetailesRetention[0].CWIP;
+			var APWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
+
+			$.ajax({
+
+				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
+				data: JSON.stringify(oFGRPO),
+				type: "POST",
+				xhrFields: {
+					withCredentials: true
+				},
+				error: function (xhr, status, error) {
+					var Message = xhr.responseJSON["error"].message.value;
+					sap.m.MessageToast.show(Message);
+				},
+				context: this,
+				success: function (json) {
+					// sap.m.MessageToast.show("Added Successfully");
+				}
+			}).done(function (results) {
+				if (results) {
+					// ADDING A/P INVOICE
+
+					var GRPODocEntry = results.DocEntry;
+
+					this.oModelAPINV = new JSONModel();
+					$.ajax({
+						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
+							PoDocEntry + "&value2=&value3=&value4=",
+							type: "GET",
+							async: false,
+							beforeSend: function (xhr) {
+								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+							  },
+			
+							error: function (xhr, status, error) {
+								jQuery.sap.log.error("This should never have happened!");
+							},
+							success: function (json) {
+								// generatedCode = json[0][""];
+			
+							},
+							context: this
+					}).done(function (FirstProgress) {
+						if (FirstProgress) {
+
+							var DpDocEntry = FirstProgress[0].DocEntry;
+							var DpDocNum = FirstProgress[0].DocNum;
+							var DPDocTotal = FirstProgress[0].DocTotal;
+
+							var oAPINV = {};
+							var oAPINVlines1 = {};
+							var oAPINVlines2 = {};
+							var oAPINVWTlines = {};
+
+							oAPINV.CardCode = INVGRPOCardCode;
+							oAPINV.DocType = "dDocument_Service";
+							oAPINV.Comments = APRemarks;
+							oAPINV.U_APP_RETTranstype = 5;
+
+							oAPINV.DocumentLines = [];
+
+							oAPINVlines1.BaseType = 20;
+							oAPINVlines1.BaseEntry = GRPODocEntry;
+							oAPINVlines1.BaseLine = 0;
+							// oAPINVlines1.Price = 0;
+							// oAPINVlines1.PriceAfterVAT = 0;
+							// oAPINVlines1.UnitPrice = this.DTRetention.getData().DetailesRetention[0].NetProgress;
+							oAPINVlines1.U_APP_RtnRowType = "C";
+
+							oAPINV.DocumentLines.push(oAPINVlines1);
+
+							oAPINV.WithholdingTaxDataCollection = [];
+							oAPINVWTlines.WTCode = APWTCode;
+							oAPINVWTlines.WTAmount = 0;
+
+							oAPINV.WithholdingTaxDataCollection.push(oAPINVWTlines);
+
+
+							$.ajax({
+								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
+								data: JSON.stringify(oAPINV),
+								type: "POST",
+								xhrFields: {
+									withCredentials: true
+								},
+								error: function (xhr, status, error) {
+									var Message = xhr.responseJSON["error"].message.value;
+									sap.m.MessageToast.show(Message);
+								},
+								context: this,
+								success: function (json) {
+									// sap.m.MessageToast.show("Added Successfully");
+								}
+							}).done(function (results) {
+								if (results) {
+									sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
+								}
+		
+							}); 
+
+						}
+
+					});
+
+				}
+			});
+
 		},
 		oGetRemainingPrograte: function (oDocEntry) {
 			$.ajax({
@@ -2360,7 +2511,8 @@ sap.ui.define([
 					} else {
 						var Prog_Rate = this.oModelPrograte.getData().Rate.ProgRate;
 						var Available_Rate = 100 - Prog_Rate;
-						this.getView().byId("ProgBill").setValue(Available_Rate);
+						this.getView().byId("ProgBill").setValue("100");
+						this.FinalBillingRate = Available_Rate;
 						this.ProgressBIll();
 					}
 
