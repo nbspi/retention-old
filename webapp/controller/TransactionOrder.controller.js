@@ -5,8 +5,9 @@ sap.ui.define([
 	"sap/ui/core/Fragment",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"sap/ui/core/BusyIndicator"
+], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator,		BusyIndicator) {
 	"use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.TransactionOrder", {
@@ -375,9 +376,7 @@ sap.ui.define([
 	},
 	//Purchase Order Posting
 	onSave: function () {
-
-		// PURCHASE ORDER POSTING
-
+		this.showBusyIndicator(4000, 0);
 		var oDatabase = this.Database;
 
 		var Vendor = this.VendorCode;
@@ -388,6 +387,7 @@ sap.ui.define([
 
 		if (Vendor === "") {
 			sap.m.MessageToast.show("Input Data First");
+			this.hideBusyIndicator();
 			this.DeleteData();
 		} else {
 
@@ -449,6 +449,8 @@ sap.ui.define([
 						if (this.oPOStatus === "Draft") {
 							this.oUPdate();
 						}
+						this.hideBusyIndicator();
+
 					}
 
 				});
@@ -531,18 +533,19 @@ sap.ui.define([
 			},
 			context: this,
 			success: function (json) {
-				// sap.m.MessageToast.show("Added Successfully");
+				this.hideBusyIndicator();
 			}
 		}).done(function (results1) {
 			if (results1) {
 				this.DraftCode = "";
+				this.hideBusyIndicator();
 			}
 		});
 
 	},
 	// Updating Draft
 	onDraft: function () {
-
+		this.showBusyIndicator(4000, 0);
 		var oCode = this.DraftCode;
 
 		var oPo = {};
@@ -567,15 +570,15 @@ sap.ui.define([
 			error: function (xhr, status, error) {
 				var Message = xhr.responseJSON["error"].message.value;
 				sap.m.MessageToast.show(Message);
+				this.hideBusyIndicator();
 			},
 			context: this,
 			success: function (json) {
 				sap.m.MessageToast.show("Updated Successfully");
+				this.hideBusyIndicator();
 			}
 		}).done(function (results1) {
-			if (results1) {
-				sap.m.MessageToast.show("Updated Successfully");
-			}
+			//-------Success--------//
 		});
 		this.DeleteData();
 	},
@@ -637,7 +640,22 @@ sap.ui.define([
 			}
 		});
 
-	}
+	},
+	//Hide indicator function
+	hideBusyIndicator : function() {
+		BusyIndicator.hide();
+	},
+	//Show indicator Process
+	showBusyIndicator : function (iDuration, iDelay) {
+		BusyIndicator.show(iDelay);
+
+		if (iDuration && iDuration > 0) {
+			if (this._sTimeoutId) {
+				clearTimeout(this._sTimeoutId);
+				this._sTimeoutId = null;
+			}
+		}
+	},
 
   });
 });

@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/ui/core/BusyIndicator"
+], function (Controller, JSONModel, MessageToast,BusyIndicator) {
 	"use strict";
 
 	return Controller.extend("com.apptech.app-retention.controller.Login", {
@@ -21,7 +22,7 @@ sap.ui.define([
 		// ''--------------- LOGIN FUNCTION ---------------''
 
 		onLogin: function (oEvent) {
-
+			this.showBusyIndicator(4000, 0);
 			var sDBCompany = this.getView().byId("selectDatabase").getSelectedKey();
 			var oLoginCredentials = {};
 			oLoginCredentials.CompanyDB = sDBCompany;
@@ -36,12 +37,14 @@ sap.ui.define([
 					withCredentials: true
 				},
                 error: function (xhr, status, error) {
+					this.hideBusyIndicator();
                     MessageToast.show("Invalid Credentials");
                 },
                 context: this,
                 success: function (json) { }
             }).done(function (results) {
                 if (results) {
+					this.hideBusyIndicator();
 					sap.m.MessageToast.show("Welcome:" + this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
@@ -52,6 +55,20 @@ sap.ui.define([
 		    }); 
 
 
+		},
+		hideBusyIndicator : function() {
+			BusyIndicator.hide();
+		},
+
+		showBusyIndicator : function (iDuration, iDelay) {
+			BusyIndicator.show(iDelay);
+
+			if (iDuration && iDuration > 0) {
+				if (this._sTimeoutId) {
+					clearTimeout(this._sTimeoutId);
+					this._sTimeoutId = null;
+				}
+			}
 		},
 		//---- If Session is 30 mins Already 
 		hidePanelAgain: function (passedthis) {

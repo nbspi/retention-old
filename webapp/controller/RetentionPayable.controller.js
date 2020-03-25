@@ -4,8 +4,9 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function(MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"sap/ui/core/BusyIndicator"
+], function(MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator,BusyIndicator) {
   "use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.RetentionPayable", {
@@ -1293,6 +1294,7 @@ sap.ui.define([
 		},
 		//Saving and Getting Data  on Draft
 		onSave: function () {
+			this.showBusyIndicator(4000, 0);
 
 			//if PO has Draft..Get Data in UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
@@ -1449,14 +1451,17 @@ sap.ui.define([
 							var oTag = this.Tag;
 							if (oTag !== "0") {
 								sap.m.MessageToast.show("Save as Draft!");
+								this.hideBusyIndicator();
 								this.Tag = "";
 							}
 							this.Tag = "";
+							this.hideBusyIndicator();
 						}
 					});
 
 				} else {
 					sap.m.MessageToast.show("No Data to Post in SAP");
+					this.hideBusyIndicator();
 				}
 				this.DeleteData();
 			}
@@ -1672,6 +1677,8 @@ sap.ui.define([
 		//Saving Process in SAP
 		onAddingSAP: function () {
 
+			this.showBusyIndicator(4000, 0);
+
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
 			if (SupplierCode !== "") {
@@ -1703,6 +1710,8 @@ sap.ui.define([
 						if (this.POCount === "1"){
 							this.onSave();
 						}
+						this.DeleteData();
+						this.DeleteDetailes();
 					} else if (ProgType === "4") {
 						this.onSavingRetention();
 						this.Tag = "0";
@@ -1724,8 +1733,6 @@ sap.ui.define([
 		},
 		//Saving DownPayment in SAP
 		onSavingDownPayment: function () {
-
-			// var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
 			var oAPDown = {};
 			var oAPLines = {};
@@ -1779,12 +1786,14 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(Message);
+					this.hideBusyIndicator();
 				},
 				context: this,
 				success: function (json) {}
 			}).done(function (results) {
 				if (results) {
 					sap.m.MessageToast.show("DocNum #" + results.DocNum + " Added Successfully");
+					this.hideBusyIndicator();
 				}
 			});
 
@@ -1871,6 +1880,7 @@ sap.ui.define([
 						  },
 						error: function (xhr, status, error) {
 							MessageToast.show(error);
+							this.hideBusyIndicator();
 						},
 						success: function (json) {},
 						context: this
@@ -1936,12 +1946,14 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
+									this.hideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
+									this.hideBusyIndicator();
 								}
 		
 							}); 
@@ -2018,6 +2030,7 @@ sap.ui.define([
 						error: function (xhr, status, error) {
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
+							this.hideBusyIndicator();
 						},
 						context: this,
 						success: function (json) {}
@@ -2076,15 +2089,17 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
+									this.hideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 
-							// For Closing A/P Invoice
-							sap.m.MessageToast.show("DocNum #" + results.DocNum + "Added Successfully");
-										
+									sap.m.MessageToast.show("DocNum #" + results.DocNum + "Added Successfully");
+									this.hideBusyIndicator();	
+
+							// For Closing A/P Invoice	
 									this.oTransID = new JSONModel();
 									$.ajax({
 										url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
@@ -2095,6 +2110,7 @@ sap.ui.define([
 										error: function (xhr, status, error) {
 											var Message = xhr.resposeJSON.error.message.value;
 											sap.m.MessageToast.show(Message);
+											this.hideBusyIndicator();
 										},
 										success: function (json) {},
 										context: this
@@ -2102,6 +2118,7 @@ sap.ui.define([
 										if (oresults) {
 											this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]					", "") + "}");
 											this.getView().setModel(this.oTransID, "oTransID");
+											this.hideBusyIndicator();
 										}
 									});
 
@@ -2192,6 +2209,7 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
+						this.hideBusyIndicator();
 					},
 					context: this,
 					success: function (json) {}
@@ -2281,6 +2299,7 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
+									this.hideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {
@@ -2289,6 +2308,7 @@ sap.ui.define([
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
+									this.hideBusyIndicator();
 
 									// For Forced Close GRPO
 									this.oTransID = new JSONModel();
@@ -2301,8 +2321,11 @@ sap.ui.define([
 										error: function (xhr, status, error) {
 											var Message = xhr.resposeJSON.error.message.value;
 											sap.m.MessageToast.show(Message);
+											this.hideBusyIndicator();
 										},
-										success: function (json) {},
+										success: function (json) {
+											this.hideBusyIndicator();
+										},
 										context: this
 									}).done(function (oresults) {
 										if (oresults) {
@@ -2368,6 +2391,7 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(Message);
+					this.hideBusyIndicator();
 				},
 				context: this,
 				success: function (json) {}
@@ -2376,27 +2400,6 @@ sap.ui.define([
 
 
 					var GRPODocEntry = results.DocEntry;
-
-					// this.oModelAPINV = new JSONModel();
-					// $.ajax({
-					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
-					// 		PoDocEntry + "&value2=&value3=&value4=",
-					// 		type: "GET",
-					// 		async: false,
-					// 		beforeSend: function (xhr) {
-					// 			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-					// 		  },
-			
-					// 		error: function (xhr, status, error) {
-					// 			jQuery.sap.log.error("This should never have happened!");
-					// 		},
-					// 		success: function (json) {
-					// 			// generatedCode = json[0][""];
-			
-					// 		},
-					// 		context: this
-					// }).done(function (FirstProgress) {
-					// 	if (FirstProgress) {
 
 							var DpDocEntry = results.DocEntry;
 							var DpDocNum =   results.DocNum;
@@ -2439,17 +2442,15 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
+									this.hideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
+									this.hideBusyIndicator();
 								}
-		
-						// 	}); 
-
-						// }
 
 					});
 
@@ -2630,6 +2631,21 @@ sap.ui.define([
 			}
 			this.DeleteData();
 			this.DeleteDetailes();
+		},
+		//Hide indicator function
+		hideBusyIndicator : function() {
+			BusyIndicator.hide();
+		},
+		//Show indicator Process
+		showBusyIndicator : function (iDuration, iDelay) {
+			BusyIndicator.show(iDelay);
+
+			if (iDuration && iDuration > 0) {
+				if (this._sTimeoutId) {
+					clearTimeout(this._sTimeoutId);
+					this._sTimeoutId = null;
+				}
+			}
 		}
 
   });

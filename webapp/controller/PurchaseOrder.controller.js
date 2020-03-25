@@ -5,8 +5,9 @@ sap.ui.define([
 	"sap/ui/core/Fragment",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"sap/ui/core/BusyIndicator"
+], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator,BusyIndicator) {
 	"use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.PurchaseOrder", {
@@ -134,7 +135,7 @@ sap.ui.define([
 	},
 	//Posting Purchase Order in SAP
 	onSave: function () {
-
+			this.showBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
 			this.PurchaseAdd = "1";
 
@@ -147,9 +148,11 @@ sap.ui.define([
 
 			if (Vendor === "" ) {
 				sap.m.MessageToast.show("Input Data First");
+				this.hideBusyIndicator();
 				this.DeleteData();
 			} else if (ContractAmount === "0" || ContractAmount === "" ){
 				sap.m.MessageToast.show("Input Contract Amount");
+				this.hideBusyIndicator();
 				this.DeleteData();
 			}else {
 
@@ -199,11 +202,10 @@ sap.ui.define([
 						error: function (xhr, status, error) {
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
+							this.hideBusyIndicator();
 						},
 						context: this,
-						success: function (json) {
-							sap.m.MessageToast.show("Added Successfully");
-						}
+						success: function (json) {}
 					}).done(function (results) {
 						if (results) {
 							sap.m.MessageToast.show("Added Successfully");
@@ -242,11 +244,10 @@ sap.ui.define([
 						error: function (xhr, status, error) {
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
+							this.hideBusyIndicator();
 						},
 						context: this,
-						success: function (json) {
-							sap.m.MessageToast.show("Added Successfully");
-						}
+						success: function (json) {}
 					}).done(function (results) {
 						if (results) {
 							sap.m.MessageToast.show("Added Successfully");
@@ -261,7 +262,7 @@ sap.ui.define([
 	},
 	// Posting Draft
 	onDraft: function () {
-
+			this.showBusyIndicator(4000, 0);
 			var oDraft = {};
 			var Vendor = this.getView().byId("BPCode").getValue();
 			var ContractAmount = this.getView().byId("CntAmount").getValue();
@@ -305,20 +306,21 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
+						this.hideBusyIndicator();
 					},
 					context: this,
-					success: function (json) {
-						sap.m.MessageToast.show("Added Successfully");
-					}
+					success: function (json) {}
 				}).done(function (results) {
 						if (results) {
 						if (this.PurchaseAdd !== "1"){
 							sap.m.MessageToast.show("Draft Added Successfully");
+							this.hideBusyIndicator();
 						}
 						this.oGetTransactionNumber();
+						this.hideBusyIndicator();
 						this.PurchaseAdd = "";
 						this.CardName = "";
-					}
+					}	
 	
 				}); 
 
@@ -399,6 +401,21 @@ sap.ui.define([
 			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 			return date;
 	},
+	//Hide Busy Incator
+	hideBusyIndicator : function() {
+		BusyIndicator.hide();
+	},
+	//Indicator Function
+	showBusyIndicator : function (iDuration, iDelay) {
+		BusyIndicator.show(iDelay);
+
+		if (iDuration && iDuration > 0) {
+			if (this._sTimeoutId) {
+				clearTimeout(this._sTimeoutId);
+				this._sTimeoutId = null;
+			}
+		}
+	}
 
   });
 });
