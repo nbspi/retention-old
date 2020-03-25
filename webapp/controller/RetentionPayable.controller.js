@@ -1860,26 +1860,26 @@ sap.ui.define([
 
 					// A/P Invoice Posting
 
-					// var GRPODocEntry = results.DocEntry;
+					var GRPODocEntry = results.DocEntry;
 
-					// this.oModelAPINV = new JSONModel();
-					// $.ajax({
-					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
-					// 	type: "GET",
-					// 	beforeSend: function (xhr) {
-					// 		xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-					// 	  },
-					// 	error: function (xhr, status, error) {
-					// 		MessageToast.show(error);
-					// 	},
-					// 	success: function (json) {},
-					// 	context: this
-					// }).done(function (FirstProgress) {
-					// 	if (FirstProgress) {
+					this.oModelAPINV = new JSONModel();
+					$.ajax({
+						url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
+						type: "GET",
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+						  },
+						error: function (xhr, status, error) {
+							MessageToast.show(error);
+						},
+						success: function (json) {},
+						context: this
+					}).done(function (FirstProgress) {
+						if (FirstProgress) {
 
-							var DpDocEntry = results.DocEntry;
-							var DpDocNum = results.DocNum;
-							var DPDocTotal = results.DocTotal;
+							var DpDocEntry = FirstProgress[0].DocEntry;
+							var DpDocNum = 	 FirstProgress[0].DocNum;
+							var DPDocTotal = FirstProgress[0].DocTotal;
 
 							var oAPINV = {};
 							var oAPINVlines = {};
@@ -1946,9 +1946,9 @@ sap.ui.define([
 		
 							}); 
 
-						// }
+						}
 
-					// });
+					});
 
 				}
 			});
@@ -2020,31 +2020,12 @@ sap.ui.define([
 							sap.m.MessageToast.show(Message);
 						},
 						context: this,
-						success: function (json) {
-							// sap.m.MessageToast.show("Added Successfully");
-						}
+						success: function (json) {}
 			}).done(function (results) {
 				if (results) {
 
 					// ADDING A/P INVOICE
-
 					var GRPODocEntry = results.DocEntry;
-
-					// this.oModelAPINV = new JSONModel();
-					// $.ajax({
-					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
-					// 		PoDocEntry + "&value2=&value3=&value4=",
-					// 		type: "GET",
-					// 		beforeSend: function (xhr) {
-					// 			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-					// 		  },
-					// 		error: function (xhr, status, error) {
-					// 			MessageToast.show(error);
-					// 		},
-					// 		success: function (json) {},
-					// 		context: this
-					// }).done(function (FirstProgress) {
-					// 	if (FirstProgress) {
 
 							var DpDocEntry = results.DocEntry;
 							var DpDocNum = 	 results.DocNum;
@@ -2125,10 +2106,6 @@ sap.ui.define([
 									});
 
 								}
-		
-						// 	}); 
-
-						// }
 
 					});
 
@@ -2217,34 +2194,12 @@ sap.ui.define([
 						sap.m.MessageToast.show(Message);
 					},
 					context: this,
-					success: function (json) {
-						sap.m.MessageToast.show("Added Successfully");
-					}
+					success: function (json) {}
 			}).done(function (results) {
 				if (results) {
 
 					var GRPODocEntry = results.DocEntry;
 
-					// this.oModelAPINV = new JSONModel();
-					// $.ajax({
-					// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&queryTag=getAPINVDoc&value1=" +
-					// 		PoDocEntry + "&value2=&value3=&value4=",
-					// 		type: "GET",
-					// 		async: false,
-					// 		beforeSend: function (xhr) {
-					// 			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-					// 		  },
-			
-					// 		error: function (xhr, status, error) {
-					// 			jQuery.sap.log.error("This should never have happened!");
-					// 		},
-					// 		success: function (json) {
-					// 			// generatedCode = json[0][""];
-			
-					// 		},
-					// 		context: this
-					// }).done(function (FirstProgress) {
-					// 	if (FirstProgress) {
 
 							var DpDocEntry = results.DocEntry;
 							var DpDocNum = 	 results.DocNum;
@@ -2335,7 +2290,7 @@ sap.ui.define([
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
 
-									// For Forced Closed GRPO
+									// For Forced Close GRPO
 									this.oTransID = new JSONModel();
 									$.ajax({
 										url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes(" + results.DocNum + ")/Close",
@@ -2357,17 +2312,12 @@ sap.ui.define([
 									});
 
 								}
-		
-						// 	}); 
-
-						// }
 
 					});
 
 				}
 			});
 
-			this.DeleteData();
 		},
 		//Saving Retention in SAP
 		onSavingRetention: function () {
