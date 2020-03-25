@@ -158,9 +158,7 @@ sap.ui.define([
 				var oPOLines2 = {};
 
 				if (Retention === "0") { // YES
-
-					var oContract = Number([ContranctAmount.replace(",",".")]);
-
+					var oContract = Number([ContranctAmount.replace(",","")]);
 					var oContract2 = oContract * 0.1;
 					var Retention = Number([oContract2]); //For Retention
 
