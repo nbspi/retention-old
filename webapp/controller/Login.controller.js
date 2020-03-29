@@ -11,18 +11,16 @@ sap.ui.define([
 		onInit: function () {
 			//get all databse
 			this.oMdlDatabase = new JSONModel("model/Database.json");
-			this.getAllRecords("getAllDB");
+			this.fgetAllRecords("getAllDB");
 
 			//get User and Pass
 			this.oLogin = new JSONModel("model/Login.json");
 			this.getView().setModel(this.oLogin, "oLogin");
 
 		},
-
 		// ''--------------- LOGIN FUNCTION ---------------''
-
 		onLogin: function (oEvent) {
-			this.showBusyIndicator(4000, 0);
+			this.fShowBusyIndicator(4000, 0);
 			var sDBCompany = this.getView().byId("selectDatabase").getSelectedKey();
 			var oLoginCredentials = {};
 			oLoginCredentials.CompanyDB = sDBCompany;
@@ -37,30 +35,30 @@ sap.ui.define([
 					withCredentials: true
 				},
                 error: function (xhr, status, error) {
-					this.hideBusyIndicator();
+					this.fGetAllRecords();
                     MessageToast.show("Invalid Credentials");
                 },
                 context: this,
                 success: function (json) { }
             }).done(function (results) {
                 if (results) {
-					this.hideBusyIndicator();
+					this.fGetAllRecords();
 					sap.m.MessageToast.show("Welcome:" + this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("isLogin", true);
-					jQuery.sap.intervalCall(1800000, this, "hidePanelAgain", [this]);
+					jQuery.sap.intervalCall(1800000, this, "fHidePanelAgain", [this]);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
                 }
 		    }); 
 
 
 		},
-		hideBusyIndicator : function() {
+		fGetAllRecords : function() {
 			BusyIndicator.hide();
 		},
 
-		showBusyIndicator : function (iDuration, iDelay) {
+		fShowBusyIndicator : function (iDuration, iDelay) {
 			BusyIndicator.show(iDelay);
 
 			if (iDuration && iDuration > 0) {
@@ -71,14 +69,14 @@ sap.ui.define([
 			}
 		},
 		//---- If Session is 30 mins Already 
-		hidePanelAgain: function (passedthis) {
+		fHidePanelAgain: function (passedthis) {
 			MessageToast.show("Timed Out");
 			jQuery.sap.storage.Storage.clear();
 			this.oLogin.getData().Login.Pass = "";
 			this.oLogin.refresh;
 			sap.ui.core.UIComponent.getRouterFor(this).navTo("Login");
 		},
-		action: function (oEvent) {
+		onaction: function (oEvent) {
 			var that = this;
 			var actionParameters = JSON.parse(oEvent.getSource().data("wiring").replace(/'/g, "\""));
 			var eventType = oEvent.getId();
@@ -90,7 +88,7 @@ sap.ui.define([
 					for (var prop in oTarget.parameters) {
 						oParams[prop] = oEvent.getParameter(oTarget.parameters[prop]);
 					}
-					oControl[oTarget.action](oParams);
+					oControl[oTarget.onaction](oParams);
 				}
 			});
 			var oNavigation = actionParameters[eventType].navigation;
@@ -110,7 +108,7 @@ sap.ui.define([
 			}
 		},
 		//---- Get All Database
-		getAllRecords: function(queryTag){
+		fgetAllRecords: function(queryTag){
 			
 			// var aReturnResult = [];
 			$.ajax({

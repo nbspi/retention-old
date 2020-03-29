@@ -9,9 +9,9 @@ xmlns:l="sap.ui.layout"
 xmlns:tnt="sap.tnt">
 <tnt:ToolPage id="toolPage">
     <tnt:header>
-        <f:ShellBar title="BFI RETENTION PAYABLE ADD ON" class="myShellBar" secondTitle="" showMenuButton="true" showCopilot="false" menuButtonPressed="onMenuButtonPress" showProductSwitcher="false">
+        <f:ShellBar title="BFI RETENTION PAYABLE ADD ON" class="myShellBar" secondTitle="" showMenuButton="true" showCopilot="false" menuButtonPressed="fMenuButtonPress" showProductSwitcher="false">
             <f:additionalContent>
-                <Button text="Admin" icon="sap-icon://customer" type="Transparent" press="handleOpen">
+                <Button text="Admin" icon="sap-icon://customer" type="Transparent" press="onHandleOpen">
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>

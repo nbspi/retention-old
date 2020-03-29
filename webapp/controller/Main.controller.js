@@ -15,38 +15,26 @@ sap.ui.define([
     return Controller.extend("com.apptech.app-retention.controller.Main", {
 
         onInit: function() {
-
             this.router = this.getOwnerComponent().getRouter();
-
-
         },
-
-        //-------------------------------------------
         onRoutePatternMatched: function(event) {
             var key = event.getParameter("name");
             this.byId("childViewSegmentedButton").setSelectedKey(key);
         },
-
         onAfterShow: function(router) {
             // router.navTo("Dashboard");
         },
-
         onSelect: function(event) {
             this.router = this.getOwnerComponent().getRouter();
             this.router.navTo(event.getParameter("key"));
         },
-
-        //-------------------------------------------
-
-        onMenuButtonPress: function() {
+        fMenuButtonPress: function() {
             var toolPage = this.byId("toolPage");
             toolPage.setSideExpanded(!toolPage.getSideExpanded());
         },
-
         onIconPress: function(oEvent) {
             // this.router.navTo("Dashboard");
         },
-
         onItemSelect: function(oEvent) {
             var sSelectedMenu = oEvent.getSource().getProperty("selectedKey");
             switch (sSelectedMenu) {
@@ -57,7 +45,7 @@ sap.ui.define([
                     this.router.navTo("RetentionPayable");
                     break;
                 case "configuration":
-                    // this.router.navTo("CreateUDT_UDF");
+                     this.router.navTo("CreateUdtUdf");
                     break;
                 case "contractreport":
                     // this.router.navTo("CreateUDT_UDF");
@@ -69,9 +57,8 @@ sap.ui.define([
 
             }
         },
-
         //ACTION BUTTON---------------------------
-        handleOpen: function(oEvent) {
+        onHandleOpen: function(oEvent) {
             var oButton = oEvent.getSource();
 
             // create action sheet only once
@@ -86,7 +73,7 @@ sap.ui.define([
 
             this._actionSheet.openBy(oButton);
         },
-        onLogout: function() {
+        fLogout: function() {
 
             $.ajax({
                 url: "https://18.136.35.41:50000/b1s/v1/Logout",
@@ -106,5 +93,5 @@ sap.ui.define([
                 }
             });
         }
-    });
+    }); 
 });

@@ -13,18 +13,18 @@ xmlns:t="sap.ui.table">
 		<pages>
 			<Page title="PO Transaction">
 				<content>
-					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
+					<IconTabBar id="idIconTabBarInlineMode" select="fIconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
 						class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter id="tab1" text="Records" key="tab1">
-								<Select id="selectRecordGroup" items="{POData>/POSelection}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
+								<Select id="selectRecordGroup" items="{POData>/POSelection}" width="40%" enabled="true" change="fSelectPurchaseTransaction">
 									<core:ListItem key="{POData>CODE}" text="{POData>NAME}"/>
 								</Select>
-								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="oFilterValue"
+								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="fFilterValue"
 									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
 									<t:extension>
 										<Toolbar>
-											<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+											<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="fProcess" icon="sap-icon://add"/>
 											<ToolbarSpacer/>
 										</Toolbar>
 									</t:extension>
@@ -67,8 +67,8 @@ xmlns:t="sap.ui.table">
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
-								<Button id="btn1" text="Update" tooltip="Add" press="onDraft" icon="sap-icon://add"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
+								<Button id="btn1" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://add"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="fSave" icon="sap-icon://save"/>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!---Vendor Name-->
@@ -78,7 +78,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Label>
 										<Input id="BPCode" type="Text" value="{oMdlAllBP>/allbp/Vendor}" showValueHelp="true" valueHelpOnly="true"
-											valueHelpRequest="handleValueBPMaster" width="100%">
+											valueHelpRequest="onHandleValueBPMaster" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -128,7 +128,7 @@ xmlns:t="sap.ui.table">
 										</Label>
 										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
 											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
-											liveChange="ContractAmount" >
+											liveChange="fContractAmount" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>

@@ -16,7 +16,7 @@ sap.ui.define([
 		"number" : ""
 	},
 	// Contract Amount Value
-	ContractAmount: function (){
+	fContractAmount: function (){
 
 		var oContractValue = this.byId("CntAmount").getValue();
 		this.POData.getData().POCreation.ContractAmount = oContractValue;
@@ -53,19 +53,19 @@ sap.ui.define([
 			this.PurchaseAdd = "";
 			this.CardName = "";
 			this.CardCode = "";
-			this.oGetTransactionNumber();
+			this.fGetTransactionNumber();
 
 
 	},
 	//BP Search Fragment
-	handleSearchBP: function (oEvent) {
+	onHandleSearchBP: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter("CardCode", FilterOperator.Contains, sValue);
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter([oFilter]);
 	},
 	//BP Close Fragment
-	handleValueHelpCloseBatch: function (oEvent) {
+	onHandleValueHelpCloseBatch: function (oEvent) {
 			var aContexts = oEvent.getParameter("selectedContexts");
 			var CardDetails = {};
 			if (aContexts && aContexts.length) {
@@ -81,10 +81,10 @@ sap.ui.define([
 			this.getView().byId("BPCode").setValue(CardDetails[0].CardName);
 			this.CardName = CardDetails[0].CardName;
 			this.CardCode = CardDetails[0].CardCode;
-			this.oGetTransactionNumber();
+			this.fGetTransactionNumber();
 	},
 	///BP LIST FROM FRAGMENT
-	handleValueBPMaster: function () {
+	onHandleValueBPMaster: function () {
 			if (!this._oValueHelpDialogs) {
 				Fragment.load({
 					name: "com.apptech.app-retention.view.fragments.BPMasterFragment",
@@ -92,16 +92,16 @@ sap.ui.define([
 				}).then(function (oValueHelpDialogs) {
 					this._oValueHelpDialogs = oValueHelpDialogs;
 					this.getView().addDependent(this._oValueHelpDialogs);
-					this._configValueHelpDialogs();
+					this.fConfigValueHelpDialogs();
 					this._oValueHelpDialogs.open();
 				}.bind(this));
 			} else {
-				this._configValueHelpDialogs();
+				this.fConfigValueHelpDialogs();
 				this._oValueHelpDialogs.open();
 			}
 	},
 	//BP Fragment Dialog Configuration
-	_configValueHelpDialogs: function () {
+	fConfigValueHelpDialogs: function () {
 			var Database = this.Database;
 			var sInputValue = this.byId("BPCode").getValue();
 			if (this.oMdlAllBP.getData().allbp.length <= 0) {
@@ -134,8 +134,8 @@ sap.ui.define([
 			});
 	},
 	//Posting Purchase Order in SAP
-	onSave: function () {
-			this.showBusyIndicator(4000, 0);
+	fSave: function () {
+			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
 			this.PurchaseAdd = "1";
 
@@ -148,12 +148,12 @@ sap.ui.define([
 
 			if (Vendor === "" ) {
 				sap.m.MessageToast.show("Input Data First");
-				this.hideBusyIndicator();
-				this.DeleteData();
+				this.fHideBusyIndicator();
+				this.fDeleteData();
 			} else if (ContractAmount === "0" || ContractAmount === "" ){
 				sap.m.MessageToast.show("Input Contract Amount");
-				this.hideBusyIndicator();
-				this.DeleteData();
+				this.fHideBusyIndicator();
+				this.fDeleteData();
 			}else {
 
 				var oPO = {};
@@ -202,14 +202,14 @@ sap.ui.define([
 						error: function (xhr, status, error) {
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
-							this.hideBusyIndicator();
+							this.fHideBusyIndicator();
 						},
 						context: this,
 						success: function (json) {}
 					}).done(function (results) {
 						if (results) {
 							sap.m.MessageToast.show("Added Successfully");
-							this.onDraft();
+							this.fDraft();
 						}
 
 					}); 
@@ -244,14 +244,14 @@ sap.ui.define([
 						error: function (xhr, status, error) {
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
-							this.hideBusyIndicator();
+							this.fHideBusyIndicator();
 						},
 						context: this,
 						success: function (json) {}
 					}).done(function (results) {
 						if (results) {
 							sap.m.MessageToast.show("Added Successfully");
-							this.onDraft();
+							this.fDraft();
 						}
 
 					}); 
@@ -261,19 +261,19 @@ sap.ui.define([
 
 	},
 	// Posting Draft
-	onDraft: function () {
-			this.showBusyIndicator(4000, 0);
+	fDraft: function () {
+			this.fShowBusyIndicator(4000, 0);
 			var oDraft = {};
 			var Vendor = this.getView().byId("BPCode").getValue();
 			var ContractAmount = this.getView().byId("CntAmount").getValue();
-			var Code = this.generateUDTCode("GetCode");
+			var Code = this.fGenerateUDTCode("GetCode");
 
 			if (Vendor === ""){
 				sap.m.MessageToast.show("Input Data First");
-				this.DeleteData();
+				this.fDeleteData();
 			}else if (ContractAmount === "0" || ContractAmount === "") {
 				sap.m.MessageToast.show("Input Contract Amount");
-				this.DeleteData();
+				this.fDeleteData();
 			}else {
 
 				oDraft.Code = Code;
@@ -287,7 +287,7 @@ sap.ui.define([
 				oDraft.U_App_VendorName = this.CardName;
 				oDraft.U_App_File = "";
 				oDraft.U_App_Remarks = this.getView().byId("TextArea").getValue();
-				oDraft.U_App_CreatedDate = this.getTodaysDate();
+				oDraft.U_App_CreatedDate = this.fGetTodaysDate();
 				oDraft.U_App_CreatedBy = this.UserName;
 	
 	
@@ -306,7 +306,7 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
-						this.hideBusyIndicator();
+						this.fHideBusyIndicator();
 					},
 					context: this,
 					success: function (json) {}
@@ -314,10 +314,10 @@ sap.ui.define([
 						if (results) {
 						if (this.PurchaseAdd !== "1"){
 							sap.m.MessageToast.show("Draft Added Successfully");
-							this.hideBusyIndicator();
+							this.fHideBusyIndicator();
 						}
-						this.oGetTransactionNumber();
-						this.hideBusyIndicator();
+						this.fGetTransactionNumber();
+						this.fHideBusyIndicator();
 						this.PurchaseAdd = "";
 						this.CardName = "";
 					}	
@@ -326,10 +326,10 @@ sap.ui.define([
 
 			}
 
-			this.DeleteData();
+			this.fDeleteData();
 	},
 	//Delete Data
-	DeleteData: function () {
+	fDeleteData: function () {
 			this.byId("BPCode").setValue("");
 			this.POData.getData().POCreation.Retention = "";
 			this.POData.getData().POCreation.PostingDate = "";
@@ -341,7 +341,7 @@ sap.ui.define([
 			this.POData.refresh();
 	},
 	//To get UDT Code
-	generateUDTCode: function (docType) {
+	fGenerateUDTCode: function (docType) {
 
 			var generatedCode = "";
 
@@ -370,7 +370,7 @@ sap.ui.define([
 			return generatedCode;
 	},
 	//To get Transaction Number	
-	oGetTransactionNumber: function () {
+	fGetTransactionNumber: function () {
 
 			var oDatabase = this.Database;
 
@@ -396,17 +396,17 @@ sap.ui.define([
 			});
 	},
 	//To get Date Today
-	getTodaysDate: function () {
+	fGetTodaysDate: function () {
 			var today = new Date();
 			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 			return date;
 	},
 	//Hide Busy Incator
-	hideBusyIndicator : function() {
+	fHideBusyIndicator : function() {
 		BusyIndicator.hide();
 	},
 	//Indicator Function
-	showBusyIndicator : function (iDuration, iDelay) {
+	fShowBusyIndicator : function (iDuration, iDelay) {
 		BusyIndicator.show(iDelay);
 
 		if (iDuration && iDuration > 0) {

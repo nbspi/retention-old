@@ -58,29 +58,39 @@ sap.ui.define([
 	
 				// //Table View of Purchase Order
 				this.getView().byId("selectRecordGroup").setSelectedKey("0");
-				this.oFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+				this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 	
 				this.tableId = "tblRetention";
 				this.oModelPurchase = new JSONModel();
 				this.oModelUDT = new JSONModel();
 				this.oModelUDF = new JSONModel();
-				this.All_Subsequent_CWIP = "";
-				this.FirstBilling_CWIP = "";
 				this.oModelPrograte = new JSONModel();
 				this.oAPDocTotal = new JSONModel();
 				this.oGetHEADER = new JSONModel();
 				this.oGetDETAILES = new JSONModel();
+				// To Get All CWIP of Subsequent
+				this.All_Subsequent_CWIP = "";
+				// To Get First Billing CWIP
+				this.FirstBilling_CWIP = "";
+				// Tag to Check if PO Transaction has PO Draft
 				this.Tag = "";
+				// To Get PO status 
 				this.STatus = "";
+				// To Get DocEntry
 				this.oSCode = "";
+				// To Get the Column Type of PO if "R" - Retention or "C" CWIP
 				this.ColType = "";
+				// To Get the Detailes Count of PO 
 				this.PoCount = "";
+				// To Get Value of Final Progress Billing Rate
 				this.FinalBillingRate = "";
+				// To Get Value of Final CWIP
 				this.FinCWIP = "";
+				// To Get Purchase Order Selection
 				this.POSelects = this.getView().byId("selectRecordGroup").getSelectedKey();
 		},
 		// Icontab Sekector
-		IconTabSelect: function () {
+		fIconTabSelect: function () {
 			var Tab = this.getView().byId("idIconTabBarInlineMode").getSelectedKey();
 
 			if (Tab === "tab1") {
@@ -90,8 +100,8 @@ sap.ui.define([
 		//Process Transaction 
 		onProcess: function () {
 		
-			this.DeleteData();
-			this.DeleteDetailes();
+			this.fDeleteData();
+			this.fDeleteDetailes();
 
 			var that = this;
 			that.oTable = that.getView().byId(that.tableId);
@@ -124,45 +134,45 @@ sap.ui.define([
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
 
 				if (oPoStatus === "2" || oPoStatus === "1") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("DP");
-					this.oSetTransacationType("0");
+					this.fSetTransacationType("0");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "0") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("DP");
-					this.oSetTransacationType("2");
+					this.fSetTransacationType("2");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "3") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("1stPB");
-					this.oSetTransacationType("3");
+					this.fSetTransacationType("3");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "4") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("SubPB");
-					this.oSetTransacationType("4");
+					this.fSetTransacationType("4");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "5") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("FinPB");
-					this.oSetTransacationType("5");
+					this.fSetTransacationType("5");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "7") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("RentPB");
-					this.oSetTransacationType("7");
+					this.fSetTransacationType("7");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "6") {
-					this.DeleteData();
+					this.fDeleteData();
 					this.oGetDatafromHeaderUDT("RentPB");
-					this.oSetTransacationType("6");
+					this.fSetTransacationType("6");
 					this.oFilter.getData().SaveDraft.oDraft = "Update";
 					this.oFilter.refresh()
 				}
@@ -173,35 +183,35 @@ sap.ui.define([
 			} else {
 
 				// Gettting Data Information
-				this.oGetRetentionProcess(this.oSCode, this.ColType);
+				this.onGetRetentionProcess(this.oSCode, this.ColType);
 				// Getting Transtion Number
-				this.oGetTransactionNumber();
+				this.fGetRetentionProcess();
 
 				if (oPoStatus === "0") {
-					this.oSetTransacationType("2");
+					this.fSetTransacationType("2");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "3") {
-					this.oSetTransacationType("3");
+					this.fSetTransacationType("3");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "4") {
-					this.oGetRemainingPrograte(this.oSCode);
-					this.oSetTransacationType("4");
+					this.fGetRemainingPrograte(this.oSCode);
+					this.fSetTransacationType("4");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
 				} else if (oPoStatus === "5") {
-					this.oSetTransacationType("5");
+					this.fSetTransacationType("5");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
 					this.getView().byId("TaxType").setSelectedKey("0");
-					this.oGetRemainingPrograte(this.oSCode);
+					this.fGetRemainingPrograte(this.oSCode);
 				} else if (oPoStatus === "7") {
-					this.oSetTransacationType("7");
+					this.fSetTransacationType("7");
 					this.oFilter.getData().SaveDraft.oDraft = "Save As Draft";
 					this.oFilter.refresh();
 					this.getView().byId("TaxType").setEnabled(false);
-					this.ProgressBIll();
+					this.onProgressBIll();
 
 					this.DTRetention.getData().DetailesRetention[0].GrossAmount = RentTotal;
 					this.DTRetention.getData().DetailesRetention[0].NetProgress = RentTotal;
@@ -217,7 +227,7 @@ sap.ui.define([
 		
 		},
 		// To set Transaction Type
-		oSetTransacationType: function (TransCode) {
+		fSetTransacationType: function (TransCode) {
 
 			if (TransCode === "0") {
 
@@ -311,7 +321,7 @@ sap.ui.define([
 					context: this
 			}).done(function (results) {
 				if (results.length === 0) {
-					this.DeleteData();
+					this.fDeleteData();
 				} else {
 					this.oModelPurchase.setJSON("{\"POFields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
 					this.getView().setModel(this.oModelPurchase, "oModelPurchase");
@@ -453,24 +463,24 @@ sap.ui.define([
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 			if (PoStatus === "0") {
-				this.oFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+				this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 			} else if (PoStatus === "1") {
-				this.oFilterPurchaseOrderTransaction("getDPwthOP");
+				this.fFilterPurchaseOrderTransaction("getDPwthOP");
 			} else if (PoStatus === "2") {
-				this.oFilterPurchaseOrderTransaction("getPOwithAPDP");
+				this.fFilterPurchaseOrderTransaction("getPOwithAPDP");
 			} else if (PoStatus === "3") {
-				this.oFilterPurchaseOrderTransaction("getFirstBilling");
+				this.fFilterPurchaseOrderTransaction("getFirstBilling");
 			} else if (PoStatus === "4") {
-				this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
+				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 			} else if (PoStatus === "5") {
-				this.oFilterPurchaseOrderTransaction("getFinalBilling");
+				this.fFilterPurchaseOrderTransaction("getFinalBilling");
 			} else if (PoStatus === "6") {
-				this.oFilterPurchaseOrderTransaction("getCompleteTransaction");
+				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
 			} else if (PoStatus === "7") {
-				this.oFilterPurchaseOrderTransaction("getRetentionBilling");
+				this.fFilterPurchaseOrderTransaction("getRetentionBilling");
 			}
-			this.DeleteData();
-			this.DeleteDetailes();
+			this.fDeleteData();
+			this.fDeleteDetailes();
 		},
 		// Combobox Purchase Order Transaction
 		onSelectPurchaseTransaction: function () {
@@ -478,57 +488,57 @@ sap.ui.define([
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 			if (PoStatus === "0") {
-				this.eNableAllFields("1");
-				this.oFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+				this.fNableAllFields("1");
+				this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "1") {
-				this.eNableAllFields("0");
-				this.oFilterPurchaseOrderTransaction("getDPwthOP");
+				this.fNableAllFields("0");
+				this.fFilterPurchaseOrderTransaction("getDPwthOP");
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "2") {
-				this.eNableAllFields("0");
-				this.oFilterPurchaseOrderTransaction("getPOwithAPDP");
+				this.fNableAllFields("0");
+				this.fFilterPurchaseOrderTransaction("getPOwithAPDP");
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "3") {
-				this.eNableAllFields("1");
-				this.oFilterPurchaseOrderTransaction("getFirstBilling");
+				this.fNableAllFields("1");
+				this.fFilterPurchaseOrderTransaction("getFirstBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "4") {
-				this.eNableAllFields("1");
-				this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
+				this.fNableAllFields("1");
+				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "5") {
-				this.eNableAllFields("1");
-				this.oFilterPurchaseOrderTransaction("getFinalBilling");
+				this.fNableAllFields("1");
+				this.fFilterPurchaseOrderTransaction("getFinalBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "6") {
-				this.eNableAllFields("0");
-				this.oFilterPurchaseOrderTransaction("getCompleteTransaction");
+				this.fNableAllFields("0");
+				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
 			} else if (PoStatus === "7") {
-				this.eNableAllFields("1");
-				this.oFilterPurchaseOrderTransaction("getRetentionBilling");
+				this.fNableAllFields("1");
+				this.fFilterPurchaseOrderTransaction("getRetentionBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
 			}
 		},
 		// To Get all Data of Purchase Order
-		oFilterPurchaseOrderTransaction: function (queryTag) {
+		fFilterPurchaseOrderTransaction: function (queryTag) {
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
@@ -552,7 +562,7 @@ sap.ui.define([
 
 		},
 		// To Delete All Value in Fields
-		DeleteData: function (oEvent) {
+		fDeleteData: function (oEvent) {
 
 			this.getView().byId("TransNo").setValue("");
 			this.getView().byId("VenSupCode").setValue("");
@@ -580,7 +590,7 @@ sap.ui.define([
 
 		},
 		// To Delete All Detaile Value in Fields
-		DeleteDetailes: function (oEvent) {
+		fDeleteDetailes: function (oEvent) {
 			this.DTRetention.getData().DetailesRetention[0].CWIP = "";
 			this.DTRetention.getData().DetailesRetention[0].WTX = "";
 			this.DTRetention.getData().DetailesRetention[0].GrossAmount = "";
@@ -591,7 +601,7 @@ sap.ui.define([
 			this.DTRetention.refresh();
 		},
 		// For Enable Fields
-		eNableAllFields: function (oCode) {
+		fNableAllFields: function (oCode) {
 
 			if (oCode === "0") {
 
@@ -638,7 +648,7 @@ sap.ui.define([
 			}
 		},
 		//To Get PO Data from GRID
-		oGetRetentionProcess: function (sCode, ColType) {
+		onGetRetentionProcess: function (sCode, ColType) {
 			this.oModelOpenPO = new JSONModel();
 
 			$.ajax({
@@ -658,7 +668,7 @@ sap.ui.define([
 				if (results.length === 0) {
 					MessageToast.show("No Retention Row to process");
 					//resetting of POFields.json model
-					this.DeleteData();
+					this.fDeleteData();
 				} else {
 					this.oModelPurchase.setJSON("{\"POFields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
 					this.getView().setModel(this.oModelPurchase, "oModelPurchase");
@@ -666,7 +676,7 @@ sap.ui.define([
 			});
 		},
 		// To Get the Count of Transaction Number
-		oGetTransactionNumber: function () {
+		fGetRetentionProcess: function () {
 
 			var oDatabase = this.Database;
 
@@ -698,7 +708,7 @@ sap.ui.define([
 
 			if (DPValue === "" || DPValue === "0") {
 
-				this.DeleteDetailes();
+				this.fDeleteDetailes();
 
 			} else {
 
@@ -819,7 +829,7 @@ sap.ui.define([
 
 						this.DTRetention.getData().DetailesRetention[0].WTX = FTotalFWTX;
 						this.DTRetention.refresh();
-						this.ProgressBIll();
+						this.onProgressBIll();
 
 						// this.ProgressBillingType();
 
@@ -838,13 +848,13 @@ sap.ui.define([
 
 		},
 		//Progress Biling Rate Formula
-		ProgressBIll: function () {
+		onProgressBIll: function () {
 
 			var oValue = this.getView().byId("ProgBill").getValue();
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 			if (oValue === "") {
-				this.DeleteDetailes();
+				this.fDeleteDetailes();
 			} else {
 
 				var Database = this.Database;
@@ -977,17 +987,17 @@ sap.ui.define([
 
 						// First billing
 						if (oProgType === "1") {
-							this.ProgressBillingType();
+							this.onProgressBillingType();
 							// Subsequent Billing
 						} else if (oProgType === "2") {
-							this.oGetRemainingPrograte(oDocEntry);
-							this.ProgressBillingType();
+							this.fGetRemainingPrograte(oDocEntry);
+							this.onProgressBillingType();
 							// WITH HOLDING TAX COMPUTAION
 							this.onSelectionWTX();
 
 							// Final Billing
 						} else if (oProgType === "3") {
-							this.ProgressBillingType();
+							this.onProgressBillingType();
 						} else {
 							//-----Retention-----//
 						}
@@ -998,7 +1008,7 @@ sap.ui.define([
 
 		},
 		// Formula for Each Progress Billing Type
-		ProgressBillingType: function () {
+		onProgressBillingType: function () {
 
 			var ProgType = this.getView().byId("PBType").getSelectedKey();
 
@@ -1294,7 +1304,7 @@ sap.ui.define([
 		},
 		//Saving and Getting Data  on Draft
 		onSave: function () {
-			this.showBusyIndicator(4000, 0);
+			this.fShowBusyIndicator(4000, 0);
 
 			//if PO has Draft..Get Data in UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
@@ -1332,7 +1342,7 @@ sap.ui.define([
 				if (SupplierCode !== "") {
 
 					var oPoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
-					var CodeH = this.generateUDTCode("GetCode");
+					var CodeH = this.fGenerateUDTCode("GetCode");
 					var oPurchase_Order = {};
 					var oPurchase_Details = {};
 
@@ -1346,7 +1356,7 @@ sap.ui.define([
 					oPurchase_Order.U_App_DocNum = this.oModelPurchase.getData().POFields.DocNum;
 					oPurchase_Order.U_App_TransNum = this.getView().byId("TransNo").getValue();
 					oPurchase_Order.U_App_ContractAmount = this.oModelPurchase.getData().POFields.DocTotal;
-					oPurchase_Order.U_App_TransDate = this.getTodaysDate();
+					oPurchase_Order.U_App_TransDate = this.fGetTodaysDate();
 					oPurchase_Order.U_App_ProgBill = this.getView().byId("ProgBill").getValue();
 					oPurchase_Order.U_App_TransType = this.getView().byId("TransType").getSelectedKey();
 					oPurchase_Order.U_App_ProgBill_Type = this.getView().byId("TransType").getSelectedKey();
@@ -1356,14 +1366,19 @@ sap.ui.define([
 
 					if (oPoStatus === "0") {
 						oPurchase_Order.U_App_DosStatus = "DP";
+						// oPurchase_Order.U_App_DocStatus = "DP";
 					} else if (oPoStatus === "3") {
 						oPurchase_Order.U_App_DosStatus = "1stPB";
+						//oPurchase_Order.U_App_DocStatus = "1stPB";
 					} else if (oPoStatus === "4") {
 						oPurchase_Order.U_App_DosStatus = "SubPB";
+						//oPurchase_Order.U_App_DocStatus = "SubPB";
 					} else if (oPoStatus === "5") {
 						oPurchase_Order.U_App_DosStatus = "FinPB";
+						//oPurchase_Order.U_App_DocStatus = "FinPB";	
 					} else {
 						oPurchase_Order.U_App_DosStatus = "RentPB";
+						//oPurchase_Order.U_App_DocStatus = "RentPB";
 					}
 
 					var DP = this.getView().byId("DPayment").getValue();
@@ -1374,7 +1389,7 @@ sap.ui.define([
 						oPurchase_Order.U_App_DwnPymnt = this.getView().byId("DPayment").getValue();
 					}
 
-					oPurchase_Order.U_App_CreatedDate = this.getTodaysDate();
+					oPurchase_Order.U_App_CreatedDate = this.fGetTodaysDate();
 					oPurchase_Order.U_App_CreatedBy = this.UserNmae;
 
 					var batchArray = [
@@ -1393,7 +1408,7 @@ sap.ui.define([
 
 						var iLineNumDP = d + 1;
 
-						code = this.generateUDTCode("GetCode");
+						code = this.fGenerateUDTCode("GetCode");
 						oPurchase_Details.Code = code;
 						oPurchase_Details.Name = code;
 						// oPurchase_Details.U_App_DocNum = "1";//this.oMdlEditRecord.getData().allopenAP[d].DocumentNo;
@@ -1409,24 +1424,29 @@ sap.ui.define([
 
 						if (oPoStatus === "0") {
 							oPurchase_Details.U_App_DosStatus = "DP";
+							//oPurchase_Details.U_App_DocStatus = "DP";
 						} else if (oPoStatus === "3") {
 							oPurchase_Details.U_App_DosStatus = "1stPB";
+							//oPurchase_Details.U_App_DocStatus = "1stPB";
 						} else if (oPoStatus === "4") {
 							oPurchase_Details.U_App_DosStatus = "SubPB";
+							//oPurchase_Details.U_App_DocStatus = "SubPB";
 						} else if (oPoStatus === "5") {
 							oPurchase_Details.U_App_DosStatus = "FinPB";
+							//oPurchase_Details.U_App_DocStatus = "FinPB";
 						} else {
 							oPurchase_Details.U_App_DosStatus = "RentPB";
+							//oPurchase_Details.U_App_DocStatus = "RentPB";
 						}
 
 						batchArray.push(JSON.parse(JSON.stringify(({
 							"tableName": "U_APP_RPT1",
-							"data": oPurchase_Details //this.generateUDTCode();
+							"data": oPurchase_Details //this.fGenerateUDTCode();
 						}))));
 
 					}
 
-					var sBodyRequest = this.prepareBatchRequestBody(batchArray);
+					var sBodyRequest = this.fPrepareBatchRequestBody(batchArray);
 					// Post Draft Using Batch
 					$.ajax({
 						url: "https://18.136.35.41:50000/b1s/v1/$batch",
@@ -1451,24 +1471,24 @@ sap.ui.define([
 							var oTag = this.Tag;
 							if (oTag !== "0") {
 								sap.m.MessageToast.show("Save as Draft!");
-								this.hideBusyIndicator();
+								this.fHideBusyIndicator();
 								this.Tag = "";
 							}
 							this.Tag = "";
-							this.hideBusyIndicator();
+							this.fHideBusyIndicator();
 						}
 					});
 
 				} else {
 					sap.m.MessageToast.show("No Data to Post in SAP");
-					this.hideBusyIndicator();
+					this.fHideBusyIndicator();
 				}
-				this.DeleteData();
+				this.fDeleteData();
 			}
 
 		},
 		//Prepare Value fot UDF Code
-		generateUDTCode: function (docType) {
+		fGenerateUDTCode: function (docType) {
 
 			var generatedCode = "";
 
@@ -1496,13 +1516,13 @@ sap.ui.define([
 			return generatedCode;
 		},
 		//Date Value
-		getTodaysDate: function () {
+		fGetTodaysDate: function () {
 			var today = new Date();
 			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 			return date;
 		},
 		//Batch Request for Saving Draft
-		prepareBatchRequestBody: function (oRequest) {
+		fPrepareBatchRequestBody: function (oRequest) {
 
 			var batchRequest = "";
 
@@ -1544,7 +1564,7 @@ sap.ui.define([
 			oHeader.U_App_ProgBill = this.getView().byId("ProgBill").getValue();
 			oHeader.U_App_Remarks = this.getView().byId("TextArea")._lastValue;
 			oHeader.U_App_UpdatedBy = this.UserNmae;
-			oHeader.U_App_UpdatedDate = this.getTodaysDate();
+			oHeader.U_App_UpdatedDate = this.fGetTodaysDate();
 
 			$.ajax({
 
@@ -1630,7 +1650,7 @@ sap.ui.define([
 						sap.m.MessageToast.show("Updated Successfully");
 					}
 				});
-				this.DeleteData();
+				this.fDeleteData();
 			});
 
 		},
@@ -1677,7 +1697,7 @@ sap.ui.define([
 		//Saving Process in SAP
 		onAddingSAP: function () {
 
-			this.showBusyIndicator(4000, 0);
+			this.fShowBusyIndicator(4000, 0);
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
@@ -1692,8 +1712,8 @@ sap.ui.define([
 					if (this.STatus !== "Draft") {
 						this.onSave();
 					}
-					this.DeleteData();
-					this.DeleteDetailes();
+					this.fDeleteData();
+					this.fDeleteDetailes();
 
 				} else {
 
@@ -1710,16 +1730,16 @@ sap.ui.define([
 						if (this.POCount === "1"){
 							this.onSave();
 						}
-						this.DeleteData();
-						this.DeleteDetailes();
+						this.fDeleteData();
+						this.fDeleteDetailes();
 					} else if (ProgType === "4") {
 						this.onSavingRetention();
 						this.Tag = "0";
 						if (this.STatus !== "Draft") {
 							this.onSave();
 						}
-						this.DeleteData();
-						this.DeleteDetailes();
+						this.fDeleteData();
+						this.fDeleteDetailes();
 
 					}
 
@@ -1727,7 +1747,7 @@ sap.ui.define([
 
 			} else {
 				sap.m.MessageToast.show("No Data to Post in SAP");
-				this.DeleteData();
+				this.fDeleteData();
 			}
 
 		},
@@ -1786,14 +1806,14 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(Message);
-					this.hideBusyIndicator();
+					this.fHideBusyIndicator();
 				},
 				context: this,
 				success: function (json) {}
 			}).done(function (results) {
 				if (results) {
 					sap.m.MessageToast.show("DocNum #" + results.DocNum + " Added Successfully");
-					this.hideBusyIndicator();
+					this.fHideBusyIndicator();
 				}
 			});
 
@@ -1880,7 +1900,7 @@ sap.ui.define([
 						  },
 						error: function (xhr, status, error) {
 							MessageToast.show(error);
-							this.hideBusyIndicator();
+							this.fHideBusyIndicator();
 						},
 						success: function (json) {},
 						context: this
@@ -1946,14 +1966,14 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 								}
 		
 							}); 
@@ -1965,7 +1985,7 @@ sap.ui.define([
 				}
 			});
 
-			this.DeleteData();
+			this.fDeleteData();
 
 		},
 		//Saving Subsequent Billing in SAP
@@ -2030,7 +2050,7 @@ sap.ui.define([
 						error: function (xhr, status, error) {
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
-							this.hideBusyIndicator();
+							this.fHideBusyIndicator();
 						},
 						context: this,
 						success: function (json) {}
@@ -2089,7 +2109,7 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {}
@@ -2097,7 +2117,7 @@ sap.ui.define([
 								if (results) {
 
 									sap.m.MessageToast.show("DocNum #" + results.DocNum + "Added Successfully");
-									this.hideBusyIndicator();	
+									this.fHideBusyIndicator();	
 
 							// For Closing A/P Invoice	
 									this.oTransID = new JSONModel();
@@ -2110,7 +2130,7 @@ sap.ui.define([
 										error: function (xhr, status, error) {
 											var Message = xhr.resposeJSON.error.message.value;
 											sap.m.MessageToast.show(Message);
-											this.hideBusyIndicator();
+											this.fHideBusyIndicator();
 										},
 										success: function (json) {},
 										context: this
@@ -2118,7 +2138,7 @@ sap.ui.define([
 										if (oresults) {
 											this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]					", "") + "}");
 											this.getView().setModel(this.oTransID, "oTransID");
-											this.hideBusyIndicator();
+											this.fHideBusyIndicator();
 										}
 									});
 
@@ -2129,7 +2149,7 @@ sap.ui.define([
 				}
 			});
 
-			this.DeleteData();
+			this.fDeleteData();
 
 		},
 		//Saving Final Billing in SAP
@@ -2209,7 +2229,7 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
-						this.hideBusyIndicator();
+						this.fHideBusyIndicator();
 					},
 					context: this,
 					success: function (json) {}
@@ -2299,7 +2319,7 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {
@@ -2308,7 +2328,7 @@ sap.ui.define([
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + " Added Successfully");
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 
 									// For Forced Close GRPO
 									this.oTransID = new JSONModel();
@@ -2321,10 +2341,10 @@ sap.ui.define([
 										error: function (xhr, status, error) {
 											var Message = xhr.resposeJSON.error.message.value;
 											sap.m.MessageToast.show(Message);
-											this.hideBusyIndicator();
+											this.fHideBusyIndicator();
 										},
 										success: function (json) {
-											this.hideBusyIndicator();
+											this.fHideBusyIndicator();
 										},
 										context: this
 									}).done(function (oresults) {
@@ -2391,7 +2411,7 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(Message);
-					this.hideBusyIndicator();
+					this.fHideBusyIndicator();
 				},
 				context: this,
 				success: function (json) {}
@@ -2442,14 +2462,14 @@ sap.ui.define([
 								error: function (xhr, status, error) {
 									var Message = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(Message);
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 								},
 								context: this,
 								success: function (json) {}
 							}).done(function (results) {
 								if (results) {
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
-									this.hideBusyIndicator();
+									this.fHideBusyIndicator();
 								}
 
 					});
@@ -2459,7 +2479,7 @@ sap.ui.define([
 
 		},
 		// To get the Remainin Progress Billing Rate
-		oGetRemainingPrograte: function (oDocEntry) {
+		fGetRemainingPrograte: function (oDocEntry) {
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getProgRate&value1=" +
@@ -2494,19 +2514,19 @@ sap.ui.define([
 							if (soProg_Rate1 > 100) {
 								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
 								this.getView().byId("ProgBill").setValue("");
-								this.DeleteDetailes();
+								this.fDeleteDetailes();
 							} else if (soProg_Rate === 100) {
 								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
 								this.getView().byId("ProgBill").setValue("");
-								this.DeleteDetailes();
+								this.fDeleteDetailes();
 							} else if ( this.oModelPrograte.getData().Rate.ProgRate === soProg_Rate1 ){
 								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
 								this.getView().byId("ProgBill").setValue("");
-								this.DeleteDetailes();
+								this.fDeleteDetailes();
 							} else if ( soProg_Rate1 < this.oModelPrograte.getData().Rate.ProgRate ){
 								MessageToast.show("Cannot Process Subsequent Progress Billing, rate already  equals/exceeds 100%");
 								this.getView().byId("ProgBill").setValue("");
-								this.DeleteDetailes();
+								this.fDeleteDetailes();
 							}
 
 						}
@@ -2516,7 +2536,7 @@ sap.ui.define([
 						var Available_Rate = 100 - Prog_Rate;
 						this.getView().byId("ProgBill").setValue("100");
 						this.FinalBillingRate = Available_Rate;
-						this.ProgressBIll();
+						this.onProgressBIll();
 					}
 
 				}
@@ -2524,7 +2544,7 @@ sap.ui.define([
 			});
 		},
 		// For Filtering Grid Table
-		oFilterValue: function (oEvent) {
+		onFilterValue: function (oEvent) {
 
 			var value = oEvent.mParameters.column.sId;
 			var oVAlue1 = oEvent.mParameters.value;
@@ -2534,46 +2554,46 @@ sap.ui.define([
 
 				if (value === "__xmlview3--colVendor" || value === "__xmlview2--colVendor" || value === "__xmlview1--colVendor") {
 					if (PoStatus === "0") {
-						this.eNableAllFields("1");
-						this.oGetFilterValues("oDownPaymentFilterCardName", oVAlue1);
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentFilterCardName", oVAlue1);
 					} else if (PoStatus === "1") {
-						this.eNableAllFields("1");
-						this.oGetFilterValues("oDownPaymentNPdFilterCardName", oVAlue1);
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentNPdFilterCardName", oVAlue1);
 					} else if (PoStatus === "2") {
-						this.eNableAllFields("0");
-						this.oGetFilterValues("getFilterPOwithAPDPCardName", oVAlue1);
+						this.fNableAllFields("0");
+						this.fGetFilterValues("getFilterPOwithAPDPCardName", oVAlue1);
 					} else if (PoStatus === "3") {
-						this.eNableAllFields("0");
-						this.oGetFilterValues("getFilterFirstBillingCardName", oVAlue1);
+						this.fNableAllFields("0");
+						this.fGetFilterValues("getFilterFirstBillingCardName", oVAlue1);
 					} else if (PoStatus === "4") {
-						this.oGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
+						this.fGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
 					} else if (PoStatus === "5") {
-						this.oGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
+						this.fGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
 					} else if (PoStatus === "6") {
-						this.oGetFilterValues("getFilterCompleteTransactionCardName", oVAlue1);
+						this.fGetFilterValues("getFilterCompleteTransactionCardName", oVAlue1);
 					} else if (PoStatus === "7") {
-						this.oGetFilterValues("getFilterRetentionBillingCardName", oVAlue1);
+						this.fGetFilterValues("getFilterRetentionBillingCardName", oVAlue1);
 					}			
 				} else if (value === "__xmlview3--colDoc" || value === "__xmlview2--colDoc" || value === "__xmlview1--colDoc") {
 					if (PoStatus === "0") {
-						this.eNableAllFields("1");
-						this.oGetFilterValues("oDownPaymentFilterDocNum", oVAlue1);
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentFilterDocNum", oVAlue1);
 					} else if (PoStatus === "1") {
-						this.eNableAllFields("1");
-						this.oGetFilterValues("oDownPaymentNPdFilterDocNum", oVAlue1);
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentNPdFilterDocNum", oVAlue1);
 					} else if (PoStatus === "2") {
-						this.eNableAllFields("0");
-						this.oGetFilterValues("getFilterPOwithAPDPDocNum", oVAlue1);
+						this.fNableAllFields("0");
+						this.fGetFilterValues("getFilterPOwithAPDPDocNum", oVAlue1);
 					} else if (PoStatus === "3") {
-						this.oGetFilterValues("getFilterFirstBillingDocNum", oVAlue1);
+						this.fGetFilterValues("getFilterFirstBillingDocNum", oVAlue1);
 					} else if (PoStatus === "4") {
-						this.oGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
+						this.fGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
 					} else if (PoStatus === "5") {
-						this.oGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
+						this.fGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
 					} else if (PoStatus === "6") {
-						this.oGetFilterValues("getFilterCompleteTransactionDocNum", oVAlue1);
+						this.fGetFilterValues("getFilterCompleteTransactionDocNum", oVAlue1);
 					} else if (PoStatus === "7") {
-						this.oGetFilterValues("getFilterRetentionBillingDocNum", oVAlue1);
+						this.fGetFilterValues("getFilterRetentionBillingDocNum", oVAlue1);
 					}	
 				} else {
 					this.onRefresh();
@@ -2583,7 +2603,7 @@ sap.ui.define([
 			}
 
 		},
-		oGetFilterValues: function (queryTag, oValue) {
+		fGetFilterValues: function (queryTag, oValue) {
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
@@ -2613,31 +2633,31 @@ sap.ui.define([
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 			if (PoStatus === "0") {
-				this.oFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+				this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 			} else if (PoStatus === "1") {
-				this.oFilterPurchaseOrderTransaction("getDPwthOP");
+				this.fFilterPurchaseOrderTransaction("getDPwthOP");
 			} else if (PoStatus === "2") {
-				this.oFilterPurchaseOrderTransaction("getPOwithAPDP");
+				this.fFilterPurchaseOrderTransaction("getPOwithAPDP");
 			} else if (PoStatus === "3") {
-				this.oFilterPurchaseOrderTransaction("getFirstBilling");
+				this.fFilterPurchaseOrderTransaction("getFirstBilling");
 			} else if (PoStatus === "4") {
-				this.oFilterPurchaseOrderTransaction("getSubsequentBilling");
+				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 			} else if (PoStatus === "5") {
-				this.oFilterPurchaseOrderTransaction("getFinalBilling");
+				this.fFilterPurchaseOrderTransaction("getFinalBilling");
 			} else if (PoStatus === "6") {
-				this.oFilterPurchaseOrderTransaction("getCompleteTransaction");
+				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
 			} else if (PoStatus === "7") {
-				this.oFilterPurchaseOrderTransaction("getRetentionBilling");
+				this.fFilterPurchaseOrderTransaction("getRetentionBilling");
 			}
-			this.DeleteData();
-			this.DeleteDetailes();
+			this.fDeleteData();
+			this.fDeleteDetailes();
 		},
 		//Hide indicator function
-		hideBusyIndicator : function() {
+		fHideBusyIndicator : function() {
 			BusyIndicator.hide();
 		},
 		//Show indicator Process
-		showBusyIndicator : function (iDuration, iDelay) {
+		fShowBusyIndicator : function (iDuration, iDelay) {
 			BusyIndicator.show(iDelay);
 
 			if (iDuration && iDuration > 0) {

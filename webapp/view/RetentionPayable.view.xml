@@ -13,7 +13,7 @@ xmlns:t="sap.ui.table">
 		<pages>
 			<Page title="Contract Billing and Retention Payable" id="pageRetention">
 			    <content>
-			       <IconTabBar id="idIconTabBarInlineMode" select = "IconTabSelect" headerMode="Inline" upperCase="true"  expandable="false" class="sapUiResponsiveContentPadding">
+			       <IconTabBar id="idIconTabBarInlineMode" select = "fIconTabSelect" headerMode="Inline" upperCase="true"  expandable="false" class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter id="tab1" text="Records" key="tab1">
 								<Select id="selectRecordGroup" items="{Purchase>/PurchaseOrder}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
@@ -24,7 +24,8 @@ xmlns:t="sap.ui.table">
 									<t:extension>
 										<Toolbar>
 											<content>
-												<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+												<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess
+												" icon="sap-icon://add"/>
 												<Button text="Refresh" press="onRefresh"/>
 												<ToolbarSpacer/>
 											</content>
@@ -183,7 +184,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProgBill" placeholder="" textAlign="Right" liveChange="ProgressBIll"
+										<Input width="100%" id="ProgBill" placeholder="" textAlign="Right" liveChange="onProgressBIll"
 											value="{InputHeader>/InputHeader/ProgressBilling}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
@@ -207,7 +208,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="PBType" width="100%" items="{PBType>/ProgressBilling}" enabled = "false" selectionChange="ProgressBillingType" loadItems="TransCode">
+										<ComboBox id="PBType" width="100%" items="{PBType>/ProgressBilling}" enabled = "false" selectionChange="onProgressBillingType" loadItems="TransCode">
 											<core:Item key="{PBType>CODE}" text="{PBType>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>

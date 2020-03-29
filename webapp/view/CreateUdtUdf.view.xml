@@ -1,0 +1,15 @@
+ <mvc:View controllerName="com.apptech.app-retention.controller.CreateUdtUdf"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<App id="idAppControl">
+		<pages>
+			<Page title="UDT and UDF Creation">
+				<content>
+					<Button id="btn1" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add"/>
+					<Button id="btn2" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add"/>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View> 

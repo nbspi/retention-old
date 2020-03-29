@@ -4,9 +4,9 @@
 	<SelectDialog
 		noDataText="No BP Found"
 		title="Select Account"
-		search="handleSearchBP"
-		confirm="handleValueHelpCloseBatch"
-		cancel="handleValueHelpCloseBatch"
+		search="onHandleSearchBP"
+		confirm="onHandleValueHelpCloseBatch"
+		cancel="onHandleValueHelpCloseBatch"
 		showClearButton="true"
 		items="{oMdlAllBP>/allbp}">
 		<StandardListItem
