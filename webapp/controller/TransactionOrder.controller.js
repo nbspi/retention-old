@@ -562,8 +562,8 @@ sap.ui.define([
 		oPo.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
 		oPo.U_App_Remarks = this.getView().byId("TextArea").getValue();
 		// oDraft.U_App_File = "";
-		oPo.U_App_CreatedDate = this.fGetTodaysDate();
-		oPo.U_App_CreatedBy = this.UserName;
+		oPo.U_App_UpdatedDate = this.fGetTodaysDate();
+		oPo.U_App_UpdatedBy = this.UserName;
 
 		$.ajax({
 			url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",

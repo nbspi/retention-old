@@ -67,6 +67,7 @@ sap.ui.define([
 				this.oModelPrograte = new JSONModel();
 				this.oAPDocTotal = new JSONModel();
 				this.oGetHEADER = new JSONModel();
+				
 				this.oGetDETAILES = new JSONModel();
 				// To Get All CWIP of Subsequent
 				this.All_Subsequent_CWIP = "";
@@ -86,6 +87,10 @@ sap.ui.define([
 				this.FinalBillingRate = "";
 				// To Get Value of Final CWIP
 				this.FinCWIP = "";
+				// To Get UDF Header Code
+				this.HeaderCode = "";
+				// To Get UDF Detailes Code
+				this.DetailesCode = "";
 				// To Get Purchase Order Selection
 				this.POSelects = this.getView().byId("selectRecordGroup").getSelectedKey();
 		},
@@ -1325,14 +1330,8 @@ sap.ui.define([
 					Status = "RentPB";
 				}
 
-				//To Get Data from UDT
 				this.onGetHeaderUDT(oCode, Status);
 				this.onGetDetailsUDT(oCode, Status);
-
-				var HeadCode = this.oGetHEADER.getData().Fields.Code;
-				var DetlCode = this.oGetDETAILES.getData().Fields.Code;
-
-				this.onUpdate(HeadCode, DetlCode);
 
 			} else {
 			// Proceed Transaction in Draft
@@ -1483,6 +1482,7 @@ sap.ui.define([
 					sap.m.MessageToast.show("No Data to Post in SAP");
 					this.fHideBusyIndicator();
 				}
+
 				this.fDeleteData();
 			}
 
@@ -1577,10 +1577,10 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(Message);
+					this.fHideBusyIndicator();
 				},
 				context: this,
-				success: function (json) {
-				}
+				success: function (json) {}
 			}).done(function (results) {
 
 				//-------Update DeTailes
@@ -1640,14 +1640,17 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
+						this.fHideBusyIndicator();
 					},
 					context: this,
 					success: function (json) {
 						sap.m.MessageToast.show("Updated Successfully");
+						this.fHideBusyIndicator();
 					}
 				}).done(function (results1) {
 					if (results1) {
 						sap.m.MessageToast.show("Updated Successfully");
+						this.fHideBusyIndicator();
 					}
 				});
 				this.fDeleteData();
@@ -1670,8 +1673,7 @@ sap.ui.define([
 					success: function (json) {},
 					context: this
 			}).done(function (results) {
-				this.oGetHEADER.setJSON("{\"Fields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
-				this.getView().setModel(this.oGetHEADER, "oGetHEADER");
+				this.HeaderCode = results[0].Code;
 			});
 		},
 		// To Get Data from Detailes UDT
@@ -1690,8 +1692,8 @@ sap.ui.define([
 					success: function (json) {},
 					context: this
 			}).done(function (results) {
-				this.oGetDETAILES.setJSON("{\"Fields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
-				this.getView().setModel(this.oGetDETAILES, "oGetDETAILES");
+				this.DetailesCode = results[0].Code;
+				this.onUpdate(this.HeaderCode, this.DetailesCode);
 			});
 		},
 		//Saving Process in SAP

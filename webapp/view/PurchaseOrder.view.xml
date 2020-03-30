@@ -18,7 +18,7 @@ xmlns:t="sap.ui.table">
 						<items>
 							<IconTabFilter id="tab1">
 								<Button id="btn1" text="Save as Draft" tooltip="Add" press="fDraft" icon="sap-icon://add"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="fSave" icon="sap-icon://save"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
 								<VBox class="sapUiResponsiveMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!---Vendor Name-->
@@ -83,8 +83,10 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Input>
 										<!--FileUploader-->
-										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
-											uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
+										<u:FileUploader id="fileUploader" name="myFileUpload" tooltip="Upload your file to the local server"
+											uploadComplete="onHandleUploadComplete"
+											change="handleValueChange"
+											 width="100%" placeholder="Attachment"/>
 										<!--Remarks-->
 										<Label text="Remarks." width="100%">
 											<layoutData>

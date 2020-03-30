@@ -38,6 +38,7 @@
 		"dependencies": {
 			"minUI5Version": "1.60.0",
 			"libs": {
+				"sap.ui.unified": {},
 				"sap.ui.core": {},
 				"sap.m": {},
 				"sap.ui.layout": {}
@@ -68,7 +69,7 @@
 				"viewPath": "com.apptech.app-retention.view",
 				"controlAggregation": "pages",
 				"controlId": "app",
-				"clearControlAggregation": false 
+				"clearControlAggregation": false
 			},
 			"routes": [
 				{
@@ -166,6 +167,7 @@
 					"viewName": "Login"
 				}
 			}
+
 		}
 	}
 }
