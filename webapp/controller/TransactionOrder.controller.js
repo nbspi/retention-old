@@ -72,6 +72,8 @@ sap.ui.define([
 			this.Retention.getData().POCount.PONum = "";
 			this.Retention.refresh();
 			this.obtnUpdate = "";
+			this.getView().byId("btnCancel").setVisible(false);
+			this.getView().byId("btnUpdate").setVisible(false);
 		} else {
 			this.getView().byId("btn1").setEnabled(false);
 		}
@@ -195,12 +197,16 @@ sap.ui.define([
 			this.fDisableFields("1");
 			this.oFilter.getData().Process.ProcName = "Process";
 			this.oFilter.refresh();
+			this.getView().byId("btnCancel").setVisible(false);
+			this.getView().byId("btnUpdate").setVisible(false);
 		} else {
 			this.fFilterPurchaseOrderTransaction("getPOTransactions");
 			this.getView().byId("btn1").setEnabled(false);
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
+			this.getView().byId("btnCancel").setVisible(true);
+			this.getView().byId("btnUpdate").setVisible(true);
 		}
 	
 	},

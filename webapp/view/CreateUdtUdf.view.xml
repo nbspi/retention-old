@@ -6,8 +6,12 @@
 		<pages>
 			<Page title="UDT and UDF Creation">
 				<content>
-					<Button id="btn1" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add"/>
-					<Button id="btn2" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add"/>
+					<Toolbar>
+						<content>
+							<Button id="btn1" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add"/>
+							<Button id="btn2" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add"/>
+						</content>
+					</Toolbar>
 				</content>
 			</Page>
 		</pages>

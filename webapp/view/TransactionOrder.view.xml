@@ -78,8 +78,14 @@ xmlns:t="sap.ui.table">
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
+							<Toolbar>
+								<content>
 								<Button id="btn1" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
 								<Button id="btn2" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add"/>
+								<Button id="btnCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
+								<Button id="btnUpdate" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
+								</content>
+							</Toolbar>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!---Vendor Name-->

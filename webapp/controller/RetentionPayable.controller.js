@@ -100,6 +100,8 @@ sap.ui.define([
 
 			if (Tab === "tab1") {
 				this.onRefresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			}
 		},
 		//Process Transaction 
@@ -506,48 +508,64 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			} else if (PoStatus === "1") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getDPwthOP");
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(true);
+				this.getView().byId("btnUpdate").setVisible(true);
 			} else if (PoStatus === "2") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getPOwithAPDP");
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			} else if (PoStatus === "3") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getFirstBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			} else if (PoStatus === "4") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			} else if (PoStatus === "5") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getFinalBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			} else if (PoStatus === "6") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			} else if (PoStatus === "7") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getRetentionBilling");
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
+				this.getView().byId("btnCancel").setVisible(false);
+				this.getView().byId("btnUpdate").setVisible(false);
 			}
 		},
 		// To Get all Data of Purchase Order
