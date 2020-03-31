@@ -703,6 +703,11 @@ sap.ui.define([
 				} else {
 					this.oModelPurchase.setJSON("{\"POFields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
 					this.getView().setModel(this.oModelPurchase, "oModelPurchase");
+
+					oRetention = that.oModelPurchase.getData().POFields.DocTotal;
+					oDocTotal = that.oModelPurchase.getData().POFields.Price;
+					this.byId("RentAmount").setValue(oRetention);
+					this.byId("Doctotal").setValue(oDocTotal);
 				}
 			});
 		},
