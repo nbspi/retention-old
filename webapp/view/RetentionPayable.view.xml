@@ -57,7 +57,8 @@ xmlns:t="sap.ui.table">
 									<t:Column width="12rem">
 										<Label text="Total Amount"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocTotal}" wrapping="false"/>
+											<Text text="{ path:'oModelOpenPO>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" 
+											wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--Document Status-->
@@ -181,7 +182,9 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="RentAmount" placeholder="0.00" editable="false" textAlign="Right" value="{oModelPurchase>/POFields/Price}">
+										<Input width="100%" id="RentAmount" placeholder="0.00" editable="false"
+										value="{ path:'oModelPurchase>/POFields/Price', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+										>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -228,7 +231,9 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="Doctotal" editable="false" placeholder="0.00" textAlign="Right" value="{oModelPurchase>/POFields/DocTotal}">
+										<Input width="100%" id="Doctotal" editable="false" placeholder="0.00"
+										value="{ path:'oModelPurchase>/POFields/DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+										>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>

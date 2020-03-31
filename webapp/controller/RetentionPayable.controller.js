@@ -407,7 +407,8 @@ sap.ui.define([
 					} else {
 						this.getView().byId("TaxType").setSelectedKey("1");
 					}
-
+					this.byId("RentAmount").setValue(oRetention);
+					this.byId("Doctotal").setValue(oDocTotal);
 					this.oModelPurchase.getData().POFields.Price = oRetention;
 					this.getView().byId("DPayment").setValue(oDP);
 					this.oModelPurchase.getData().POFields.DocTotal = oDocTotal;

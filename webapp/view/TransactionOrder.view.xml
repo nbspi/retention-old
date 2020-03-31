@@ -54,7 +54,9 @@ xmlns:t="sap.ui.table">
 									<t:Column width="12rem">
 										<Label text="Total Amount"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocTotal}"
+											<Text text="
+											{ path:'oModelOpenPO>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
+											"
 											wrapping="false"/>
 										</t:template>
 									</t:Column>

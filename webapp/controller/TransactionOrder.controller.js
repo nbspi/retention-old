@@ -198,7 +198,6 @@ sap.ui.define([
 		} else {
 			this.fFilterPurchaseOrderTransaction("getPOTransactions");
 			this.getView().byId("btn1").setEnabled(false);
-			this.getView().byId("btn2").setEnabled(false);
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
