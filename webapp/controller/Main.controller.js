@@ -14,15 +14,22 @@ sap.ui.define([
 
     return Controller.extend("com.apptech.app-retention.controller.Main", {
 
+        _data : {
+            "UserAccount" : ""
+        },
         onInit: function() {
+            this.UserName = jQuery.sap.storage.get("Usename");
+
+            this._data.UserAccount = this.UserName;
+			var oModel = new JSONModel(this._data);
+			this.getView().setModel(oModel);
+
             this.router = this.getOwnerComponent().getRouter();
+
         },
         onRoutePatternMatched: function(event) {
             var key = event.getParameter("name");
             this.byId("childViewSegmentedButton").setSelectedKey(key);
-        },
-        onAfterShow: function(router) {
-            // router.navTo("Dashboard");
         },
         onSelect: function(event) {
             this.router = this.getOwnerComponent().getRouter();
@@ -31,9 +38,6 @@ sap.ui.define([
         fMenuButtonPress: function() {
             var toolPage = this.byId("toolPage");
             toolPage.setSideExpanded(!toolPage.getSideExpanded());
-        },
-        onIconPress: function(oEvent) {
-            // this.router.navTo("Dashboard");
         },
         onItemSelect: function(oEvent) {
             var sSelectedMenu = oEvent.getSource().getProperty("selectedKey");
@@ -90,6 +94,7 @@ sap.ui.define([
                     sap.m.MessageToast.show("Session End");
                     jQuery.sap.storage.Storage.clear();
                     sap.ui.core.UIComponent.getRouterFor(this).navTo("Login");
+                    this._data.UserAccount = "";
                 }
             });
         }

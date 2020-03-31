@@ -90,7 +90,7 @@ sap.ui.define([
 	//BP Search Fragment
 	onHandleSearchBP: function (oEvent) {
 		var sValue = oEvent.getParameter("value");
-		var oFilter = new Filter("CardCode", FilterOperator.Contains, sValue);
+		var oFilter = new Filter("CardName", FilterOperator.Contains, sValue);
 		var oBinding = oEvent.getSource().getBinding("items");
 		oBinding.filter([oFilter]);
 	},
@@ -585,7 +585,6 @@ sap.ui.define([
 		}).done(function (results1) {
 			//-------Success--------//
 		});
-		this.fDeleteData();
 	},
 	//Filter Grid Value
 	fFilterValue: function (oEvent) {
@@ -594,7 +593,9 @@ sap.ui.define([
 		var oVAlue1 = oEvent.mParameters.value;
 		var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
+
 		if (oVAlue1 !== "") {
+			//Document Number
 			if (value === "__xmlview3--colDoc" || value === "__xmlview2--colDoc" || value === "__xmlview1--colDoc") {
 
 				if (PoStatus === "0") {
@@ -602,13 +603,21 @@ sap.ui.define([
 				} else if (PoStatus === "1") {
 					this.fGetFilterValues("getFilterPOTransactionsDocNum", oVAlue1);
 				}
-
+			// Vendor Name
 			} else if (value === "__xmlview3--colVendor" || value === "__xmlview2--colVendor" || value === "__xmlview1--colVendor") {
 
 				if (PoStatus === "0") {
 					this.fGetFilterValues("getFilterUDTCPORCardName", oVAlue1);
 				} else if (PoStatus === "1") {
 					this.fGetFilterValues("getFilterPOTransactionsCardName", oVAlue1);
+				}
+			//Posting Date
+			} else if (value === "__column0" ){
+
+				if (PoStatus === "0") {
+					this.fGetFilterValues("getFilterUDTCPORDate", oVAlue1);
+				} else if (PoStatus === "1") {
+					this.fGetFilterValues("getFilterPOTransactionsDate", oVAlue1);
 				}
 
 			}

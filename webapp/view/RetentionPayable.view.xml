@@ -19,7 +19,7 @@ xmlns:t="sap.ui.table">
 								<Select id="selectRecordGroup" items="{Purchase>/PurchaseOrder}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
 									<core:ListItem key="{Purchase>CODE}" text="{Purchase>NAME}"/>
 								</Select>
-								<t:Table id="tblRetention" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="oFilterValue"
+								<t:Table id="tblRetention" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="onFilterValue"
 									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
 									<t:extension>
 										<Toolbar>
@@ -34,7 +34,7 @@ xmlns:t="sap.ui.table">
 									<!--DocNum-->
 									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
 										filterProperty="DocNum">
-										<Label text="DocNum"/>
+										<Label text="Document Number"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
 										</t:template>
@@ -47,7 +47,7 @@ xmlns:t="sap.ui.table">
 										</t:template>
 									</t:Column>
 									<!--Posting Date-->
-									<t:Column width="12rem">
+									<t:Column width="12rem" filtered="true" filterProperty="DocDate" >
 										<Label text="Posting Date"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
@@ -55,7 +55,7 @@ xmlns:t="sap.ui.table">
 									</t:Column>
 									<!--Doctotal-->
 									<t:Column width="12rem">
-										<Label text="DocTotal"/>
+										<Label text="Total Amount"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocTotal}" wrapping="false"/>
 										</t:template>
@@ -67,11 +67,19 @@ xmlns:t="sap.ui.table">
 											<Text id="DocStat" text="{oModelOpenPO>DocStatus}" wrapping="false"/>
 										</t:template>
 									</t:Column>
+									<!-- Updated Date-->
+									<t:Column width="12rem">
+										<Label text="Date Updated"/>
+										<t:template>
+											<Text id="Update" text="{oModelOpenPO>Update}"
+											wrapping="false"/>
+										</t:template>
+									</t:Column>
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
-								<Button id="btn1" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://add"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://save"/>
+								<Button id="btn1" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://save"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://add"/>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!--Vendor/Supplier Code-->
@@ -148,7 +156,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="TransType" width="100%" items="{TransTypes>/TransactionType}" selectionChange="onSelectionChangeTranType"
+										<ComboBox id="TransType" width="100%" enabled="false" items="{TransTypes>/TransactionType}" selectionChange="onSelectionChangeTranType"
 											loadItems="TransCode">
 											<core:Item key="{TransTypes>CODE}" text="{TransTypes>NAME}"/>
 											<layoutData>

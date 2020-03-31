@@ -11,7 +11,7 @@ xmlns:tnt="sap.tnt">
     <tnt:header>
         <f:ShellBar title="BFI RETENTION PAYABLE ADD ON" class="myShellBar" secondTitle="" showMenuButton="true" showCopilot="false" menuButtonPressed="fMenuButtonPress" showProductSwitcher="false">
             <f:additionalContent>
-                <Button text="Admin" icon="sap-icon://customer" type="Transparent" press="onHandleOpen">
+                <Button text="{path:'/UserAccount'}" icon="sap-icon://customer" type="Transparent" press="onHandleOpen">
                     <layoutData>
                         <OverflowToolbarLayoutData priority="NeverOverflow" />
                     </layoutData>
@@ -27,7 +27,7 @@ xmlns:tnt="sap.tnt">
                     <tnt:NavigationListItem text="Create Transaction" key="purchaseorder" />
                     <tnt:NavigationListItem text="Transaction Records" key="transactionrecords" />
                 </tnt:NavigationListItem>
-                <tnt:NavigationListItem text="Retention Payable" key="paymentprocessing" icon="sap-icon://employee" />
+                <tnt:NavigationListItem text="Contract Billing and Retention" key="paymentprocessing" icon="sap-icon://employee" />
                 <tnt:NavigationListItem text="Configuration" key="configuration" icon="sap-icon://developer-settings" />
             </tnt:NavigationList>
 

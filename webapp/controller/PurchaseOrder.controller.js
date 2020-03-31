@@ -64,7 +64,7 @@ sap.ui.define([
 	//BP Search Fragment
 	onHandleSearchBP: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
-			var oFilter = new Filter("CardCode", FilterOperator.Contains, sValue);
+			var oFilter = new Filter("CardName", FilterOperator.Contains, sValue);
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter([oFilter]);
 	},
@@ -139,152 +139,154 @@ sap.ui.define([
 	},
 	//Posting Purchase Order in SAP
 	onSave: function () {
-		var oFileUploader = this.byId("fileUploader");
-		oFileUploader.upload();
 
-		var form = new FormData();
-		form.append("",this.currentFile, "");
+			this.fShowBusyIndicator(4000, 0);
+			var oDatabase = this.Database;
+			this.PurchaseAdd = "1";
 
-		var settings = {
-		  "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
-		  "data": form,
-		  "method": "POST",
-		  "processData": false,
-		  "mimeType": "multipart/form-data",
-		  "contentType": false
-		};
-		
-		$.ajax(settings).done(function (response) {
-		  console.log(response);
-		});
+			var Vendor = this.CardCode;
+			var ContractAmount = this.getView().byId("CntAmount").getValue();
+			var Retention = this.POData.getData().POCreation.Retention;
+			var PostingDate = this.getView().byId("DateFrom").getValue();
+			var Remarks = this.getView().byId("TextArea").getValue();
+			var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
 
+			if (Vendor === "" ) {
+				sap.m.MessageToast.show("Input Data First");
+				this.fHideBusyIndicator();
+				this.fDeleteData();
+			} else if (ContractAmount === "0" || ContractAmount === "" ){
+				sap.m.MessageToast.show("Input Contract Amount");
+				this.fHideBusyIndicator();
+				this.fDeleteData();
+			}else {
 
+				var oPO = {};
+				var oPOLines1 = {};
+				var oPOLines2 = {};
 
-			// this.fShowBusyIndicator(4000, 0);
-			// var oDatabase = this.Database;
-			// this.PurchaseAdd = "1";
+				if (Retention === "0") { // YES
+					var oContract = Number([ContranctAmount.replace(",","")]);
+					var oContract2 = oContract * 0.1;
+					var Retention = Number([oContract2]); //For Retention
 
-			// var Vendor = this.CardCode;
-			// var ContractAmount = this.getView().byId("CntAmount").getValue();
-			// var Retention = this.POData.getData().POCreation.Retention;
-			// var PostingDate = this.getView().byId("DateFrom").getValue();
-			// var Remarks = this.getView().byId("TextArea").getValue();
-			// var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
+					var oContract3 = oContract - Retention;
+					var oCWIP = Number([oContract3]); //For CWIP
 
-			// if (Vendor === "" ) {
-			// 	sap.m.MessageToast.show("Input Data First");
-			// 	this.fHideBusyIndicator();
-			// 	this.fDeleteData();
-			// } else if (ContractAmount === "0" || ContractAmount === "" ){
-			// 	sap.m.MessageToast.show("Input Contract Amount");
-			// 	this.fHideBusyIndicator();
-			// 	this.fDeleteData();
-			// }else {
+					oPO.CardCode = Vendor;
+					oPO.DocDate = PostingDate;
+					oPO.DocumentLines = [];
+					oPO.DocType = "dDocument_Service";
+					oPO.U_APP_IsForRetention = "Y";
+					oPO.U_APP_Retention = "Y";
 
-			// 	var oPO = {};
-			// 	var oPOLines1 = {};
-			// 	var oPOLines2 = {};
+					oPOLines1.LineNum = 0;
+					oPOLines1.AccountCode = 161111; //CWIP
+					oPOLines1.UnitPrice = oCWIP;
+					oPOLines1.VatGroup = "IVAT-EXC";
+					oPOLines1.U_APP_RtnRowType = "C";
+					oPO.DocumentLines.push(oPOLines1);
 
-			// 	if (Retention === "0") { // YES
-			// 		var oContract = Number([ContranctAmount.replace(",","")]);
-			// 		var oContract2 = oContract * 0.1;
-			// 		var Retention = Number([oContract2]); //For Retention
+					oPOLines2.LineNum = 1;
+					oPOLines2.AccountCode = 242001; //Retention
+					oPOLines2.UnitPrice = Retention;
+					oPOLines2.VatGroup = "IVAT-EXC";
+					oPOLines2.U_APP_RtnRowType = "R";
+					oPO.DocumentLines.push(oPOLines2);
 
-			// 		var oContract3 = oContract - Retention;
-			// 		var oCWIP = Number([oContract3]); //For CWIP
-
-			// 		oPO.CardCode = Vendor;
-			// 		oPO.DocDate = PostingDate;
-			// 		oPO.DocumentLines = [];
-			// 		oPO.DocType = "dDocument_Service";
-			// 		oPO.U_APP_IsForRetention = "Y";
-			// 		oPO.U_APP_Retention = "Y";
-
-			// 		oPOLines1.LineNum = 0;
-			// 		oPOLines1.AccountCode = 161111; //CWIP
-			// 		oPOLines1.UnitPrice = oCWIP;
-			// 		oPOLines1.VatGroup = "IVAT-EXC";
-			// 		oPOLines1.U_APP_RtnRowType = "C";
-			// 		oPO.DocumentLines.push(oPOLines1);
-
-			// 		oPOLines2.LineNum = 1;
-			// 		oPOLines2.AccountCode = 242001; //Retention
-			// 		oPOLines2.UnitPrice = Retention;
-			// 		oPOLines2.VatGroup = "IVAT-EXC";
-			// 		oPOLines2.U_APP_RtnRowType = "R";
-			// 		oPO.DocumentLines.push(oPOLines2);
-
-			// 		oPO.Comments = Remarks;
+					oPO.Comments = Remarks;
 					
-			// 		//Posting of PO in SAP
-			// 		$.ajax({
-			// 			url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
-			// 			data: JSON.stringify(oPO),
-			// 			type: "POST",
-			// 			xhrFields: {
-			// 				withCredentials: true
-			// 			},
-			// 			error: function (xhr, status, error) {
-			// 				var Message = xhr.responseJSON["error"].message.value;
-			// 				sap.m.MessageToast.show(Message);
-			// 				this.fHideBusyIndicator();
-			// 			},
-			// 			context: this,
-			// 			success: function (json) {}
-			// 		}).done(function (results) {
-			// 			if (results) {
-			// 				sap.m.MessageToast.show("Added Successfully");
-			// 				this.fDraft();
-			// 			}
+					//Posting of PO in SAP
+					$.ajax({
+						url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+						data: JSON.stringify(oPO),
+						type: "POST",
+						xhrFields: {
+							withCredentials: true
+						},
+						error: function (xhr, status, error) {
+							var Message = xhr.responseJSON["error"].message.value;
+							sap.m.MessageToast.show(Message);
+							this.fHideBusyIndicator();
+						},
+						context: this,
+						success: function (json) {}
+					}).done(function (results) {
+						if (results) {
+							sap.m.MessageToast.show("Added Successfully");
+							this.fDraft();
+						}
 
-			// 		}); 
+					}); 
 
-			// 	} else { //NO
+				} else { //NO
 				
-			// 		var oContract = Number([ContranctAmount.replace(",",".")]);
+					var oContract = Number([ContranctAmount.replace(",",".")]);
 
-			// 		oPO.CardCode = Vendor;
-			// 		oPO.DocDate = PostingDate;
-			// 		oPO.U_APP_IsForRetention = "Y";
-			// 		oPO.DocType = "dDocument_Service";
-			// 		oPO.U_APP_Retention = "N";
-			// 		oPO.DocumentLines = [];
+					oPO.CardCode = Vendor;
+					oPO.DocDate = PostingDate;
+					oPO.U_APP_IsForRetention = "Y";
+					oPO.DocType = "dDocument_Service";
+					oPO.U_APP_Retention = "N";
+					oPO.DocumentLines = [];
 
-			// 		oPOLines1.LineNum = 0;
-			// 		oPOLines1.AccountCode = 161111; //CWIP
-			// 		oPOLines1.UnitPrice = oContract;
-			// 		oPOLines1.VatGroup = "IVAT-EXC";
-			// 		oPOLines1.U_APP_RtnRowType = "C";
-			// 		oPO.DocumentLines.push(oPOLines1);
+					oPOLines1.LineNum = 0;
+					oPOLines1.AccountCode = 161111; //CWIP
+					oPOLines1.UnitPrice = oContract;
+					oPOLines1.VatGroup = "IVAT-EXC";
+					oPOLines1.U_APP_RtnRowType = "C";
+					oPO.DocumentLines.push(oPOLines1);
 
-			// 		oPO.Comments = Remarks;
+					oPO.Comments = Remarks;
 
-			// 		$.ajax({
-			// 			url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
-			// 			data: JSON.stringify(oPO),
-			// 			type: "POST",
-			// 			xhrFields: {
-			// 				withCredentials: true
-			// 			},
-			// 			error: function (xhr, status, error) {
-			// 				var Message = xhr.responseJSON["error"].message.value;
-			// 				sap.m.MessageToast.show(Message);
-			// 				this.fHideBusyIndicator();
-			// 			},
-			// 			context: this,
-			// 			success: function (json) {}
-			// 		}).done(function (results) {
-			// 			if (results) {
-			// 				sap.m.MessageToast.show("Added Successfully");
-			// 				this.fDraft();
-			// 			}
+					$.ajax({
+						url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+						data: JSON.stringify(oPO),
+						type: "POST",
+						xhrFields: {
+							withCredentials: true
+						},
+						error: function (xhr, status, error) {
+							var Message = xhr.responseJSON["error"].message.value;
+							sap.m.MessageToast.show(Message);
+							this.fHideBusyIndicator();
+						},
+						context: this,
+						success: function (json) {}
+					}).done(function (results) {
+						if (results) {
+							sap.m.MessageToast.show("Added Successfully");
+							this.fDraft();
+						}
 
-			// 		}); 
+					}); 
 
-			// 	}
+				}
 
 
-			// }
+			}
+
+					// var oFileUploader = this.byId("fileUploader");
+		// oFileUploader.upload();
+
+		// var form = new FormData();
+		// form.append("",this.currentFile, "");
+
+		// var settings = {
+		//   "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
+		//   "data": form,
+		//   "method": "POST",
+		//   "processData": false,
+		//   "mimeType": "multipart/form-data",
+		//   "contentType": false,
+		//   "xhrFields":{
+		// 	  "withCredentials": true
+		//   }
+		// };
+		
+		// $.ajax(settings).done(function (response) {
+		//   console.log(response);
+		// });
 
 	},
 	// Posting Draft
@@ -443,42 +445,45 @@ sap.ui.define([
 			}
 		}
 	},
-	onHandleUploadComplete: function (oEvent){
+
+	//-- For File Uploading--
+
+	// onHandleUploadComplete: function (oEvent){
 
 
 
 			
-	},
-	handleValueChange: function (oEvt){
-		var aFiles=oEvt.getParameters().files;
-		this.currentFile = aFiles[0];
+	// },
+	// handleValueChange: function (oEvt){
+	// 	var aFiles=oEvt.getParameters().files;
+	// 	this.currentFile = aFiles[0];
 
-		// var form = new FormData();
-		// form.append("",this.currentFile, "");
+	// 	// var form = new FormData();
+	// 	// form.append("",this.currentFile, "");
 
-		// var settings = {
-		//   "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
-		//   "data": form,
-		//   "method": "POST",
-		//   "processData": false,
-		//   "mimeType": "multipart/form-data",
-		//   "contentType": false
-		// };
+	// 	// var settings = {
+	// 	//   "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
+	// 	//   "data": form,
+	// 	//   "method": "POST",
+	// 	//   "processData": false,
+	// 	//   "mimeType": "multipart/form-data",
+	// 	//   "contentType": false
+	// 	// };
 		
-		// $.ajax(settings).done(function (response) {
-		//   console.log(response);
-		// });
-		//ayaw ng PurchaseOrder?
-		// posted po sir all transaction excep dito nalang po sir problen ko po 
+	// 	// $.ajax(settings).done(function (response) {
+	// 	//   console.log(response);
+	// 	// });
+	// 	//ayaw ng PurchaseOrder?
+	// 	// posted po sir all transaction excep dito nalang po sir problen ko po 
 		
-		//pero kapag yung ajax request na Purchase Order is nasa loob ng handleValueChange?
-		// hindi po nag po post sir try ko po kaya sy ailabas baka sakaling gumana??
+	// 	//pero kapag yung ajax request na Purchase Order is nasa loob ng handleValueChange?
+	// 	// hindi po nag po post sir try ko po kaya sy ailabas baka sakaling gumana??
 
 
 
 
 
-	},
+	// },
 
 
   });

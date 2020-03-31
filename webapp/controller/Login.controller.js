@@ -16,7 +16,10 @@ sap.ui.define([
 			//get User and Pass
 			this.oLogin = new JSONModel("model/Login.json");
 			this.getView().setModel(this.oLogin, "oLogin");
-
+	
+		},
+		onEnter: function (oEvent){
+			this.onLogin(oEvent);
 		},
 		// ''--------------- LOGIN FUNCTION ---------------''
 		onLogin: function (oEvent) {
@@ -35,27 +38,23 @@ sap.ui.define([
 					withCredentials: true
 				},
                 error: function (xhr, status, error) {
-					this.fGetAllRecords();
+					BusyIndicator.hide();
                     MessageToast.show("Invalid Credentials");
                 },
                 context: this,
                 success: function (json) { }
             }).done(function (results) {
                 if (results) {
-					this.fGetAllRecords();
 					sap.m.MessageToast.show("Welcome:" + this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("isLogin", true);
 					jQuery.sap.intervalCall(1800000, this, "fHidePanelAgain", [this]);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
+					BusyIndicator.hide();
                 }
 		    }); 
 
-
-		},
-		fGetAllRecords : function() {
-			BusyIndicator.hide();
 		},
 
 		fShowBusyIndicator : function (iDuration, iDelay) {
@@ -76,7 +75,7 @@ sap.ui.define([
 			this.oLogin.refresh;
 			sap.ui.core.UIComponent.getRouterFor(this).navTo("Login");
 		},
-		onaction: function (oEvent) {
+		onAction: function (oEvent) {
 			var that = this;
 			var actionParameters = JSON.parse(oEvent.getSource().data("wiring").replace(/'/g, "\""));
 			var eventType = oEvent.getId();
@@ -88,7 +87,7 @@ sap.ui.define([
 					for (var prop in oTarget.parameters) {
 						oParams[prop] = oEvent.getParameter(oTarget.parameters[prop]);
 					}
-					oControl[oTarget.onaction](oParams);
+					oControl[oTarget.onAction](oParams);
 				}
 			});
 			var oNavigation = actionParameters[eventType].navigation;

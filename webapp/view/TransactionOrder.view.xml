@@ -31,7 +31,7 @@ xmlns:t="sap.ui.table">
 									<!--DocNum-->
 									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
 										filterProperty="DocNum">
-										<Label text="DocNum"/>
+										<Label text="Document Number"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
 										</t:template>
@@ -44,7 +44,7 @@ xmlns:t="sap.ui.table">
 										</t:template>
 									</t:Column>
 									<!--Posting Date-->
-									<t:Column width="12rem">
+									<t:Column width="12rem" filtered="true" filterProperty="DocDate" >
 										<Label text="Posting Date"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
@@ -52,9 +52,10 @@ xmlns:t="sap.ui.table">
 									</t:Column>
 									<!--Doctotal-->
 									<t:Column width="12rem">
-										<Label text="DocTotal"/>
+										<Label text="Total Amount"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocTotal}" wrapping="false"/>
+											<Text text="{oModelOpenPO>DocTotal}"
+											wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--Document Status-->
@@ -64,15 +65,23 @@ xmlns:t="sap.ui.table">
 											<Text id="DocStat" text="{oModelOpenPO>DocStatus}" wrapping="false"/>
 										</t:template>
 									</t:Column>
+									<!-- Updated Date-->
+									<t:Column width="12rem">
+										<Label text="Date Updated"/>
+										<t:template>
+											<Text id="Update" text="{oModelOpenPO>Update}"
+											wrapping="false"/>
+										</t:template>
+									</t:Column>
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
-								<Button id="btn1" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://add"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="fSave" icon="sap-icon://save"/>
+								<Button id="btn1" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add"/>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!---Vendor Name-->
-										<Label text="Vendor" width="100%">
+										<Label text="Contractor" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>

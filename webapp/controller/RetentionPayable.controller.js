@@ -237,6 +237,7 @@ sap.ui.define([
 			if (TransCode === "0") {
 
 				this.getView().byId("TransType").setSelectedKey("0");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("TaxType").setSelectedKey("1");
 				this.getView().byId("ProgBill").setEnabled(false);
 				this.getView().byId("PBType").setEnabled(false);
@@ -244,6 +245,7 @@ sap.ui.define([
 			} else if (TransCode === "2") {
 
 				this.getView().byId("TransType").setSelectedKey("0");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("TaxType").setSelectedKey("1");
 				this.getView().byId("ProgBill").setEnabled(false);
 				this.getView().byId("PBType").setEnabled(false);
@@ -251,6 +253,7 @@ sap.ui.define([
 			} else if (TransCode === "3") {
 
 				this.getView().byId("TransType").setSelectedKey("1");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("PBType").setSelectedKey("1");
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
@@ -259,6 +262,7 @@ sap.ui.define([
 			} else if (TransCode === "4") {
 
 				this.getView().byId("TransType").setSelectedKey("1");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("PBType").setSelectedKey("2");
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
@@ -267,6 +271,7 @@ sap.ui.define([
 			} else if (TransCode === "5") {
 
 				this.getView().byId("TransType").setSelectedKey("1");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("PBType").setSelectedKey("3");
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
@@ -275,6 +280,7 @@ sap.ui.define([
 
 			} else if (TransCode === "6") {
 				this.getView().byId("TransType").setSelectedKey("1");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("PBType").setSelectedKey("4");
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
@@ -282,6 +288,7 @@ sap.ui.define([
 				this.getView().byId("ProgBill").setEnabled(false);
 			} else if (TransCode === "7") {
 				this.getView().byId("TransType").setSelectedKey("1");
+				this.getView().byId("TransType").setEnabled(false);
 				this.getView().byId("PBType").setSelectedKey("4");
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
@@ -1313,7 +1320,6 @@ sap.ui.define([
 
 			//if PO has Draft..Get Data in UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
-
 				var oCode = this.oSCode;
 				var Status = "";
 				var oPoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
@@ -1482,8 +1488,7 @@ sap.ui.define([
 					sap.m.MessageToast.show("No Data to Post in SAP");
 					this.fHideBusyIndicator();
 				}
-
-				this.fDeleteData();
+					this.fDeleteData();
 			}
 
 		},
@@ -1653,7 +1658,7 @@ sap.ui.define([
 						this.fHideBusyIndicator();
 					}
 				});
-				this.fDeleteData();
+				// 	this.fDeleteData();
 			});
 
 		},
@@ -2597,7 +2602,28 @@ sap.ui.define([
 					} else if (PoStatus === "7") {
 						this.fGetFilterValues("getFilterRetentionBillingDocNum", oVAlue1);
 					}	
-				} else {
+				} else if (value = "__column0")	{
+					if (PoStatus === "0") {
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentFilterDate", oVAlue1);
+					} else if (PoStatus === "1") {
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentNPdFilterDate", oVAlue1);
+					} else if (PoStatus === "2") {
+						this.fNableAllFields("0");
+						this.fGetFilterValues("getFilterPOwithAPDPDate", oVAlue1);
+					} else if (PoStatus === "3") {
+						this.fGetFilterValues("getFilterFirstBillingDate", oVAlue1);
+					} else if (PoStatus === "4") {
+						this.fGetFilterValues("getFilterSubsequentBillingDate", oVAlue1);
+					} else if (PoStatus === "5") {
+						this.fGetFilterValues("getFilterSubsequentBillingDate", oVAlue1);
+					} else if (PoStatus === "6") {
+						this.fGetFilterValues("getFilterCompleteTransactionDate", oVAlue1);
+					} else if (PoStatus === "7") {
+						this.fGetFilterValues("getFilterRetentionBillingDocDate", oVAlue1);
+					}	
+				}else {
 					this.onRefresh();
 				}
 			} else {

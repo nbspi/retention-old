@@ -16,13 +16,13 @@ xmlns:t="sap.ui.table">
 					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
 						class="sapUiResponsiveContentPadding">
 						<items>
-							<IconTabFilter id="tab1">
-								<Button id="btn1" text="Save as Draft" tooltip="Add" press="fDraft" icon="sap-icon://add"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
+							<IconTabFilter id="tab1" text="Purchase Order">
+								<Button id="btn1" text="Save as Draft" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
+								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://add"/>
 								<VBox class="sapUiResponsiveMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!---Vendor Name-->
-										<Label text="Vendor" width="100%">
+										<Label text="Contractor" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
