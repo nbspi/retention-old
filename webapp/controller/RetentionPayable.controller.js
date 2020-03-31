@@ -698,7 +698,7 @@ sap.ui.define([
 			}).done(function (results) {
 				if (results.length === 0) {
 					MessageToast.show("No Retention Row to process");
-					//resetting of POFields.json model
+					//resetting of POFields.json models
 					this.fDeleteData();
 				} else {
 					this.oModelPurchase.setJSON("{\"POFields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
