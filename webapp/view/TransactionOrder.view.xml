@@ -58,7 +58,7 @@ xmlns:t="sap.ui.table">
 											wrapping="false"/>
 										</t:template>
 									</t:Column>
-									<!--Document Status-->
+									<!--Document Statuses-->
 									<t:Column width="12rem">
 										<Label text="Document Status"/>
 										<t:template>
