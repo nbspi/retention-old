@@ -2703,7 +2703,7 @@ sap.ui.define([
 					} else if (PoStatus === "7") {
 						this.fGetFilterValues("getFilterRetentionBillingDocDate", oVAlue1);
 					}	
-				// Filter for Project Code
+				// Filter for Project Codes
 				} else if (value === "__xmlview1--colProjCode"){
 					if (PoStatus === "0") {
 						this.fNableAllFields("1");
