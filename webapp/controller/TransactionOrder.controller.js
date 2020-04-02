@@ -277,7 +277,7 @@ sap.ui.define([
 			this.oPOStatus = results[0].DocStatus;
 		});
 	},
-	// To get PO Data
+	// To get PO Datas
 	fGetDatafromPO: function (sCode) {
 		$.ajax({
 			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
