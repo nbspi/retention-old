@@ -42,7 +42,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="Docnum" required="true" value="{POData>/POCreation/DocumentNum}" >
+										<Input width="100%" id="Docnum" editable="false" required="true" value="{POData>/POCreation/DocumentNum}" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -90,7 +90,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProjCode" required="true" textAlign="Right" value="" liveChange="" >
+										<Input width="100%" id="ProjCode" required="true" textAlign="Right" value="{POData>/POCreation/ProjectCode}" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -101,7 +101,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
+										<ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}"
 											selectionChange="onSelectRetention" >
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>

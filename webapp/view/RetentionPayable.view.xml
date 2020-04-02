@@ -258,7 +258,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Label>
 										<Input width="100%" id="BAmount" 
-										value="{ path:'InputHeader>/InputHeader/BaseAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}">
+										value="{InputHeader>/InputHeader/BaseAmount}" liveChange="fBaseAmount" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -269,7 +269,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="Wtax" editable="false" value="{InputHeader>/InputHeader/WTax}" >
+										<Input width="100%" id="Wtax" editable="false" value="{path:'InputHeader>/InputHeader/WTax', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>

@@ -253,7 +253,6 @@ sap.ui.define([
 			success: function(json) {},
 			context: this
 		}).done(function(results) {
-			// var oDownPayment = oDowPayment1.toFixed(2);
 			this.Retention.getData().POCount.PONum = results[0].DocNum;
 			this.Retention.refresh();
 			this.DraftCode = results[0].Code;
@@ -266,8 +265,12 @@ sap.ui.define([
 			this.byId("CntAmount").setValue(ooDocTotal);
 			this.getView().byId("TextArea").setValue(results[0].Remarks);
 			this.getView().byId("Retention").setSelectedKey(results[0].Retention);
+			this.getView().byId("Progressive").setSelectedKey(results[0].Progressive);	
+			this.getView().byId("ProjCode").setSelectedKey(results[0].ProjectCode);			
 			this.oMdlAllBP.getData().allbp.Vendor = results[0].CardName;
 			this.oMdlAllBP.refresh();
+			this.POData.getData().POCreation.Progressive = results[0].Progressive;
+			this.POData.getData().POCreation.ProjectCode = results[0].ProjectCode;
 			this.POData.getData().POCreation.ContractAmount = ooDocTotal;
 			this.POData.refresh();
 			this.VendorCode = results[0].CardCode;
@@ -296,6 +299,8 @@ sap.ui.define([
 			this.byId("BPCode").setValue(results[0].CardName);
 			this.byId("Docnum").setValue(results[0].DocNum);
 			this.byId("DateFrom").setValue(results[0].DocDate);
+			this.getView().byId("Progressive").setSelectedKey(results[0].Progressive);	
+			this.getView().byId("ProjCode").setValue(results[0].ProjectCode);	
 			var DocTototal = results[0].DocTotal;
 			var oDocTotal = Number([DocTototal]);
 			var ooDocTotal = oDocTotal.toFixed(2);
@@ -316,6 +321,8 @@ sap.ui.define([
 		this.POData.getData().POCreation.Retention = "";
 		this.POData.getData().POCreation.PostingDate = "";
 		this.POData.getData().POCreation.Attachment = "";
+		this.POData.getData().POCreation.Progressive = "";
+		this.POData.getData().POCreation.ProjectCode = "";
 		this.POData.getData().POCreation.ContractAmount = 0;
 		this.POData.refresh();
 		this.VendorCode = "";
@@ -341,6 +348,8 @@ sap.ui.define([
 				this.getView().byId("CntAmount").setEnabled(false);
 				this.getView().byId("fileUploader").setEnabled(false);
 				this.getView().byId("TextArea").setEnabled(false);
+				this.getView().byId("Progressive").setEnabled(false);
+				this.getView().byId("ProjCode").setEnabled(false);
 
 			} else {
 
@@ -351,6 +360,8 @@ sap.ui.define([
 				this.getView().byId("CntAmount").setEnabled(true);
 				this.getView().byId("fileUploader").setEnabled(true);
 				this.getView().byId("TextArea").setEnabled(true);
+				this.getView().byId("Progressive").setEnabled(true);
+				this.getView().byId("ProjCode").setEnabled(true);
 
 			}
 
@@ -389,15 +400,19 @@ sap.ui.define([
 		var oPostingDate = this.getView().byId("DateFrom").getValue();
 		var oRemarks = this.getView().byId("TextArea").getValue();
 		var oContranctAmount = this.POData.getData().POCreation.ContractAmount;
+		var ProjectCode = this.getView().byId("ProjCode").getValue();
 
 		if (oVendor === "") {
 			sap.m.MessageToast.show("Input Data First");
 			this.fHideBusyIndicator();
-			this.fDeleteData();
+			// this.fDeleteData();
 		} else if (oContranctAmount === ""){
 			sap.m.MessageToast.show("Input Data First");
 			this.fHideBusyIndicator();
-			this.fDeleteData();
+			// this.fDeleteData();
+		} else if (ProjectCode === "" ){
+			sap.m.MessageToast.show("Input Project Code");
+			this.fHideBusyIndicator();
 		} else {
 
 			var oPO = {};
@@ -420,6 +435,8 @@ sap.ui.define([
 				oPO.DocType = "dDocument_Service";
 				oPO.U_APP_IsForRetention = "Y";
 				oPO.U_APP_Retention = "Y";
+				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
+				oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
 
 				oPOLines1.LineNum = 0;
 				oPOLines1.AccountCode = 161111; //CWIP
@@ -459,7 +476,7 @@ sap.ui.define([
 							this.fUPdate();
 						}
 						this.fHideBusyIndicator();
-
+						this.fDeleteData();
 					}
 
 				});
@@ -475,6 +492,8 @@ sap.ui.define([
 				oPO.DocumentLines = [];
 				oPO.DocType = "dDocument_Service";
 				oPO.U_APP_Retention = "N";
+				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
+				oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
 
 				oPOLines1.LineNum = 0;
 				oPOLines1.AccountCode = 161111; //CWIP
@@ -510,13 +529,13 @@ sap.ui.define([
 							this.fUPdate();
 						}
 						this.fHideBusyIndicator();
-
+						this.fDeleteData();
 					}
 
 				});
 
 			}
-			this.fDeleteData();
+
 		}
 
 	},
@@ -566,6 +585,8 @@ sap.ui.define([
 		oPo.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
 		oPo.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
 		oPo.U_App_Remarks = this.getView().byId("TextArea").getValue();
+		oPo.U_App_Progressive = this.POData.getData().POCreation.Progressive;
+		oPo.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
 		// oDraft.U_App_File = "";
 		oPo.U_App_UpdatedDate = this.fGetTodaysDate();
 		oPo.U_App_UpdatedBy = this.UserName;
@@ -586,6 +607,7 @@ sap.ui.define([
 			success: function (json) {
 				sap.m.MessageToast.show("Updated Successfully");
 				this.fHideBusyIndicator();
+				this.fDeleteData();
 			}
 		}).done(function (results1) {
 			//-------Success--------//
@@ -625,6 +647,12 @@ sap.ui.define([
 					this.fGetFilterValues("getFilterPOTransactionsDate", oVAlue1);
 				}
 
+			} else if (value === "__xmlview1--colProjCode" || value === "__xmlview2--colProjCode" || value === "__xmlview3--colProjCode"){
+				if (PoStatus === "0") {
+					this.fGetFilterValues("getFilterUDTCPORProjCode", oVAlue1);
+				} else if (PoStatus === "1") {
+					this.fGetFilterValues("getFilterPOTransactionsProjCode", oVAlue1);
+				}
 			}
 		} else {
 

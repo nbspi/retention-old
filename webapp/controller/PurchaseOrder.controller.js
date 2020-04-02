@@ -150,15 +150,20 @@ sap.ui.define([
 			var PostingDate = this.getView().byId("DateFrom").getValue();
 			var Remarks = this.getView().byId("TextArea").getValue();
 			var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
+			var ProjectCode = this.getView().byId("ProjCode").getValue();
 
 			if (Vendor === "" ) {
 				sap.m.MessageToast.show("Input Data First");
 				this.fHideBusyIndicator();
-				this.fDeleteData();
+				// this.fDeleteData();
 			} else if (ContractAmount === "0" || ContractAmount === "" ){
 				sap.m.MessageToast.show("Input Contract Amount");
 				this.fHideBusyIndicator();
-				this.fDeleteData();
+				// this.fDeleteData();
+			} else if (ProjectCode === ""){
+				sap.m.MessageToast.show("Input Project Code");
+				this.fHideBusyIndicator();
+				// this.fDeleteData();
 			}else {
 
 				var oPO = {};
@@ -179,7 +184,9 @@ sap.ui.define([
 					oPO.DocType = "dDocument_Service";
 					oPO.U_APP_IsForRetention = "Y";
 					oPO.U_APP_Retention = "Y";
-
+					oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
+					oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
+					
 					oPOLines1.LineNum = 0;
 					oPOLines1.AccountCode = 161111; //CWIP
 					oPOLines1.UnitPrice = oCWIP;
@@ -215,6 +222,7 @@ sap.ui.define([
 						if (results) {
 							sap.m.MessageToast.show("Added Successfully");
 							this.fDraft();
+							this.fDeleteData();
 						}
 
 					}); 
@@ -228,6 +236,8 @@ sap.ui.define([
 					oPO.U_APP_IsForRetention = "Y";
 					oPO.DocType = "dDocument_Service";
 					oPO.U_APP_Retention = "N";
+					oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
+					oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
 					oPO.DocumentLines = [];
 
 					oPOLines1.LineNum = 0;
@@ -295,14 +305,21 @@ sap.ui.define([
 			var oDraft = {};
 			var Vendor = this.getView().byId("BPCode").getValue();
 			var ContractAmount = this.getView().byId("CntAmount").getValue();
+			var ProjectCode = this.getView().byId("ProjCode").getValue();
 			var Code = this.fGenerateUDTCode("GetCode");
 
 			if (Vendor === ""){
 				sap.m.MessageToast.show("Input Data First");
-				this.fDeleteData();
+				// this.fDeleteData();
+				this.fHideBusyIndicator();
 			}else if (ContractAmount === "0" || ContractAmount === "") {
 				sap.m.MessageToast.show("Input Contract Amount");
-				this.fDeleteData();
+				// this.fDeleteData();
+				this.fHideBusyIndicator();
+			}else if ( ProjectCode === ""){
+				sap.m.MessageToast.show("Input Project Code");
+				// this.fDeleteData();
+				this.fHideBusyIndicator();
 			}else {
 
 				oDraft.Code = Code;
@@ -317,9 +334,11 @@ sap.ui.define([
 				oDraft.U_App_File = "";
 				oDraft.U_App_Remarks = this.getView().byId("TextArea").getValue();
 				oDraft.U_App_CreatedDate = this.fGetTodaysDate();
-				oDraft.U_App_CreatedBy = this.UserName;
+				oDraft.U_App_CreatedBy = this.UserNmae;
+				oDraft.U_App_Progressive = this.POData.getData().POCreation.Progressive;
+				oDraft.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
 	
-	
+				
 				if (this.PurchaseAdd === "1"){
 					oDraft.U_App_Status = "Y";
 				}
@@ -349,18 +368,19 @@ sap.ui.define([
 						this.fHideBusyIndicator();
 						this.PurchaseAdd = "";
 						this.CardName = "";
+						this.fDeleteData();
 					}	
 	
 				}); 
 
 			}
-
-			this.fDeleteData();
 	},
 	//Delete Data
 	fDeleteData: function () {
 			this.byId("BPCode").setValue("");
 			this.POData.getData().POCreation.Retention = "";
+			this.POData.getData().POCreation.Progressive = "";
+			this.POData.getData().POCreation.ProjectCode = "";
 			this.POData.getData().POCreation.PostingDate = "";
 			this.POData.getData().POCreation.Attachment = "";
 			this.POData.getData().POCreation.ContractAmount = 0;

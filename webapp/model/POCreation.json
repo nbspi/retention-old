@@ -6,7 +6,8 @@
 		"PostingDate": "",
 		"Attachment": "",
 		"ContractAmount": 0,
-		"Remarks": ""
+		"Remarks": "",
+		"ProjectCode":""
 	},
 	"POSelection": [{
 		"CODE": "0",

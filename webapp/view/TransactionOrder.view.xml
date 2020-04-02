@@ -41,7 +41,7 @@ xmlns:t="sap.ui.table">
 										filterProperty="DocNum">
 										<Label text="Project Code"/>
 										<t:template>
-											<Text text="" wrapping="false"/>
+											<Text text="{oModelOpenPO>ProjectCode}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--VendorName-->
@@ -164,7 +164,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProjCode" required="true" textAlign="Right" value="" liveChange="" >
+										<Input width="100%" id="ProjCode" required="true" textAlign="Right" value="{POData>/POCreation/ProjectCode}" liveChange="" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -175,7 +175,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
+										<ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}"
 											selectionChange="onSelectRetention" >
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>

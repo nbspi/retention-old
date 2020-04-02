@@ -21,5 +21,15 @@
 	],
 	"POCount":{
 		"PONum":""
-	}
+	},
+	"Progressive": [
+		{
+			"CODE":"0",
+			"NAME":"YES"
+		},
+		{
+			"CODE":"1",
+			"NAME":"NO"
+		}
+	]
 }

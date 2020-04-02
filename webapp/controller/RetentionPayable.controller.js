@@ -643,6 +643,8 @@ sap.ui.define([
 			this.DTRetention.refresh();
 			this.InputHeader.getData().InputHeader.DP = "";
 			this.InputHeader.getData().InputHeader.ProgressBilling = "";
+			this.InputHeader.getData().InputHeader.BaseAmount = "";
+			this.InputHeader.getData().InputHeader.WTax = "";
 			this.InputHeader.refresh();
 			
 
@@ -704,6 +706,24 @@ sap.ui.define([
 				this.getView().byId("btn2").setEnabled(true);
 
 			}
+		},
+		//Formula of Base Amount
+		fBaseAmount: function() {
+			this.InputHeader.getData().InputHeader.BaseAmount = this.getView().byId("BAmount").getValue();
+			this.InputHeader.refresh();
+			var oBaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
+			var oWTX1 = oBaseAmount / 1.12;
+			var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+			var sWTHTaxRate1 = sWTHTaxRate / 100;
+			var oTotalWTX = oWTX1 * sWTHTaxRate1;
+			var oTotal = Number([oTotalWTX]);
+			var FTotalFWTX = oTotal.toFixed(2);
+
+			this.getView().byId("Wtax").setValue(FTotalFWTX);
+			this.InputHeader.getData().InputHeader.WTax = FTotalFWTX;
+			this.InputHeader.refresh();
+
+
 		},
 		//To Get PO Data from GRID
 		onGetRetentionProcess: function (sCode, ColType) {
@@ -916,7 +936,7 @@ sap.ui.define([
 		},
 		//Progress Biling Rate Formula
 		onProgressBIll: function () {
-			
+
 			this.InputHeader.getData().InputHeader.ProgressBilling = this.getView().byId("ProgBill").getValue();
 			this.InputHeader.refresh();
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();

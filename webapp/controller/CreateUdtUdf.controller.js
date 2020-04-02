@@ -50,7 +50,7 @@ sap.ui.define([
       this.createField("APP_DPAmount", "Down Payment Amount", "OPOR", "db_Float", "st_Sum", 30);
 	  this.createField("APP_Retention", "With Retention", "OPOR", "db_Alpha", "", 250);
 	  this.createField("APP_ProjCode", "Project Code", "OPOR", "db_Alpha", "",30);
-	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Float", "st_Sum",30);
+	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Alpha", "",5);
 
       // -- Retention Payable Header --
 
@@ -87,7 +87,7 @@ sap.ui.define([
       this.createField("App_DosStatus", "Document Status", "@APP_RPT1", "db_Alpha", "", 30);
       this.createField("App_CWIP", "CWIP", "@APP_RPT1", "db_Numeric", "st_Sum", 30);
 
-    // -- Purchase Orde Transaction --
+    // -- Purchase Order Transaction --
       this.createField("App_Vendor", "Vendor", "@APP_CPOR", "db_Alpha", "", 30);
       this.createField("App_VendorName", "Vendor Name", "@APP_CPOR", "db_Alpha", "", 30);
       this.createField("App_TranNum", "Transaction Number", "@APP_CPOR", "db_Alpha", "", 30);
@@ -96,7 +96,9 @@ sap.ui.define([
       this.createField("App_File", "Attachment", "@APP_CPOR", "db_Alpha", "", 250);
       this.createField("App_Remarks", "Remarkss", "@APP_CPOR", "db_Alpha", "", 250);
       this.createField("App_Status", "PO Status", "@APP_CPOR", "db_Alpha", "", 250);
-      this.createField("App_ConAmount", "Contract Amount", "@APP_CPOR", "db_Alpha", "", 30);
+	  this.createField("App_ConAmount", "Contract Amount", "@APP_CPOR", "db_Alpha", "", 30);
+	  this.createField("App_Progressive", "Progressive", "@APP_CPOR", "db_Alpha", "", 5);
+	  this.createField("App_ProjectCode", "Project Code", "@APP_CPOR", "db_Alpha", "", 20);
       this.createMandatoryFields("@APP_CPOR");
 
 
