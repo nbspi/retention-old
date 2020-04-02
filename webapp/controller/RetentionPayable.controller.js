@@ -709,8 +709,10 @@ sap.ui.define([
 		},
 		//Formula of Base Amount
 		fBaseAmount: function() {
+
 			this.InputHeader.getData().InputHeader.BaseAmount = this.getView().byId("BAmount").getValue();
 			this.InputHeader.refresh();
+
 			var oBaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
 			var oWTX1 = oBaseAmount / 1.12;
 			var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
@@ -2634,7 +2636,7 @@ sap.ui.define([
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 			if (oVAlue1 !== "") {
-
+				// Filter of Contractor Name
 				if (value === "__xmlview3--colVendor" || value === "__xmlview2--colVendor" || value === "__xmlview1--colVendor") {
 					if (PoStatus === "0") {
 						this.fNableAllFields("1");
@@ -2656,7 +2658,8 @@ sap.ui.define([
 						this.fGetFilterValues("getFilterCompleteTransactionCardName", oVAlue1);
 					} else if (PoStatus === "7") {
 						this.fGetFilterValues("getFilterRetentionBillingCardName", oVAlue1);
-					}			
+					}		
+				// Filter od Document Number	
 				} else if (value === "__xmlview3--colDoc" || value === "__xmlview2--colDoc" || value === "__xmlview1--colDoc") {
 					if (PoStatus === "0") {
 						this.fNableAllFields("1");
@@ -2678,7 +2681,8 @@ sap.ui.define([
 					} else if (PoStatus === "7") {
 						this.fGetFilterValues("getFilterRetentionBillingDocNum", oVAlue1);
 					}	
-				} else if (value = "__column0")	{
+				// Filter for Date
+				} else if (value === "__column0")	{
 					if (PoStatus === "0") {
 						this.fNableAllFields("1");
 						this.fGetFilterValues("oDownPaymentFilterDate", oVAlue1);
@@ -2699,7 +2703,29 @@ sap.ui.define([
 					} else if (PoStatus === "7") {
 						this.fGetFilterValues("getFilterRetentionBillingDocDate", oVAlue1);
 					}	
-				}else {
+				// Filter for Project Code
+				} else if (value === "__xmlview1--colProjCode"){
+					if (PoStatus === "0") {
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentFilterProjCode", oVAlue1);
+					} else if (PoStatus === "1") {
+						this.fNableAllFields("1");
+						this.fGetFilterValues("oDownPaymentNPdFilterProjCode", oVAlue1);
+					} else if (PoStatus === "2") {
+						this.fNableAllFields("0");
+						this.fGetFilterValues("getFilterPOwithAPDPProjCode", oVAlue1);
+					} else if (PoStatus === "3") {
+						this.fGetFilterValues("getFilterFirstBillingProjCode", oVAlue1);
+					} else if (PoStatus === "4") {
+						this.fGetFilterValues("getFilterSubsequentBillingProjCode", oVAlue1);
+					} else if (PoStatus === "5") {
+						this.fGetFilterValues("getFilterSubsequentBillingProjCode", oVAlue1);
+					} else if (PoStatus === "6") {
+						this.fGetFilterValues("getFilterCompleteTransactionProjCode", oVAlue1);
+					} else if (PoStatus === "7") {
+						this.fGetFilterValues("getFilterRetentionBillingProjCode", oVAlue1);
+					}
+				}  else {
 					this.onRefresh();
 				}
 			} else {

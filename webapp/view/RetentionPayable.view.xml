@@ -41,10 +41,10 @@ xmlns:t="sap.ui.table">
 									</t:Column>
 									<!--Project Code-->
 									<t:Column id="colProjCode" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
-										filterProperty="DocNum">
+										filterProperty="ProjCode">
 										<Label text="Project Code"/>
 										<t:template>
-											<Text text="" wrapping="false"/>
+											<Text text="{oModelOpenPO>ProjectCode}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--VendorName-->

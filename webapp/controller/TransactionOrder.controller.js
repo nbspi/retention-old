@@ -72,8 +72,8 @@ sap.ui.define([
 			this.Retention.getData().POCount.PONum = "";
 			this.Retention.refresh();
 			this.obtnUpdate = "";
-			this.getView().byId("btnCancel").setVisible(false);
-			this.getView().byId("btnUpdate").setVisible(false);
+			// this.getView().byId("btnCancel").setVisible(false);
+			// this.getView().byId("btnUpdate").setVisible(false);
 		} else {
 			this.getView().byId("btn1").setEnabled(false);
 		}
