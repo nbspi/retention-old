@@ -203,7 +203,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
-										<!--Progress Billing%-->
+										<!--Progress Billings%-->
 										<Label text="Progress Billing %" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
