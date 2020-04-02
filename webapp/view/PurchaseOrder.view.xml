@@ -11,7 +11,7 @@ xmlns:html="http://www.w3.org/1999/xhtml"
 xmlns:t="sap.ui.table">
 	<App>
 		<pages>
-			<Page title="PO Creation">
+			<Page title="Contract Creation">
 				<content>
 					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
 						class="sapUiResponsiveContentPadding">
@@ -31,20 +31,18 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input id="BPCode" type="Text" value="{oMdlAllBP>/allbp/Vendor}" showValueHelp="true" valueHelpOnly="true"
-											valueHelpRequest="onHandleValueBPMaster" width="100%">
+										<Input id="BPCode" type="Text" valueHelpRequest="onHandleValueBPMaster" showValueHelp="true"  value="{oMdlAllBP>/allbp/Vendor}" required="true">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
-										<!--Document Number-->
+										<!--Transaction Number-->
 										<Label text="Transaction Number" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="Docnum" required="true" value="{POData>/POCreation/DocumentNum}" editable="false" valueHelpOnly="true"
-											valueHelpRequest="handleValueHelpSupplier">
+										<Input width="100%" id="Docnum" required="true" value="{POData>/POCreation/DocumentNum}" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -55,7 +53,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Retention" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
+										<ComboBox id="Retention" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
 											selectionChange="onSelectRetention" loadItems="TransCode">
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>
@@ -86,18 +84,42 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
+										<!---Project Code-->
+										<Label text="Project Code" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="ProjCode" required="true" textAlign="Right" value="" liveChange="" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Progressive-->
+										<Label text="Progressive" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
+											selectionChange="onSelectRetention" >
+											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</ComboBox>
 										<!--FileUploader-->
 										<u:FileUploader id="fileUploader" name="myFileUpload" tooltip="Upload your file to the local server"
 											uploadComplete="onHandleUploadComplete"
 											change="handleValueChange"
-											 width="100%" placeholder="Attachment"/>
+											 width="100%" required="true" placeholder="Attachment"/>
 										<!--Remarks-->
 										<Label text="Remarks." width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<TextArea id="TextArea" cols="200" width="100%" height="100px">
+										<TextArea id="TextArea" required="true" cols="200" width="100%" height="100px">
 											<layoutData>
 												<l:GridData span="L9 M10 S12"/>
 											</layoutData>

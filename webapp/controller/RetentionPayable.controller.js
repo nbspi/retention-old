@@ -459,6 +459,14 @@ sap.ui.define([
 					oProratedRetention = that.oModelUDF.getData().UDFFields.U_App_ProReten;
 					oNetProgBill = that.oModelUDF.getData().UDFFields.U_App_NetProgBill;
 
+					this.byId("CWIP").setValue(oCWIP);
+					this.byId("GrossAmount").setValue(oGrossAmount);
+					this.byId("WTX").setValue(oWtx);
+					this.byId("ProratedDP").setValue(oProratedDP);
+					this.byId("ProratedReten").setValue(oProratedRetention);
+					this.byId("NetAmount").setValue(oNetProgBill);
+
+
 					this.DTRetention.getData().DetailesRetention[0].CWIP = oCWIP;
 					this.DTRetention.getData().DetailesRetention[0].GrossAmount = oGrossAmount;
 					this.DTRetention.getData().DetailesRetention[0].WTX = oWtx;
@@ -510,6 +518,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(true);
+				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "1") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getDPwthOP");
@@ -518,6 +528,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(true);
 				this.getView().byId("btnUpdate").setVisible(true);
+				this.getView().byId("BAmount").setVisible(false);
+				this.getView().byId("Wtax").setVisible(false);
 			} else if (PoStatus === "2") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getPOwithAPDP");
@@ -526,6 +538,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(false);
+				this.getView().byId("Wtax").setVisible(false);
 			} else if (PoStatus === "3") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getFirstBilling");
@@ -534,6 +548,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(true);
+				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "4") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
@@ -542,6 +558,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(true);
+				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "5") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getFinalBilling");
@@ -550,6 +568,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(true);
+				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "6") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
@@ -558,6 +578,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(false);
+				this.getView().byId("Wtax").setVisible(false);
 			} else if (PoStatus === "7") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getRetentionBilling");
@@ -566,6 +588,8 @@ sap.ui.define([
 				this.oFilter.refresh();
 				this.getView().byId("btnCancel").setVisible(false);
 				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("BAmount").setVisible(false);
+				this.getView().byId("Wtax").setVisible(false);
 			}
 		},
 		// To Get all Data of Purchase Order
@@ -616,8 +640,11 @@ sap.ui.define([
 			this.DTRetention.getData().DetailesRetention[0].ProratedDP = "";
 			this.DTRetention.getData().DetailesRetention[0].ProratedRetention = "";
 			this.DTRetention.getData().DetailesRetention[0].NetProgress = "";
-
 			this.DTRetention.refresh();
+			this.InputHeader.getData().InputHeader.DP = "";
+			this.InputHeader.getData().InputHeader.ProgressBilling = "";
+			this.InputHeader.refresh();
+			
 
 		},
 		// To Delete All Detaile Value in Fields
@@ -704,8 +731,10 @@ sap.ui.define([
 					this.oModelPurchase.setJSON("{\"POFields\" : " + JSON.stringify(results).replace("[", "").replace("]", "") + "}");
 					this.getView().setModel(this.oModelPurchase, "oModelPurchase");
 
-					oRetention = that.oModelPurchase.getData().POFields.DocTotal;
-					oDocTotal = that.oModelPurchase.getData().POFields.Price;
+					var oRetention = ""; 
+					var oDocTotal = ""; 	
+					oRetention = this.oModelPurchase.getData().POFields.Price;
+					oDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
 					this.byId("RentAmount").setValue(oRetention);
 					this.byId("Doctotal").setValue(oDocTotal);
 				}
@@ -740,7 +769,9 @@ sap.ui.define([
 		// Formula for Retention Amount
 		onRetentionAmount: function (oEvent) {
 
-			var DPValue = this.getView().byId("DPayment").getValue();
+			this.InputHeader.getData().InputHeader.DP = this.getView().byId("DPayment").getValue();
+			this.InputHeader.refresh();
+			var DPValue = this.InputHeader.getData().InputHeader.DP;
 
 			if (DPValue === "" || DPValue === "0") {
 
@@ -750,7 +781,7 @@ sap.ui.define([
 
 				// // COMPUTATION FOR GROSS AMOUNT
 				var PoDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
-				var Down_Payment = this.getView().byId("DPayment").getValue();
+				var Down_Payment = DPValue;
 				var oDowPayment = Down_Payment / 100;
 				var oDowPayment1 = Number([oDowPayment]);
 				var oDownPayment = oDowPayment1.toFixed(2);
@@ -885,9 +916,11 @@ sap.ui.define([
 		},
 		//Progress Biling Rate Formula
 		onProgressBIll: function () {
-
-			var oValue = this.getView().byId("ProgBill").getValue();
+			
+			this.InputHeader.getData().InputHeader.ProgressBilling = this.getView().byId("ProgBill").getValue();
+			this.InputHeader.refresh();
 			var PoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
+			var oValue = this.InputHeader.getData().InputHeader.ProgressBilling;
 
 			if (oValue === "") {
 				this.fDeleteDetailes();
@@ -902,8 +935,7 @@ sap.ui.define([
 					// COMPUTATION FOR GROSS AMOUNT
 					var ProgressBill = this.oModelPurchase.getData().POFields.DocTotal;
 					var oRate = this.oModelPrograte.getData().Rate.ProgRate;
-					var oRate1 = this.getView().byId("ProgBill").getValue() - oRate;
-					// var oProgresBill = this.getView().byId("ProgBill").getValue();
+					var oRate1 = this.InputHeader.getData().InputHeader.ProgressBilling - oRate;
 					var oCount = oRate1 / 100;
 					var oToTal = ProgressBill * oCount;
 					var oTotal4 = oToTal.toFixed(2);
@@ -917,7 +949,7 @@ sap.ui.define([
 					if (PoStatus === "5") {
 						var oProgresBill = this.FinalBillingRate;
 					}else{
-						var oProgresBill = this.getView().byId("ProgBill").getValue();	
+						var oProgresBill = this.InputHeader.getData().InputHeader.ProgressBilling;
 					}
 					var oCount = oProgresBill / 100;
 					var oToTal = ProgressBill * oCount;
@@ -970,7 +1002,7 @@ sap.ui.define([
 								var oRates = this.oModelPrograte.getData().Rate.ProgRate;
 
 								var ooDocTotal = this.oAPDocTotal.getData().doctotal[0].U_App_GrossAmnt;
-								var oRate1s = this.getView().byId("ProgBill").getValue() - oRates;
+								var oRate1s = this.InputHeader.getData().InputHeader.ProgressBilling - oRates;
 								var ooPercent = oRate1s / 100;
 								var ooProratedDP = ooDocTotal * ooPercent;
 								var oTotals = ooProratedDP.toFixed(2);
@@ -978,7 +1010,7 @@ sap.ui.define([
 							} else {
 
 								var oDocTotal = this.oAPDocTotal.getData().doctotal[0].U_App_GrossAmnt;
-								var ProgresBill = this.getView().byId("ProgBill").getValue();
+								var ProgresBill = this.InputHeader.getData().InputHeader.ProgressBilling;
 								var oPercent = ProgresBill / 100;
 								var oProratedDP = oDocTotal * oPercent;
 								var oTotals = oProratedDP.toFixed(2);
@@ -995,7 +1027,7 @@ sap.ui.define([
 								// PRORATED RETENTION COMPUTATION
 								var RetentionAmount = this.oModelPurchase.getData().POFields.Price;
 								var oRates = this.oModelPrograte.getData().Rate.ProgRate;
-								var oRate1s = this.getView().byId("ProgBill").getValue() - oRates;
+								var oRate1s = this.InputHeader.getData().InputHeader.ProgressBilling - oRates;
 								var ProgPercent = oRate1s / 100;
 								var ProTotal = RetentionAmount * ProgPercent;
 								var oProrated = ProTotal.toFixed(2);
@@ -1004,7 +1036,7 @@ sap.ui.define([
 
 								// PRORATED RETENTION COMPUTATION
 								var RetentionAmount = this.oModelPurchase.getData().POFields.Price;
-								var PoProgresBill = this.getView().byId("ProgBill").getValue();
+								var PoProgresBill = this.InputHeader.getData().InputHeader.ProgressBilling;
 								var ProgPercent = PoProgresBill / 100;
 								var ProTotal = RetentionAmount * ProgPercent;
 								var oProrated = ProTotal.toFixed(2);
@@ -1079,7 +1111,7 @@ sap.ui.define([
 
 				// COMPUTATION FOR CWIP
 				var PODocTotal = this.oModelPurchase.getData().POFields.DocTotal;
-				var ProgresBill = this.getView().byId("ProgBill").getValue();
+				var ProgresBill = this.InputHeader.getData().InputHeader.ProgressBilling;
 				var ProDP = this.DTRetention.getData().DetailesRetention[0].ProratedDP;
 				var oProdDP = Number([ProDP]);
 				var ProReten = this.DTRetention.getData().DetailesRetention[0].ProratedRetention;
@@ -1127,7 +1159,7 @@ sap.ui.define([
 				// Computation for CWIP
 
 				var oRate = this.oModelPrograte.getData().Rate.ProgRate;
-				var oRate1 = this.getView().byId("ProgBill").getValue() - oRate;
+				var oRate1 = this.InputHeader.getData().InputHeader.ProgressBilling - oRate;
 				var oProgresBill = oRate1 / 100;
 
 				var PODocTotal = this.oModelPurchase.getData().POFields.DocTotal;
@@ -1386,7 +1418,7 @@ sap.ui.define([
 					oPurchase_Order.U_App_TransNum = this.getView().byId("TransNo").getValue();
 					oPurchase_Order.U_App_ContractAmount = this.oModelPurchase.getData().POFields.DocTotal;
 					oPurchase_Order.U_App_TransDate = this.fGetTodaysDate();
-					oPurchase_Order.U_App_ProgBill = this.getView().byId("ProgBill").getValue();
+					oPurchase_Order.U_App_ProgBill = this.InputHeader.getData().InputHeader.ProgressBilling;
 					oPurchase_Order.U_App_TransType = this.getView().byId("TransType").getSelectedKey();
 					oPurchase_Order.U_App_ProgBill_Type = this.getView().byId("TransType").getSelectedKey();
 					oPurchase_Order.U_App_TaxType = this.getView().byId("TaxType").getSelectedKey();
@@ -1410,12 +1442,12 @@ sap.ui.define([
 						//oPurchase_Order.U_App_DocStatus = "RentPB";
 					}
 
-					var DP = this.getView().byId("DPayment").getValue();
+					var DP = this.InputHeader.getData().InputHeader.DP;
 
 					if (DP === "") {
 						oPurchase_Order.U_App_DwnPymnt = 0.0;
 					} else {
-						oPurchase_Order.U_App_DwnPymnt = this.getView().byId("DPayment").getValue();
+						oPurchase_Order.U_App_DwnPymnt = tthis.InputHeader.getData().InputHeader.DP;
 					}
 
 					oPurchase_Order.U_App_CreatedDate = this.fGetTodaysDate();
@@ -1582,15 +1614,15 @@ sap.ui.define([
 			var oHeader = {};
 
 			oHeader.U_App_PostDate = this.oModelPurchase.getData().POFields.DocDate;
-			var DP = this.getView().byId("DPayment").getValue();
+			var DP = this.InputHeader.getData().InputHeader.DP;
 
 			if (DP === "") {
 				oHeader.U_App_DwnPymnt = 0;
 			} else {
-				oHeader.U_App_DwnPymnt = this.getView().byId("DPayment").getValue();
+				oHeader.U_App_DwnPymnt = this.InputHeader.getData().InputHeader.DP;
 			}
 			oHeader.U_App_TaxType = this.getView().byId("TaxType").getSelectedKey();
-			oHeader.U_App_ProgBill = this.getView().byId("ProgBill").getValue();
+			oHeader.U_App_ProgBill = this.InputHeader.getData().InputHeader.ProgressBilling;
 			oHeader.U_App_Remarks = this.getView().byId("TextArea")._lastValue;
 			oHeader.U_App_UpdatedBy = this.UserNmae;
 			oHeader.U_App_UpdatedDate = this.fGetTodaysDate();
@@ -1812,8 +1844,8 @@ sap.ui.define([
 			oAPLines.VatGroup = "IVAT-EXC";
 			oAPLines.UnitPrice = this.oModelPurchase.getData().POFields.DocTotal;
 			oAPLines.U_APP_RtnRowType = "C";
-			oAPDown.DownPaymentPercentage = this.getView().byId("DPayment").getValue();
-			oAPDown.U_APP_ProgBillRate = this.getView().byId("DPayment").getValue();
+			oAPDown.DownPaymentPercentage = this.InputHeader.getData().InputHeader.DP;
+			oAPDown.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.DP;
 
 			oAPDown.DocumentLines.push(oAPLines);
 
@@ -1866,7 +1898,7 @@ sap.ui.define([
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 2;
 			oFGRPO.U_APP_IsForRetention = "Y";
-			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
+			oFGRPO.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.ProgressBilling;
 			oFGRPO.DocumentLines = [];
 
 			oFGRPOLines.BaseLine = 0;
@@ -2036,7 +2068,7 @@ sap.ui.define([
 			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_RETTranstype = 3;
 			var oRate = this.oModelPrograte.getData().Rate.ProgRate;
-			var oRate1 = this.getView().byId("ProgBill").getValue() - oRate;
+			var oRate1 = this.InputHeader.getData().InputHeader.ProgressBilling - oRate;
 			oFGRPO.U_APP_ProgBillRate = oRate1;
 			oFGRPO.DocumentLines = [];
 
@@ -2201,7 +2233,7 @@ sap.ui.define([
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 4;
 			oFGRPO.U_APP_IsForRetention = "Y";
-			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
+			oFGRPO.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.ProgressBilling;
 			oFGRPO.DocumentLines = [];
 
 			if (this.POCount === "1"){
@@ -2411,7 +2443,7 @@ sap.ui.define([
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 5;
 			oFGRPO.U_APP_IsForRetention = "Y";
-			oFGRPO.U_APP_ProgBillRate = this.getView().byId("ProgBill").getValue();
+			oFGRPO.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.ProgressBilling;
 			oFGRPO.DocumentLines = [];
 
 			oFGRPOLines.BaseLine = 1;
@@ -2534,7 +2566,7 @@ sap.ui.define([
 					if (PoStatus === "4") {
 						// var oProg_Rate = this.oModelPrograte.getData().Rate.ProgRate;
 						// var oAvailable_Rate = 100 - oProg_Rate;
-						var progRate = this.getView().byId("ProgBill").getValue();
+						var progRate = this.InputHeader.getData().InputHeader.ProgressBilling;
 						var ProgressRate = Number([progRate]);
 
 						var soProg_Rate = ProgressRate - this.oModelPrograte.getData().Rate.ProgRate;

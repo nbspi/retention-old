@@ -48,7 +48,9 @@ sap.ui.define([
       this.createField("APP_ProRetention", "Prorated Retention", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_ProgBillAmount", "Progress Billing Amount", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_DPAmount", "Down Payment Amount", "OPOR", "db_Float", "st_Sum", 30);
-      this.createField("APP_Retention", "With Retention", "OPOR", "db_Alpha", "", 250);
+	  this.createField("APP_Retention", "With Retention", "OPOR", "db_Alpha", "", 250);
+	  this.createField("APP_ProjCode", "Project Code", "OPOR", "db_Alpha", "",30);
+	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Float", "st_Sum",30);
 
       // -- Retention Payable Header --
 
@@ -69,7 +71,7 @@ sap.ui.define([
       this.createField("App_TransNum", "Transaction Number", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_DocEntry", "DocEntry", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_PostDate", "Posting Date", "@APP_ORPT", "db_Alpha", "", 30);
-      this.createField("App_DocStatus", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
+      this.createField("App_DosStatus", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
       this.createMandatoryFields("@APP_ORPT");
 
       // -- Retention Payable Detailes --
@@ -82,7 +84,7 @@ sap.ui.define([
       this.createField("App_DocNum", "DocNum", "@APP_RPT1", "db_Numeric", "st_Sum", 30);
       this.createField("App_DocEntry", "DocEntry", "@APP_RPT1", "db_Alpha", "", 30);
       this.createField("App_TransNum", "Transaction Number", "@APP_RPT1", "db_Alpha", "", 30);
-      this.createField("App_DocStatus", "Document Status", "@APP_RPT1", "db_Alpha", "", 30);
+      this.createField("App_DosStatus", "Document Status", "@APP_RPT1", "db_Alpha", "", 30);
       this.createField("App_CWIP", "CWIP", "@APP_RPT1", "db_Numeric", "st_Sum", 30);
 
     // -- Purchase Orde Transaction --

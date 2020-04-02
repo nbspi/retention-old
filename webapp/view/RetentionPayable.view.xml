@@ -31,12 +31,20 @@ xmlns:t="sap.ui.table">
 											</content>
 										</Toolbar>
 									</t:extension>
-									<!--DocNum-->
+									<!--Document Number-->
 									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
 										filterProperty="DocNum">
 										<Label text="Document Number"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Project Code-->
+									<t:Column id="colProjCode" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
+										filterProperty="DocNum">
+										<Label text="Project Code"/>
+										<t:template>
+											<Text text="" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--VendorName-->
@@ -78,7 +86,7 @@ xmlns:t="sap.ui.table">
 									</t:Column>
 								</t:Table>
 							</IconTabFilter>
-							<IconTabFilter id="tab2" text="PO No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
+							<IconTabFilter id="tab2" text="Contract No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
 								<Toolbar>
 									<content>
 									<Button id="btn1" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://save"/>
@@ -123,7 +131,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Input>
 										<!--Document Number-->
-										<Label text="PO Number" width="100%">
+										<Label text="Contract Number" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
@@ -201,7 +209,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProgBill" placeholder="" textAlign="Right" liveChange="onProgressBIll"
+										<Input width="100%" id="ProgBill" textAlign="Left" liveChange="onProgressBIll"
 											value="{InputHeader>/InputHeader/ProgressBilling}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
@@ -213,7 +221,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="DPayment" enabled="true" placeholder="0.00" textAlign="Right" liveChange="onRetentionAmount"
+										<Input width="100%" id="DPayment" enabled="true" textAlign="Left" liveChange="onRetentionAmount"
 											value="{InputHeader>/InputHeader/DP}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
@@ -232,14 +240,36 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</ComboBox>
 										<!--CONTRACT AMOUNT-->
-										<Label text="Contract Amount." width="100%">
+										<Label text="Contract Amount" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
 										<Input width="100%" id="Doctotal" editable="false" placeholder="0.00"
-										value="{ path:'oModelPurchase>/POFields/DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
-										>
+										value="{ path:'oModelPurchase>/POFields/DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Base Amount-->
+										<Label text="Base Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="BAmount" 
+										value="{ path:'InputHeader>/InputHeader/BaseAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Witholding Tax-->
+										<Label text="Witholding Tax" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="Wtax" editable="false" value="{InputHeader>/InputHeader/WTax}" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -252,42 +282,54 @@ xmlns:t="sap.ui.table">
 											<t:Column width="8rem">
 												<Label text="CWIP"/>
 												<t:template>
-													<Input id="CWIP" value="{DTRetention>CWIP}" textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
+													<Input id="CWIP"
+													value="{path:'DTRetention>CWIP', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+													 textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
 												</t:template>
 											</t:Column>
 											<!--Gross Amount-->
 											<t:Column width="9rem">
 												<Label text="Gross Amount"/>
 												<t:template>
-													<Input id="GrossAmount" value="{DTRetention>GrossAmount}" textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
+													<Input id="GrossAmount"
+													value="{path:'DTRetention>GrossAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"												
+													textAlign="End" enabled="false" fieldWidth="100%" width="100%"/>
 												</t:template>
 											</t:Column>
 											<!--WTX-->
 											<t:Column width="7rem">
 												<Label text="Wtx"/>
 												<t:template>
-													<Input id="WTX" value="{DTRetention>WTX}" textAlign="End" fieldWidth="80%" enabled="false" width="100%"/>
+													<Input id="WTX"
+													value="{path:'DTRetention>WTX', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+													 textAlign="End" fieldWidth="80%" enabled="false" width="100%"/>
 												</t:template>
 											</t:Column>
 											<!--Prorated DP-->
 											<t:Column width="8rem">
 												<Label text="Prorated DP"/>
 												<t:template>
-													<Input id="ProratedDP" value="{DTRetention>ProratedDP}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+													<Input id="ProratedDP"
+													value="{path:'DTRetention>ProratedDP', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+													textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
 												</t:template>
 											</t:Column>
 											<!--Prorated Retention-->
 											<t:Column width="11rem">
 												<Label text="Prorated Retention"/>
 												<t:template>
-													<Input id="ProratedReten" value="{DTRetention>ProratedRetention}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+													<Input id="ProratedReten"
+													value="{path:'DTRetention>ProratedRetention', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+													textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
 												</t:template>
 											</t:Column>
 											<!--Net Progress Billing Amount-->
 											<t:Column width="13rem">
 												<Label text="{oFilter>/NetAmount/NAME}"/>
 												<t:template>
-													<Input id="NetAmount" value="{DTRetention>NetProgress}" textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
+													<Input id="NetAmount"
+													value="{path:'DTRetention>NetProgress', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+													textAlign="End" fieldWidth="80%" width="100%" enabled="false"/>
 												</t:template>
 											</t:Column>
 										</t:columns>
