@@ -1469,7 +1469,7 @@ sap.ui.define([
 					if (DP === "") {
 						oPurchase_Order.U_App_DwnPymnt = 0.0;
 					} else {
-						oPurchase_Order.U_App_DwnPymnt = tthis.InputHeader.getData().InputHeader.DP;
+						oPurchase_Order.U_App_DwnPymnt = this.InputHeader.getData().InputHeader.DP;
 					}
 
 					oPurchase_Order.U_App_CreatedDate = this.fGetTodaysDate();
@@ -1559,6 +1559,7 @@ sap.ui.define([
 							}
 							this.Tag = "";
 							this.fHideBusyIndicator();
+							this.fDeleteData();
 						}
 					});
 
@@ -1566,7 +1567,6 @@ sap.ui.define([
 					sap.m.MessageToast.show("No Data to Post in SAP");
 					this.fHideBusyIndicator();
 				}
-					this.fDeleteData();
 			}
 
 		},
