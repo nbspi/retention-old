@@ -123,7 +123,7 @@ sap.ui.define([
 			this.STatus = oRowSelected.DocStatus;
 			this.oSCode = oRowSelected.DocEntry;
 			this.POCount = oRowSelected.POCount; 
-			// var POType = oRowSelected.POCount;
+			// var POType = oRowSelected.POCount
 			if (this.POCount === "2") {
 				this.ColType = "R";
 				Rent = 	oRowSelected.DocTotal * 0.1;
