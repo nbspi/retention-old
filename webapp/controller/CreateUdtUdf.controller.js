@@ -71,7 +71,9 @@ sap.ui.define([
       this.createField("App_TransNum", "Transaction Number", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_DocEntry", "DocEntry", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_PostDate", "Posting Date", "@APP_ORPT", "db_Alpha", "", 30);
-      this.createField("App_DosStatus", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
+	  this.createField("App_DosStatus", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
+	  this.createField("App_BaseAmount", "Base Amount", "@APP_ORPT", "db_Float", "st_Sum", 30);
+      this.createField("App_WithTax", "Witholding Tax", "@APP_ORPT", "db_Float", "st_Sum", 30);
       this.createMandatoryFields("@APP_ORPT");
 
       // -- Retention Payable Detailes --

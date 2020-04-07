@@ -89,10 +89,10 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab2" text="Contract No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
 								<Toolbar>
 									<content>
-									<Button id="btn1" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://save"/>
-									<Button id="btn2" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://add"/>
-									<Button id="btnCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
-									<Button id="btnUpdate" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
+									<Button id="btnRetSave" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://save"/>
+									<Button id="btnRetAdd" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://add"/>
+									<Button id="btnRetCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
+									<Button id="btnRetUpdate" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
 									</content>
 								</Toolbar>
 								<VBox class="sapUiTinyMargin">

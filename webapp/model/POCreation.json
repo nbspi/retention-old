@@ -11,10 +11,14 @@
 	},
 	"POSelection": [{
 		"CODE": "0",
-		"NAME": "1 - PO Draft"
+		"NAME": "1 - Contract Draft"
 	}, {
 		"CODE": "1",
-		"NAME": "2 - PO Added"
+		"NAME": "2 - Contract Added"
+	},
+	{
+		"CODE":"2",
+		"NAME": "3 - Posted Contracts with Down Payment and  Progress Billing "
 	}]
 
 }

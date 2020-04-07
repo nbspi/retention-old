@@ -88,10 +88,10 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab2" text="Contract No:" count="{Retention>/POCount/PONum}" key="tab2">
 							<Toolbar>
 								<content>
-								<Button id="btn1" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add"/>
-								<Button id="btnCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
-								<Button id="btnUpdate" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
+								<Button id="btnTransUpdate" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
+								<Button id="btnTransAdd" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add"/>
+								<Button id="btnTransCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
+								<Button id="btnTransPrint" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
 								</content>
 							</Toolbar>
 								<VBox class="sapUiTinyMargin">
@@ -164,7 +164,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProjCode" required="true" textAlign="Right" value="{POData>/POCreation/ProjectCode}" liveChange="" >
+										<Input  width="100%" id="ProjCode" required="true" valueHelpRequest="onHandleValueProjCode" showValueHelp="true"  value="{POData>/POCreation/ProjectCode}" liveChange="" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>

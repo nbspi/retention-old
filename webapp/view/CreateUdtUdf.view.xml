@@ -8,8 +8,8 @@
 				<content>
 					<Toolbar>
 						<content>
-							<Button id="btn1" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add"/>
-							<Button id="btn2" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add"/>
+							<Button id="btnUDT" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add"/>
+							<Button id="btnUDF" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add"/>
 						</content>
 					</Toolbar>
 				</content>
@@ -17,3 +17,6 @@
 		</pages>
 	</App>
 </mvc:View> 
+
+20491771
+7480

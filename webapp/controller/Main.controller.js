@@ -15,16 +15,20 @@ sap.ui.define([
     return Controller.extend("com.apptech.app-retention.controller.Main", {
 
         _data : {
-            "UserAccount" : ""
+            "UserAccount" : "manager"
         },
         onInit: function() {
             this.UserName = jQuery.sap.storage.get("Usename");
 
-            this._data.UserAccount = this.UserName;
 			var oModel = new JSONModel(this._data);
 			this.getView().setModel(oModel);
 
             this.router = this.getOwnerComponent().getRouter();
+
+            this.oMdlMenu = new JSONModel("model/Menus.json");
+            this.getView().setModel(this.oMdlMenu);
+            
+            this._data.UserAccount = this.UserName;
 
         },
         onRoutePatternMatched: function(event) {
@@ -56,6 +60,9 @@ sap.ui.define([
                     break;
                 case "transactionrecords":
                     this.router.navTo("TransactionOrder");
+                    break;
+                case "projectCode":
+                    this.router.navTo("ProjectCode");
                     break;
                 default:
 

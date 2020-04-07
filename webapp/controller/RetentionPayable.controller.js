@@ -100,8 +100,8 @@ sap.ui.define([
 
 			if (Tab === "tab1") {
 				this.onRefresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 			}
 		},
 		//Process Transaction 
@@ -415,11 +415,14 @@ sap.ui.define([
 					this.getView().byId("DPayment").setValue(oDP);
 					this.oModelPurchase.getData().POFields.DocTotal = oDocTotal;
 					this.getView().byId("ProgBill").setValue(oProgBill);
-					// this.getView().byId("PBType").setValue(oProgType);
-
 					this.getView().byId("TextArea").setValue(oRemarks);
-
 					this.oModelPurchase.refresh();
+
+					this.getView().byId("BAmount").setValue(that.oModelUDT.getData().UDTFields.U_App_BaseAmount);
+					this.getView().byId("Wtax").setValue(that.oModelUDT.getData().UDTFields.U_App_WithTax);
+					this.InputHeader.getData().InputHeader.BaseAmount = that.oModelUDT.getData().UDTFields.U_App_BaseAmount;
+					this.InputHeader.getData().InputHeader.WTax = that.oModelUDT.getData().UDTFields.U_App_WithTax;
+					this.InputHeader.refresh();
 
 				}
 
@@ -516,8 +519,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
 				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "1") {
@@ -526,8 +529,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(true);
-				this.getView().byId("btnUpdate").setVisible(true);
+				this.getView().byId("btnRetCancel").setVisible(true);
+				this.getView().byId("btnRetUpdate").setVisible(true);
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
 			} else if (PoStatus === "2") {
@@ -536,8 +539,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Down Payment Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
 			} else if (PoStatus === "3") {
@@ -546,8 +549,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
 				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "4") {
@@ -556,8 +559,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
 				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "5") {
@@ -566,8 +569,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
 				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "6") {
@@ -576,8 +579,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "View";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
 			} else if (PoStatus === "7") {
@@ -586,8 +589,8 @@ sap.ui.define([
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
-				this.getView().byId("btnCancel").setVisible(false);
-				this.getView().byId("btnUpdate").setVisible(false);
+				this.getView().byId("btnRetCancel").setVisible(false);
+				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
 			}
@@ -681,8 +684,8 @@ sap.ui.define([
 				this.getView().byId("CWIP").setEnabled(false);
 				this.getView().byId("fileUploader").setEnabled(false);
 				this.getView().byId("TextArea").setEnabled(false);
-				this.getView().byId("btn1").setEnabled(false);
-				this.getView().byId("btn2").setEnabled(false);
+				this.getView().byId("btnRetSave").setEnabled(false);
+				this.getView().byId("btnRetAdd").setEnabled(false);
 
 			} else {
 
@@ -702,8 +705,8 @@ sap.ui.define([
 				this.getView().byId("CWIP").setEnabled(true);
 				this.getView().byId("fileUploader").setEnabled(true);
 				this.getView().byId("TextArea").setEnabled(true);
-				this.getView().byId("btn1").setEnabled(true);
-				this.getView().byId("btn2").setEnabled(true);
+				this.getView().byId("btnRetSave").setEnabled(true);
+				this.getView().byId("btnRetAdd").setEnabled(true);
 
 			}
 		},
@@ -712,6 +715,8 @@ sap.ui.define([
 
 			this.InputHeader.getData().InputHeader.BaseAmount = this.getView().byId("BAmount").getValue();
 			this.InputHeader.refresh();
+
+			var oBaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
 
 			var oBaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
 			var oWTX1 = oBaseAmount / 1.12;
@@ -725,6 +730,97 @@ sap.ui.define([
 			this.InputHeader.getData().InputHeader.WTax = FTotalFWTX;
 			this.InputHeader.refresh();
 
+			//Formula for Retention Detailes
+			var Transaction_Type = this.getView().byId("TransType").getSelectedKey();
+
+			if (Transaction_Type === "0"){
+
+				if (oBaseAmount !== ""){
+
+					
+					var Gross_Amount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+					var oWTX1 = Gross_Amount / 1.12;
+					var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+					var sWTHTaxRate1 = sWTHTaxRate / 100;
+					var oTotalWTX = oWTX1 * sWTHTaxRate1;
+					var oTotal = Number([oTotalWTX]);
+					var odtlWTX = oTotal.toFixed(2);
+
+					var oodtlWTX = Number([odtlWTX]);
+					var oFTotalFWTX = Number([FTotalFWTX]);
+					var osdtlWTX = oodtlWTX + oFTotalFWTX;
+					var FdtlFWTX = osdtlWTX.toFixed(2);
+
+					this.DTRetention.getData().DetailesRetention[0].WTX = FdtlFWTX;
+					this.DTRetention.refresh();
+
+					var GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+					var oGrossAmount = Number([GrossAmount]);
+
+					var NetDPAmount = oGrossAmount - FdtlFWTX;
+					var oNetDPAmount = Number([NetDPAmount]);
+					var FNetDPAmount = oNetDPAmount.toFixed(2);
+
+					this.DTRetention.getData().DetailesRetention[0].NetProgress = FNetDPAmount;
+					this.DTRetention.refresh();
+
+				}else{
+					this.onRetentionAmount();
+				}
+
+			}else {
+
+				var ProgresBil_Type = this.getView().byId("PBType").getSelectedKey();
+
+				if (ProgresBil_Type !== "4"){
+
+					if (oBaseAmount !== ""){
+
+						
+						var GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+						var oGrossAmout = Number([GrossAmount]);
+						var ProratedDP = this.DTRetention.getData().DetailesRetention[0].ProratedDP;
+						var oProratedDP = Number([ProratedDP]);
+						var ProratedRetention = this.DTRetention.getData().DetailesRetention[0].ProratedRetention;
+						var oProratedRetention = Number([ProratedRetention]);
+						var fWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+						var ofWTHTaxRate = Number([fWTHTaxRate]);
+
+						var fGrossCount = ofWTHTaxRate / 100;
+						var Wtx1 = oGrossAmout - oProratedDP;
+						var Wtx2 = Wtx1 - oProratedRetention;
+						var Wtx3 = Wtx2 / 1.12;
+						var Wtx4 = Wtx3 * fGrossCount;
+						var oDTWtx = Wtx4.toFixed(2);
+
+						var oodtlWTX = Number([oDTWtx]);
+						var oFTotalFWTX = Number([FTotalFWTX]);
+						var osdtlWTX = oodtlWTX + oFTotalFWTX;
+						var FdtlFWTX = osdtlWTX.toFixed(2);
+
+						this.DTRetention.getData().DetailesRetention[0].WTX = FdtlFWTX;
+						this.DTRetention.refresh();
+
+						var oNetProgBill = GrossAmount - FdtlFWTX;
+						var ooNetProgBill = Number([oNetProgBill]);
+						var soNetProgBill = ooNetProgBill - oProratedDP;
+						var osoNetProgBill = Number([soNetProgBill]);
+						var sosoNetProgBill = osoNetProgBill - oProratedRetention;
+						var oNetDPAmount = Number([sosoNetProgBill]);
+						var FNetDPAmount = oNetDPAmount.toFixed(2);
+
+						this.DTRetention.getData().DetailesRetention[0].NetProgress = FNetDPAmount;
+						this.DTRetention.refresh();
+
+					}else{
+						this.onProgressBIll();
+					}
+
+				} else {
+
+				}
+
+			}
 
 		},
 		//To Get PO Data from GRID
@@ -877,6 +973,8 @@ sap.ui.define([
 					} else {
 						this.DTRetention.getData().DetailesRetention[0].WTX = "0";
 						this.DTRetention.refresh();
+
+						this.onProgressBIll();
 					}
 
 				} else if (oProgType === "2") {
@@ -895,6 +993,8 @@ sap.ui.define([
 					} else {
 						this.DTRetention.getData().DetailesRetention[0].WTX = "0";
 						this.DTRetention.refresh();
+
+						this.onProgressBIll();
 					}
 
 				} else if (oProgType === "3") {
@@ -926,6 +1026,8 @@ sap.ui.define([
 						this.DTRetention.getData().DetailesRetention[0].NetProgress = "0";
 						this.DTRetention.getData().DetailesRetention[0].WTX = "0";
 						this.DTRetention.refresh();
+
+						this.onProgressBIll();
 					}
 
 				}
@@ -933,6 +1035,8 @@ sap.ui.define([
 			} else {
 				this.DTRetention.getData().DetailesRetention[0].WTX = "0";
 				this.DTRetention.refresh();
+
+				this.onProgressBIll();
 			}
 
 		},
@@ -1446,6 +1550,8 @@ sap.ui.define([
 					oPurchase_Order.U_App_TaxType = this.getView().byId("TaxType").getSelectedKey();
 					oPurchase_Order.U_App_Remarks = this.getView().byId("TextArea")._lastValue;
 					oPurchase_Order.U_App_RentAmnt = this.oModelPurchase.getData().POFields.Price;
+					oPurchase_Order.U_App_BaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
+					oPurchase_Order.U_App_WithTax = this.InputHeader.getData().InputHeader.WTax;
 
 					if (oPoStatus === "0") {
 						oPurchase_Order.U_App_DosStatus = "DP";
@@ -1648,6 +1754,9 @@ sap.ui.define([
 			oHeader.U_App_Remarks = this.getView().byId("TextArea")._lastValue;
 			oHeader.U_App_UpdatedBy = this.UserNmae;
 			oHeader.U_App_UpdatedDate = this.fGetTodaysDate();
+			oHeader.U_App_BaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
+			oHeader.U_App_WithTax = this.InputHeader.getData().InputHeader.WTax;
+
 
 			$.ajax({
 

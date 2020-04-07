@@ -28,13 +28,17 @@ sap.ui.define([
 		var oModel = new JSONModel(this._data);
 		this.getView().setModel(oModel);
 
-      //Getting Data From LoginView
+      		//Getting Data From LoginView
 			this.Database = jQuery.sap.storage.get("Database");
 			this.UserName = jQuery.sap.storage.get("Usename");
 
-			//BLANK JSONMODEL FOR ALL BP FOR TEMPLATE
+			//BLANK JSONMODEL FOR ALL BP FOR FRAGMENT
 			this.oMdlAllBP = new JSONModel();
 			this.oMdlAllBP.getData().allbp = [];
+
+			//BLANK JSONMODEL FOR ALL PROJECTS FOR FRAGMENT			
+			this.oMdlAllProject = new JSONModel(); 
+			this.oMdlAllProject.getData().allbp = [];
 
 			// Retention
 			this.Retention = new JSONModel("model/TaxType.json");
@@ -58,7 +62,8 @@ sap.ui.define([
 			this.DraftCode = "";
 			this.oPOStatus = "";
 			this.VendorCode = "";
-			this.obtnUpdate = "";
+			//Get PO DocEntry 
+			this.PODocEnrty = "";
 
 
 	},
@@ -71,11 +76,10 @@ sap.ui.define([
 			this.fGetTransactionNumber();
 			this.Retention.getData().POCount.PONum = "";
 			this.Retention.refresh();
-			this.obtnUpdate = "";
-			// this.getView().byId("btnCancel").setVisible(false);
-			// this.getView().byId("btnUpdate").setVisible(false);
+			this.fSelectPurchaseTransaction();
+
 		} else {
-			this.getView().byId("btn1").setEnabled(false);
+			this.getView().byId("btnTransUpdate").setEnabled(false);
 		}
 	},
 	// Refresh Fields
@@ -197,16 +201,26 @@ sap.ui.define([
 			this.fDisableFields("1");
 			this.oFilter.getData().Process.ProcName = "Process";
 			this.oFilter.refresh();
-			this.getView().byId("btnCancel").setVisible(false);
-			this.getView().byId("btnUpdate").setVisible(false);
-		} else {
-			this.fFilterPurchaseOrderTransaction("getPOTransactions");
-			this.getView().byId("btn1").setEnabled(false);
+			this.getView().byId("btnTransCancel").setVisible(false);
+			this.getView().byId("btnTransPrint").setVisible(false);
+		} else if (PoStatus === "1"){
+			this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+			this.getView().byId("btnTransUpdate").setEnabled(false);
+			this.getView().byId("btnTransAdd").setEnabled(false);
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
-			this.getView().byId("btnCancel").setVisible(true);
-			this.getView().byId("btnUpdate").setVisible(true);
+			this.getView().byId("btnTransCancel").setVisible(true);
+			this.getView().byId("btnTransPrint").setVisible(true);
+		} else {
+			this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
+			this.getView().byId("btnTransUpdate").setEnabled(false);
+			this.getView().byId("btnTransAdd").setEnabled(false);
+			this.fDisableFields("0");
+			this.oFilter.getData().Process.ProcName = "View";
+			this.oFilter.refresh();
+			this.getView().byId("btnTransCancel").setVisible(false);
+			this.getView().byId("btnTransPrint").setVisible(false);
 		}
 	
 	},
@@ -228,13 +242,15 @@ sap.ui.define([
 
 		if (oPoStatus === "0") {
 			this.fGetDatafromHeaderUDT(this.DocNum);
-			this.getView().byId("btn1").setEnabled(true);
+			this.getView().byId("btnTransUpdate").setEnabled(true);
 		} else {
 		    this.fGetDatafromPO(this.oSCode);
 		}
 
 		var otab1 = this.getView().byId("idIconTabBarInlineMode");
 		otab1.setSelectedKey("tab2");
+		this.getView().byId("btnTransAdd").setEnabled(true);
+
 
 	},
 	// Get Header Data In UDT
@@ -443,6 +459,7 @@ sap.ui.define([
 				oPOLines1.UnitPrice = oCWIP;
 				oPOLines1.VatGroup = "IVAT-EXC";
 				oPOLines1.U_APP_RtnRowType = "C";
+				oPOLines1.
 				oPO.DocumentLines.push(oPOLines1);
 
 				oPOLines2.LineNum = 1;
@@ -628,7 +645,9 @@ sap.ui.define([
 				if (PoStatus === "0") {
 					this.fGetFilterValues("getFilterUDTCPORDocNum", oVAlue1);
 				} else if (PoStatus === "1") {
-					this.fGetFilterValues("getFilterPOTransactionsDocNum", oVAlue1);
+					this.fGetFilterValues("oDownPaymentFilterDocNum", oVAlue1);
+				} else if (PoStatus === "2") {
+					this.fGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
 				}
 			// Vendor Name
 			} else if (value === "__xmlview3--colVendor" || value === "__xmlview2--colVendor" || value === "__xmlview1--colVendor") {
@@ -636,7 +655,9 @@ sap.ui.define([
 				if (PoStatus === "0") {
 					this.fGetFilterValues("getFilterUDTCPORCardName", oVAlue1);
 				} else if (PoStatus === "1") {
-					this.fGetFilterValues("getFilterPOTransactionsCardName", oVAlue1);
+					this.fGetFilterValues("oDownPaymentFilterCardName", oVAlue1);
+				} else if (PoStatus === "2") {
+					this.fGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
 				}
 			//Posting Date
 			} else if (value === "__column0" ){
@@ -644,23 +665,31 @@ sap.ui.define([
 				if (PoStatus === "0") {
 					this.fGetFilterValues("getFilterUDTCPORDate", oVAlue1);
 				} else if (PoStatus === "1") {
-					this.fGetFilterValues("getFilterPOTransactionsDate", oVAlue1);
+					this.fGetFilterValues("oDownPaymentFilterDate", oVAlue1);
+				} else if (PoStatus === "2") {
+					this.fGetFilterValues("getFilterSubsequentBillingDate", oVAlue1);
 				}
-
+ 
 			} else if (value === "__xmlview1--colProjCode" || value === "__xmlview2--colProjCode" || value === "__xmlview3--colProjCode"){
 				if (PoStatus === "0") {
 					this.fGetFilterValues("getFilterUDTCPORProjCode", oVAlue1);
 				} else if (PoStatus === "1") {
-					this.fGetFilterValues("getFilterPOTransactionsProjCode", oVAlue1);
+					this.fGetFilterValues("oDownPaymentFilterProjCode", oVAlue1);
+				} else if (PoStatus === "2") {
+					this.fGetFilterValues("getFilterSubsequentBillingProjCode", oVAlue1);
 				}
+
 			}
 		} else {
 
 			if (PoStatus === "0") {
 				this.fFilterPurchaseOrderTransaction("getUDTCPOR");
 			} else if (PoStatus === "1") {
-				this.fFilterPurchaseOrderTransaction("getPOTransactions");
+				this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
+			} else if (PoStatus === "2") {
+				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 			}
+
 		}
 
 	},
@@ -703,6 +732,142 @@ sap.ui.define([
 			}
 		}
 	},
+	onCancel: function (){
+
+		var DocEntry = this.byId("Docnum").getValue();
+		this.foGetDocEntry("getPODocEntry",DocEntry);
+		var oDocEntry =  this.PODocEnrty;
+		
+		if (oDocEntry !== ""){
+			this.fShowBusyIndicator(4000, 0);
+			this.fPOCancellation(oDocEntry);
+		}
+	},
+	foGetDocEntry: function (QueryTag,oDocEntry){
+		var DocEntry  = "";
+
+			$.ajax({
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
+					"&value1=" + oDocEntry + "&value2=&value3=&value4=",
+					type: "GET",
+					dataType: "json",
+				  beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			  	},
+					error: function (xhr, status, error) {
+						sap.m.MessageToast.show(error);
+					},
+					success: function (json) {
+						this.PODocEnrty = json[0].DocEntry;
+						
+					},
+					context: this
+			}).done(function (results) {
+				this.PODocEnrty = results[0].DocEntry;
+			});
+	},
+	fPOCancellation: function (oDocEntry){
+
+		
+		$.ajax({
+			//Posting PO in SAP
+			url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
+			type: "POST",
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function (xhr, status, error) {
+				var Message = xhr.responseJSON["error"].message.value;
+				sap.m.MessageToast.show(Message);
+				this.fHideBusyIndicator();
+			},
+			context: this,
+			success: function (json) {				
+				sap.m.MessageToast.show("Cancel Successfully");
+				this.fHideBusyIndicator();
+				this.fDeleteData();
+			}
+			}).done(function (results) {
+			if (results) {
+
+			}
+
+		});
+
+	},
+	//------------------- Project Code ---------------------//
+	onHandleSearchProjCode: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter("ProjectCode", FilterOperator.Contains, sValue);
+			var oBinding = oEvent.getSource().getBinding("items");
+			oBinding.filter([oFilter]);
+	},
+	onHandleValueProjCode: function (){
+			if (!this._ValueHelpDialogs) {
+				Fragment.load({
+					name: "com.apptech.app-retention.view.fragments.ProjCodeFragment",
+					controller: this
+				}).then(function (ValueHelpDialogs) {
+					this._ValueHelpDialogs = ValueHelpDialogs;
+					this.getView().addDependent(this._ValueHelpDialogs);
+					this.fConfigValueHelpProjDialogs();
+					this._ValueHelpDialogs.open();
+				}.bind(this));
+			} else {
+				this.fConfigValueHelpProjDialogs();
+				this._ValueHelpDialogs.open();
+			}
+	},
+	fConfigValueHelpProjDialogs: function () {
+			var Database = this.Database;
+			var sInputValue = this.byId("BPCode").getValue();
+			if (this.oMdlAllProject.getData().allbp.length <= 0) {
+				$.ajax({
+					url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+						"&procName=spAppRetention&queryTag=getAllActiveProjectCode&value1=&value2=&value3=&value4=",
+					type: "GET",
+					dataType: "json",
+				  beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				  },
+					error: function (xhr, status, error) {
+						// var Message = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(error);
+					},
+					success: function (json) {},
+					context: this
+				}).done(function (results) {
+					if (results) {
+						this.oMdlAllProject.getData().allbp = results;
+						this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
+					}
+				});
+			}
+	
+			var aList = this.oMdlAllProject.getProperty("/allbp");
+	
+			aList.forEach(function (oRecord) {
+				oRecord.selected = (oRecord.CardCode === sInputValue);
+			});
+	},
+	onHandleValueHelpProjCloseBatch: function (oEvent) {
+			var aContexts = oEvent.getParameter("selectedContexts");
+			var CardDetails = {};
+			if (aContexts && aContexts.length) {
+	
+				CardDetails = aContexts.map(function (oContext) {
+					var oCard = {};
+					oCard.ProjectCode = oContext.getObject().ProjectCode;
+					oCard.ProjectName = oContext.getObject().ProjectName;
+					return oCard;
+				});
+			}
+			oEvent.getSource().getBinding("items").filter([]);
+			this.getView().byId("ProjCode").setValue(CardDetails[0].ProjectCode);
+			this.fGetTransactionNumber();
+	
+	},
+	//------------------- Project Code End -----------------//
 
   });
 });

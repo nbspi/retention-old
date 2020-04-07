@@ -113,6 +113,13 @@
 					"target": [
 						"CreateUdtUdf"
 					]
+				},
+				{
+					"name": "ProjectCode",
+					"pattern": "ProjectCode",
+					"target": [
+						"ProjectCode"
+					]
 				}
 			],
 			"targets": {
@@ -155,6 +162,16 @@
 					"viewPath": "com.apptech.app-retention.view",
 					"viewType": "XML",
 					"viewName": "CreateUdtUdf",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"ProjectCode": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "ProjectCode",
 					"parent": "Main",
 					"controlId": "pageContainer",
 					"controlAggregation": "pages",

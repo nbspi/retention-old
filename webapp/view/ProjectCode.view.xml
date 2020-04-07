@@ -1,0 +1,144 @@
+ <mvc:View controllerName="com.apptech.app-retention.controller.ProjectCode"
+xmlns:core="sap.ui.core" 
+xmlns:mvc="sap.ui.core.mvc"
+xmlns="sap.m" 
+xmlns:uxap="sap.uxap" 
+xmlns:f="sap.ui.layout.form" 
+xmlns:l="sap.ui.layout" 
+xmlns:u="sap.ui.unified" 
+xmlns:tnt="sap.tnt"
+xmlns:html="http://www.w3.org/1999/xhtml" 
+xmlns:t="sap.ui.table">
+	<App>
+		<pages>
+			<Page title="Project Code Creation">
+				<content>
+						<IconTabBar id="idIconTabBarInlineMode" select="fIconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter id="tab1" text="Records" key="tab1">
+								<t:Table id="tblProjects" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="onFilterValue"
+									rowSelectionChange="onSelectionChange" rows="{oMdlAllProjects>/allbp}">
+									<t:extension>
+										<Toolbar>
+											<Button id="btnProjProcess" text="Process" tooltip="Add" press="fProcess" icon="sap-icon://add"/>
+											<ToolbarSpacer/>
+										</Toolbar>
+									</t:extension>
+									<!--Project Code-->
+									<t:Column width="12rem" filterOperator="CodeFilter" filtered="true"
+										filterProperty="oProjCode" >
+										<Label text="Project Code"/>
+										<t:template>
+											<Text text="{oMdlAllProjects>ProjectCode}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Project Name-->
+									<t:Column id="colProjName" width="12rem">
+										<Label text="Project Name"/>
+										<t:template>
+											<Text text="{oMdlAllProjects>ProjectName}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Valid From-->
+									<t:Column width="12rem">
+										<Label text="Valid From"/>
+										<t:template>
+											<Text text="{oMdlAllProjects>ValidFrom}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Valid To-->
+									<t:Column width="12rem" >
+										<Label text="Valid To"/>
+										<t:template>
+											<Text text="{oMdlAllProjects>ValidTo}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Active-->
+									<t:Column width="12rem" filterOperator="ActiveFilter" filtered="true"
+										filterProperty="oProjActive" >
+										<Label text="Active"/>
+										<t:template>
+											<Text text="{oMdlAllProjects>Active}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:Table>
+							</IconTabFilter>
+							<IconTabFilter id="tab2" text="Project Code" key="tab2">
+							<Toolbar>
+								<content>
+								<Button id="btnProjUpdate" text="Update" tooltip="Add" enabled="{Project>/btnUpdate/ENABLED}" press="fUpdateProjCode" icon="sap-icon://save"/>
+								<Button id="btnProjsAdd" text="Add" tooltip="Add" enabled="{Project>/btnAdd/ENABLED}" press="fAddProjCode" icon="sap-icon://add"/>
+								</content>
+							</Toolbar>
+								<VBox class="sapUiTinyMargin">
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
+										<!--- Project Code -->
+										<Label text="Project Code" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input id="ProCode" type="Text" value="{Project>/Project/ProjectCode}" required="true" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--- Project Name -->
+										<Label text="Project Name" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input id="ProName" type="Text" value="{Project>/Project/ProjectName}" required="true" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!-- Valid From -->
+										<Label text="Valid From" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="oValFrom" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" required="true"
+											value="{Project>/Project/ValidFrom}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>
+										<!-- Valid To -->
+										<Label text="Valid To" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="oValTo" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" required="true"
+											value="{Project>/Project/ValidTo}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>
+										 <!-- Activator -->
+										<Label text="Active" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<ComboBox id="Active" required="true" width="100%" items="{Project>/Active}" selectedKey="{Project>/Project/Active}" 
+											selectionChange="onSelectActive" >
+											<core:Item key="{Project>CODE}" text="{Project>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</ComboBox>
+									</f:SimpleForm>
+								</VBox>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View> 

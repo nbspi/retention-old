@@ -1,0 +1,29 @@
+{
+	"Project":
+		{
+		"ProjectCode":"",
+		"ProjectName":"",
+		"ValidFrom":"",
+		"ValidTo":"",
+		"Active":""
+		},
+	"Active": [
+		{
+			"CODE":"Y",
+			"NAME":"Yes"
+		},
+		{
+			"CODE":"N",
+			"NAME":"No"
+		}
+			],
+	"btnAdd":
+		{
+			"ENABLED":true
+		},
+	"btnUpdate":
+	{
+		"ENABLED":true
+	}
+	
+}
