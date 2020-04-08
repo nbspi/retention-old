@@ -2025,7 +2025,6 @@ sap.ui.define([
 
 			oFGRPO.CardCode = GRPOCardCode;
 			oFGRPO.DocType = "dDocument_Service";
-			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 2;
 			oFGRPO.U_APP_IsForRetention = "Y";
@@ -2035,7 +2034,16 @@ sap.ui.define([
 			oFGRPOLines.BaseLine = 0;
 			oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
 			oFGRPOLines.BaseType = 22;
-			oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+
+			var GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			var oGrossAmount = Number([GrossAmount]);
+			var ProratedDP = this.DTRetention.getData().DetailesRetention[0].ProratedRetention;
+			var oProratedDP = Number([ProratedDP]);
+			var UnitPrice = oGrossAmount - oProratedDP;
+			var oUnitPrice = Number([UnitPrice]);
+			var TotalPrice = oUnitPrice.toFixed(2);
+
+			oFGRPOLines.UnitPrice = TotalPrice;
 			oFGRPOLines.VatGroup = "IVAT-EXC";
 			oFGRPOLines.U_APP_RtnRowType = "C";
 			oFGRPOLines.WTLiable = "tNO";
@@ -2194,7 +2202,6 @@ sap.ui.define([
 
 			oFGRPO.CardCode = GRPOCardCode;
 			oFGRPO.DocType = "dDocument_Service";
-			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_RETTranstype = 3;
@@ -2206,7 +2213,16 @@ sap.ui.define([
 			oFGRPOLines.BaseLine = 0;
 			oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
 			oFGRPOLines.BaseType = 22;
-			oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+
+			var GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			var oGrossAmount = Number([GrossAmount]);
+			var ProratedDP = this.DTRetention.getData().DetailesRetention[0].ProratedRetention;
+			var oProratedDP = Number([ProratedDP]);
+			var UnitPrice = oGrossAmount - oProratedDP;
+			var oUnitPrice = Number([UnitPrice]);
+			var TotalPrice = oUnitPrice.toFixed(2);
+
+			oFGRPOLines.UnitPrice = TotalPrice;
 			oFGRPOLines.VatGroup = "IVAT-EXC";
 			oFGRPOLines.U_APP_RtnRowType = "C";
 			oFGRPOLines.WTLiable = "tNO";
@@ -2360,34 +2376,45 @@ sap.ui.define([
 
 			oFGRPO.CardCode = GRPOCardCode;
 			oFGRPO.DocType = "dDocument_Service";
-			oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+			// oFGRPO.DocTotal = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 			oFGRPO.Comments = this.getView().byId("TextArea").getValue();
 			oFGRPO.U_APP_RETTranstype = 4;
 			oFGRPO.U_APP_IsForRetention = "Y";
 			oFGRPO.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.ProgressBilling;
 			oFGRPO.DocumentLines = [];
 
+			oFGRPOLines.BaseLine = 0;
+			oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
+			oFGRPOLines.BaseType = 22;
+
 			if (this.POCount === "1"){
 
-				oFGRPOLines.BaseLine = 0;
-				oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
-				oFGRPOLines.BaseType = 22;
-				oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
-				oFGRPOLines.VatGroup = "IVAT-EXC";
-				oFGRPOLines.U_APP_RtnRowType = "C";
-				oFGRPOLines.WTLiable = "tNO";
+				var TotalPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 
 			} else {
 
-				oFGRPOLines.BaseLine = 0;
-				oFGRPOLines.BaseEntry = this.oModelPurchase.getData().POFields.DocEntry;
-				oFGRPOLines.BaseType = 22;
-				oFGRPOLines.UnitPrice = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+				var GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+				var oGrossAmount = Number([GrossAmount]);
+				var ProgBill = this.oModelPrograte.getData().Rate.ProgRate;
+				var oProgBill = Number([ProgBill]);
+				var ooProgBill = 100 - oProgBill;
+				var oooProgBill = Number([ooProgBill]);
+				var ooooProgBill = oooProgBill / 100;
+				var oooooProgBill = GrossAmount * ooooProgBill;
+				var TotalProgBill = Number([oooooProgBill]);
+				
+				var UnitPrice = oGrossAmount - TotalProgBill;
+				var oUnitPrice = Number([UnitPrice]);
+				var TotalPrice = oUnitPrice.toFixed(2);
+
+			}
+
+				oFGRPOLines.UnitPrice = TotalPrice;
 				oFGRPOLines.VatGroup = "IVAT-EXC";
 				oFGRPOLines.U_APP_RtnRowType = "C";
 				oFGRPOLines.WTLiable = "tNO";
 
-			}
+			// }
 
 			oFGRPO.DocumentLines.push(oFGRPOLines);
 

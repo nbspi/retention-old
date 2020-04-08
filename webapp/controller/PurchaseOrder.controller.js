@@ -6,8 +6,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
+	"com/apptech/app-retention/controller/AppUI5",
 	"sap/ui/core/BusyIndicator"
-], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator,BusyIndicator) {
+], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator,AppUI5,BusyIndicator) {
 	"use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.PurchaseOrder", {
@@ -291,9 +292,10 @@ sap.ui.define([
 							withCredentials: true
 						},
 						error: function (xhr, status, error) {
-							var Message = xhr.responseJSON["error"].message.value;
-							sap.m.MessageToast.show(Message);
+							var ErrorMassage = xhr.responseJSON["error"].message.value;
+							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
+							AppUI5.fErrorLogs("OPOR & POR1","Add PO","1","1",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"1",this.Database);
 						},
 						context: this,
 						success: function (json) {}
@@ -381,6 +383,9 @@ sap.ui.define([
 	},
 	// Posting Draft
 	fDraft: function () {
+
+			var oDatabase = this.Database;
+
 			this.fShowBusyIndicator(4000, 0);
 			var oDraft = {};
 			var Vendor = this.getView().byId("BPCode").getValue();
@@ -432,9 +437,10 @@ sap.ui.define([
 						withCredentials: true
 					},
 					error: function (xhr, status, error) {
-						var Message = xhr.responseJSON["error"].message.value;
-						sap.m.MessageToast.show(Message);
+						var ErrorMassage = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
+						AppUI5.fErrorLogs("U_APP_CPOR","Add Draft","1","1",ErrorMassage,"PurchaseOrder Add Draft",this.UserNmae,"1",oDatabase);
 					},
 					context: this,
 					success: function (json) {}
@@ -549,10 +555,7 @@ sap.ui.define([
 	//-- For File Uploading--
 
 	// onHandleUploadComplete: function (oEvent){
-
-
-
-			
+	
 	// },
 	// handleValueChange: function (oEvt){
 	// 	var aFiles=oEvt.getParameters().files;
@@ -578,10 +581,6 @@ sap.ui.define([
 		
 	// 	//pero kapag yung ajax request na Purchase Order is nasa loob ng handleValueChange?
 	// 	// hindi po nag po post sir try ko po kaya sy ailabas baka sakaling gumana??
-
-
-
-
 
 	// },
 

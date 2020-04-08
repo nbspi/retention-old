@@ -2,9 +2,11 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
+	"com/apptech/app-retention/controller/AppUI5",
 	"sap/ui/core/BusyIndicator"
-], function (Controller, JSONModel, MessageToast,BusyIndicator) {
+], function (Controller, JSONModel, MessageToast,AppUI5,BusyIndicator) {
 	"use strict";
+
 
 	return Controller.extend("com.apptech.app-retention.controller.Login", {
 
@@ -39,7 +41,9 @@ sap.ui.define([
 				},
                 error: function (xhr, status, error) {
 					BusyIndicator.hide();
-                    MessageToast.show("Invalid Credentials");
+					var ErrorMassage = xhr.responseJSON["error"].message.value;
+					MessageToast.show(ErrorMassage);
+					AppUI5.fErrorLogs("OUSR","Login","1","1",ErrorMassage,"Login",this.oLogin.getData().Login.User,"1",sDBCompany);
                 },
                 context: this,
                 success: function (json) { }
