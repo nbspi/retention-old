@@ -2012,7 +2012,7 @@ sap.ui.define([
 			});
 
 		},
-		//Saving First Progress Billing in SAPs
+		//Saving First Progress Billing in SAP
 		onSavingFirstProgressBilling: function () {
 
 			var oDatabase = this.Database;
