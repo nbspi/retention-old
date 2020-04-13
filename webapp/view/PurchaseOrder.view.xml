@@ -54,7 +54,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Label>
 										<ComboBox id="Retention" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
-											selectionChange="onSelectRetention" loadItems="TransCode">
+											selectionChange="fSelectRetention" loadItems="TransCode">
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>

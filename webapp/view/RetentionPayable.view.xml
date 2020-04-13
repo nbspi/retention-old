@@ -105,7 +105,7 @@ xmlns:t="sap.ui.table">
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 										<!--Vendor/Supplier Code-->
-										<Label text="Vendor/Supplier" width="100%">
+										<Label text="Contractor" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
@@ -264,7 +264,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input  width="100%" id="RetCode" required="true" visible="{InputHeader>/RetAmount/ENABLED}"  valueHelpRequest="onHandleValueProjCode" showValueHelp="true" value="{InputHeader>/InputHeader/Rettransaction}" liveChange="onRetTransaction" >
+										<Input  width="100%" id="RetCode" required="true" visible="{InputHeader>/RetAmount/ENABLED}"  valueHelpRequest="onHandleValueProjCode" showValueHelp="true" value="{InputHeader>/InputHeader/Rettransaction}" liveChange="fRetTransaction" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>

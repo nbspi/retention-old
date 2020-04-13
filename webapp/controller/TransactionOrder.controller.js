@@ -6,8 +6,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
+	"com/apptech/app-retention/controller/AppUI5",
 	"sap/ui/core/BusyIndicator"
-], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator,		BusyIndicator) {
+], function (MessageBox, Controller, JSONModel, Fragment, MessageToast, Filter, FilterOperator,AppUI5,BusyIndicator) {
 	"use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.TransactionOrder", {
@@ -484,9 +485,10 @@ sap.ui.define([
 						withCredentials: true
 					},
 					error: function (xhr, status, error) {
-						var Message = xhr.responseJSON["error"].message.value;
-						sap.m.MessageToast.show(Message);
+						var ErrorMassage = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
+						AppUI5.fErrorLogs("OPOR & POR1","Add PO","1","1",ErrorMassage,"Retention Adding PO",this.UserNmae,"1",this.Database);
 					},
 					context: this,
 					success: function (json) {}
@@ -600,45 +602,61 @@ sap.ui.define([
 
 	},
 	// Updating Draft
-	fDraft: function () {
+	fDraftUpdate: function () {
 		this.fShowBusyIndicator(4000, 0);
-		var oCode = this.DraftCode;
 
-		var oPo = {};
+		var Contractor = this.getView().byId("BPCode").getValue();
+		var ContractAmount = this.getView().byId("CntAmount").getValue();
+		var ProjectCode = this.getView().byId("ProjCode").getValue();
 
-		oPo.U_App_Vendor = this.CardCode;
-		oPo.U_App_VendorName = this.oMdlAllBP.getData().allbp.Vendor;
-		oPo.U_App_Retention = this.POData.getData().POCreation.Retention;
-		oPo.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
-		oPo.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
-		oPo.U_App_Remarks = this.getView().byId("TextArea").getValue();
-		oPo.U_App_Progressive = this.POData.getData().POCreation.Progressive;
-		oPo.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
-		// oDraft.U_App_File = "";
-		oPo.U_App_UpdatedDate = this.fGetTodaysDate();
-		oPo.U_App_UpdatedBy = this.UserName;
+		if (Contractor === "" || ContractAmount === "" ||  ProjectCode === ""){
 
-		$.ajax({
-			url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
-			data: JSON.stringify(oPo),
-			type: "PATCH",
-			xhrFields: {
-				withCredentials: true
-			},
-			error: function (xhr, status, error) {
-				var Message = xhr.responseJSON["error"].message.value;
-				sap.m.MessageToast.show(Message);
-				this.fHideBusyIndicator();
-			},
-			context: this,
-			success: function (json) {
-				sap.m.MessageToast.show("Updated Successfully");
-				this.fHideBusyIndicator();
-				this.fDeleteData();
-			}
-		}).done(function (results1) {
-			//-------Success--------//
-		});
+			sap.m.MessageToast.show("Input Data");
+			this.fHideBusyIndicator();
+
+		} else{
+
+			var oCode = this.DraftCode;
+
+			var oPo = {};
+	
+			oPo.U_App_Vendor = this.CardCode;
+			oPo.U_App_VendorName = this.oMdlAllBP.getData().allbp.Vendor;
+			oPo.U_App_Retention = this.POData.getData().POCreation.Retention;
+			oPo.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
+			oPo.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
+			oPo.U_App_Remarks = this.getView().byId("TextArea").getValue();
+			oPo.U_App_Progressive = this.POData.getData().POCreation.Progressive;
+			oPo.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
+			// oDraft.U_App_File = "";
+			oPo.U_App_UpdatedDate = this.fGetTodaysDate();
+			oPo.U_App_UpdatedBy = this.UserName;
+	
+			$.ajax({
+				url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
+				data: JSON.stringify(oPo),
+				type: "PATCH",
+				xhrFields: {
+					withCredentials: true
+				},
+				error: function (xhr, status, error) {
+					var ErrorMassage = xhr.responseJSON["error"].message.value;
+					sap.m.MessageToast.show(ErrorMassage);
+					this.fHideBusyIndicator();
+					AppUI5.fErrorLogs("U_APP_CPOR","Update PO Draft","1","1",ErrorMassage,"Retention Update PO Draft",this.UserNmae,"1",this.Database);
+				},
+				context: this,
+				success: function (json) {
+					sap.m.MessageToast.show("Updated Successfully");
+					this.fHideBusyIndicator();
+					this.fDeleteData();
+				}
+			}).done(function (results1) {
+				//-------Success--------//
+			});
+
+		}
+
 	},
 	//Filter Grid Value
 	fFilterValue: function (oEvent) {
@@ -878,6 +896,18 @@ sap.ui.define([
 	
 	},
 	//------------------- Project Code End -----------------//
+	fSelectRetention: function(){
 
+		var Retention = this.getView().byId("Retention").getSelectedKey();
+
+		if (Retention === "1"){
+			this.getView().byId("Progressive").setSelectedKey("1");
+			this.getView().byId("Progressive").setEnabled(false);
+		}else{
+			this.getView().byId("Progressive").setSelectedKey("");
+			this.getView().byId("Progressive").setEnabled(true);
+		}
+
+	}
   });
 });

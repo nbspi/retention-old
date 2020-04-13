@@ -4,9 +4,10 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator",
+  "sap/ui/model/FilterOperator",
+  "com/apptech/app-retention/controller/AppUI5",
 	"sap/ui/core/BusyIndicator"
-], function(MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator,BusyIndicator) {
+], function(MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator,AppUI5,BusyIndicator) {
   "use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.ProjectCode", {
@@ -95,80 +96,99 @@ sap.ui.define([
     fAddProjCode: function(){
 
       this.fShowBusyIndicator(4000, 0);
+      var ProjectCode = this.byId("ProCode").getValue();
 
-      var Project = {};
+      if (ProjectCode === ""){
+        sap.m.MessageToast.show("Input Data");
+        this.fHideBusyIndicator();
+      }else{
 
-      Project.Code = this.Project.getData().Project.ProjectCode;
-      Project.Name = this.Project.getData().Project.ProjectName;
-      Project.ValidFrom = this.Project.getData().Project.ValidFrom;
-      Project.ValidTo = this.Project.getData().Project.ValidTo;
-      Project.Active = this.Project.getData().Project.Active;
+          var Project = {};
 
-      // POsting Project in SAP
-			$.ajax({
-				url: "https://18.136.35.41:50000/b1s/v1/Projects",
-				data: JSON.stringify(Project),
-				type: "POST",
-				xhrFields: {
-					withCredentials: true
-				},
-				error: function (xhr, status, error) {
-					var Message = xhr.responseJSON["error"].message.value;
-          sap.m.MessageToast.show(Message);
-          this.fRemoveData();
-					this.fHideBusyIndicator();
-				},
-				context: this,
-				success: function (json) {}
-			}).done(function (results) {
-				if (results) {
-          sap.m.MessageToast.show("Project Code" + results.Code + " Added Successfully");
-          this.fRemoveData();
-					this.fHideBusyIndicator();
-				}
-			});
+          Project.Code = this.Project.getData().Project.ProjectCode;
+          Project.Name = this.Project.getData().Project.ProjectName;
+          Project.ValidFrom = this.Project.getData().Project.ValidFrom;
+          Project.ValidTo = this.Project.getData().Project.ValidTo;
+          Project.Active = this.Project.getData().Project.Active;
+
+          // POsting Project in SAP
+			    $.ajax({
+			    	url: "https://18.136.35.41:50000/b1s/v1/Projects",
+			    	data: JSON.stringify(Project),
+			    	type: "POST",
+			    	xhrFields: {
+			    		withCredentials: true
+			    	},
+			    	error: function (xhr, status, error) {
+              var ErrorMassage = xhr.responseJSON["error"].message.value;
+              sap.m.MessageToast.show(ErrorMassage);
+              this.fHideBusyIndicator();
+              AppUI5.fErrorLogs("OPRJ","Update Project Code","1","1",ErrorMassage,"Retention Update Project Code",this.UserName,"1",this.   Database);
+			    	},
+			    	context: this,
+			    	success: function (json) {}
+			    }).done(function (results) {
+			    	if (results) {
+              sap.m.MessageToast.show("Project Code" + results.Code + " Added Successfully");
+              this.fRemoveData();
+			    		this.fHideBusyIndicator();
+			    	}
+			    });
+
+      }
+
     },
     // Updatin of Project Code
     fUpdateProjCode: function(){
       this.fShowBusyIndicator(4000, 0);
 
-      var sCode = this.Project.getData().Project.ProjectCode;
+      var ProjectCode = this.byId("ProCode").getValue();
 
-      var Project = {};
+      if (ProjectCode === ""){
+        sap.m.MessageToast.show("Input Data");
+        this.fHideBusyIndicator();
+      }else{
 
-      Project.Code = this.Project.getData().Project.ProjectCode;
-      Project.Name = this.Project.getData().Project.ProjectName;
-      Project.ValidFrom = this.Project.getData().Project.ValidFrom;
-      Project.ValidTo = this.Project.getData().Project.ValidTo;
-      Project.Active = this.Project.getData().Project.Active;
+        var sCode = this.Project.getData().Project.ProjectCode;
 
-      // POsting Project in SAP
-			$.ajax({
-				url: "https://18.136.35.41:50000/b1s/v1/Projects('"+ sCode +"')",
-				data: JSON.stringify(Project),
-				type: "PATCH",
-				xhrFields: {
-					withCredentials: true
-				},
-				error: function (xhr, status, error) {
-          this.fHideBusyIndicator();
-					var Message = xhr.responseJSON["error"].message.value;
-          sap.m.MessageToast.show(Message);
-          this.fRemoveData();
-				},
-				context: this,
-				success: function (json) {
-          sap.m.MessageToast.show("Updated Successfully");
-          this.fRemoveData();
-          this.fHideBusyIndicator();
-        }
-			}).done(function (results) {
-				if (results) {
-          sap.m.MessageToast.show("Updated Successfully");
-          this.fRemoveData();
-					this.fHideBusyIndicator();
-				}
-			});
+        var Project = {};
+  
+        Project.Code = this.Project.getData().Project.ProjectCode;
+        Project.Name = this.Project.getData().Project.ProjectName;
+        Project.ValidFrom = this.Project.getData().Project.ValidFrom;
+        Project.ValidTo = this.Project.getData().Project.ValidTo;
+        Project.Active = this.Project.getData().Project.Active;
+  
+        // POsting Project in SAP
+        $.ajax({
+          url: "https://18.136.35.41:50000/b1s/v1/Projects('"+ sCode +"')",
+          data: JSON.stringify(Project),
+          type: "PATCH",
+          xhrFields: {
+            withCredentials: true
+          },
+          error: function (xhr, status, error) {
+            this.fHideBusyIndicator();
+            var Message = xhr.responseJSON["error"].message.value;
+            sap.m.MessageToast.show(Message);
+            this.fRemoveData();
+          },
+          context: this,
+          success: function (json) {
+              var ErrorMassage = xhr.responseJSON["error"].message.value;
+              sap.m.MessageToast.show(ErrorMassage);
+              this.fHideBusyIndicator();
+              AppUI5.fErrorLogs("OPRJ","Update Project Code","1","1",ErrorMassage,"Retention Update Project Code",this.UserName,"1",this.Database);
+          }
+        }).done(function (results) {
+          if (results) {
+            sap.m.MessageToast.show("Updated Successfully");
+            this.fRemoveData();
+            this.fHideBusyIndicator();
+          }
+        });
+
+      }
 
     },
     //Hide indicator function

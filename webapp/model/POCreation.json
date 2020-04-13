@@ -11,10 +11,10 @@
 	},
 	"POSelection": [{
 		"CODE": "0",
-		"NAME": "1 - Contract Draft"
+		"NAME": "1 - Draft Contracts"
 	}, {
 		"CODE": "1",
-		"NAME": "2 - Contract Added"
+		"NAME": "2 - Added Contracts"
 	},
 	{
 		"CODE":"2",

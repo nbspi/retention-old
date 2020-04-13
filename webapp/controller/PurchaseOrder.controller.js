@@ -224,11 +224,11 @@ sap.ui.define([
 
 			var Vendor = this.CardCode;
 			var ContractAmount = this.getView().byId("CntAmount").getValue();
+			var ProjectCode = this.getView().byId("ProjCode").getValue();
 			var Retention = this.POData.getData().POCreation.Retention;
 			var PostingDate = this.getView().byId("DateFrom").getValue();
 			var Remarks = this.getView().byId("TextArea").getValue();
 			var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
-			var ProjectCode = this.getView().byId("ProjCode").getValue();
 
 			if (Vendor === "" ) {
 				sap.m.MessageToast.show("Input Data First");
@@ -563,6 +563,19 @@ sap.ui.define([
 			}
 		}
 	},
+	fSelectRetention: function(){
+
+		var Retention = this.getView().byId("Retention").getSelectedKey();
+
+		if (Retention === "1"){
+			this.getView().byId("Progressive").setSelectedKey("1");
+			this.getView().byId("Progressive").setEnabled(false);
+		}else{
+			this.getView().byId("Progressive").setSelectedKey("");
+			this.getView().byId("Progressive").setEnabled(true);
+		}
+
+	}
 
 	//-- For File Uploading--
 

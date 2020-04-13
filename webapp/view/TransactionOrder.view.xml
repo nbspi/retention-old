@@ -88,7 +88,7 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab2" text="Contract No:" count="{Retention>/POCount/PONum}" key="tab2">
 							<Toolbar>
 								<content>
-								<Button id="btnTransUpdate" text="Update" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
+								<Button id="btnTransUpdate" text="Update" tooltip="Add" press="fDraftUpdate" icon="sap-icon://save"/>
 								<Button id="btnTransAdd" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add"/>
 								<Button id="btnTransCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
 								<Button id="btnTransPrint" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
@@ -127,7 +127,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Label>
 										<ComboBox id="Retention" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
-											selectionChange="onSelectRetention" required="true" loadItems="TransCode">
+											selectionChange="fSelectRetention" required="true" loadItems="TransCode">
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
