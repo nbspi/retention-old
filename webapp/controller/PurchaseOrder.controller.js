@@ -234,7 +234,7 @@ sap.ui.define([
 				sap.m.MessageToast.show("Input Data First");
 				this.fHideBusyIndicator();
 				// this.fDeleteData();
-			} else if (ContractAmount === "0" || ContractAmount === "" ){
+			} else if (ContractAmount === 0 || ContractAmount === "" ){
 				sap.m.MessageToast.show("Input Contract Amount");
 				this.fHideBusyIndicator();
 				// this.fDeleteData();
@@ -263,7 +263,13 @@ sap.ui.define([
 					oPO.U_APP_IsForRetention = "Y";
 					oPO.U_APP_Retention = "Y";
 					oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
-					oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
+
+					if (this.POData.getData().POCreation.Progressive === "0" ){
+						oPO.U_APP_Progressive = "Yes";
+					}else{
+						oPO.U_APP_Progressive = "No" ;
+					}
+					
 					
 					oPOLines1.LineNum = 0;
 					oPOLines1.AccountCode = 161111; //CWIP
@@ -318,7 +324,13 @@ sap.ui.define([
 					oPO.DocType = "dDocument_Service";
 					oPO.U_APP_Retention = "N";
 					oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
-					oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
+					
+					if (this.POData.getData().POCreation.Progressive === "0" ){
+						oPO.U_APP_Progressive = "Yes";
+					}else{
+						oPO.U_APP_Progressive = "No" ;
+					}
+
 					oPO.DocumentLines = [];
 
 					oPOLines1.LineNum = 0;

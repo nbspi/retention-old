@@ -24,6 +24,9 @@
 	"btnUpdate":
 	{
 		"ENABLED":true
+	},
+	"ProjectCode":
+	{
+		"ENABLED":false
 	}
-	
 }

@@ -79,7 +79,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input id="ProCode" type="Text" value="{Project>/Project/ProjectCode}" required="true" width="100%">
+										<Input id="ProCode" type="Text" enabled="{Project>/ProjectCode/ENABLED}" value="{Project>/Project/ProjectCode}" required="true" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>

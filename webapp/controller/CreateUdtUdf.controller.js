@@ -51,6 +51,8 @@ sap.ui.define([
 	  this.createField("APP_Retention", "With Retention", "OPOR", "db_Alpha", "", 250);
 	  this.createField("APP_ProjCode", "Project Code", "OPOR", "db_Alpha", "",30);
 	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Alpha", "",5);
+	  this.createField("APP_DocEntry", "DocEntry", "OPCH", "db_Alpha", "", 20);
+	  this.createField("APP_Processed", "Processed", "OPCH", "db_Alpha", "", 20);
 
       // -- Retention Payable Header --
 

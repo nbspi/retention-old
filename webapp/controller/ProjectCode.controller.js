@@ -64,6 +64,7 @@ sap.ui.define([
       this.Project.getData().Project.Active = oRowSelected.Active;  
       this.Project.getData().btnAdd.ENABLED = false ;  
       this.Project.getData().btnUpdate.ENABLED = true ;
+      this.Project.getData().ProjectCode.ENABLED = false ;
       this.Project.refresh();
 
       var otab1 = this.getView().byId("idIconTabBarInlineMode");
@@ -79,6 +80,7 @@ sap.ui.define([
 			}else{
         this.Project.getData().btnAdd.ENABLED = true ;  
         this.Project.getData().btnUpdate.ENABLED = false ;
+        this.Project.getData().ProjectCode.ENABLED = true ;
         this.Project.refresh();
       }
     },

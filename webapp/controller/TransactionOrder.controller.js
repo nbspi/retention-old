@@ -422,7 +422,7 @@ sap.ui.define([
 			sap.m.MessageToast.show("Input Data First");
 			this.fHideBusyIndicator();
 			// this.fDeleteData();
-		} else if (oContranctAmount === ""){
+		} else if (oContranctAmount === "" || oContranctAmount === 0 ){
 			sap.m.MessageToast.show("Input Data First");
 			this.fHideBusyIndicator();
 			// this.fDeleteData();
@@ -452,14 +452,18 @@ sap.ui.define([
 				oPO.U_APP_IsForRetention = "Y";
 				oPO.U_APP_Retention = "Y";
 				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
-				oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
+
+				if (this.POData.getData().POCreation.Progressive === "0" ){
+					oPO.U_APP_Progressive = "Yes";
+				}else{
+					oPO.U_APP_Progressive = "No" ;
+				}
 
 				oPOLines1.LineNum = 0;
 				oPOLines1.AccountCode = 161111; //CWIP
 				oPOLines1.UnitPrice = oCWIP;
 				oPOLines1.VatGroup = "IVAT-EXC";
 				oPOLines1.U_APP_RtnRowType = "C";
-				oPOLines1.
 				oPO.DocumentLines.push(oPOLines1);
 
 				oPOLines2.LineNum = 1;
@@ -482,6 +486,7 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
+						this.fHideBusyIndicator();
 					},
 					context: this,
 					success: function (json) {}
@@ -510,7 +515,12 @@ sap.ui.define([
 				oPO.DocType = "dDocument_Service";
 				oPO.U_APP_Retention = "N";
 				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
-				oPO.U_APP_Progressive = this.POData.getData().POCreation.Progressive;
+				
+				if (this.POData.getData().POCreation.Progressive === "0" ){
+					oPO.U_APP_Progressive = "Yes";
+				}else{
+					oPO.U_APP_Progressive = "No" ;
+				}
 
 				oPOLines1.LineNum = 0;
 				oPOLines1.AccountCode = 161111; //CWIP

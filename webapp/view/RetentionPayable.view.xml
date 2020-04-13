@@ -58,7 +58,7 @@ xmlns:t="sap.ui.table">
 									<t:Column width="12rem" filtered="true" filterProperty="DocDate" >
 										<Label text="Posting Date"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
+											<Text id="PostingDate" text="{oModelOpenPO>DocDate}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--Doctotal-->
@@ -76,11 +76,18 @@ xmlns:t="sap.ui.table">
 											<Text id="DocStat" text="{oModelOpenPO>DocStatus}" wrapping="false"/>
 										</t:template>
 									</t:Column>
+									<!--Progressive-->
+									<t:Column id="colProgressive"  width="12rem" >
+										<Label text="Progressive"/>
+										<t:template>
+											<Text text="{oModelOpenPO>Progressive}" wrapping="false"/>
+										</t:template>
+									</t:Column>
 									<!-- Updated Date-->
 									<t:Column width="12rem">
 										<Label text="Date Updated"/>
 										<t:template>
-											<Text id="Update" text="{oModelOpenPO>Update}"
+											<Text id="UpdateDraft" text="{oModelOpenPO>Update}"
 											wrapping="false"/>
 										</t:template>
 									</t:Column>
@@ -109,6 +116,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
+										<!-- Transaction Number -->
 										<Label text="Transaction No." width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
@@ -171,7 +179,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="TransType" width="100%" enabled="false" items="{TransTypes>/TransactionType}" selectionChange="onSelectionChangeTranType"
+										<ComboBox id="TransType" width="100%" editable="false" enabled="false" items="{TransTypes>/TransactionType}" selectionChange="onSelectionChangeTranType"
 											loadItems="TransCode">
 											<core:Item key="{TransTypes>CODE}" text="{TransTypes>NAME}"/>
 											<layoutData>
@@ -197,8 +205,7 @@ xmlns:t="sap.ui.table">
 											</layoutData>
 										</Label>
 										<Input width="100%" id="RentAmount" placeholder="0.00" editable="false"
-										value="{ path:'oModelPurchase>/POFields/Price', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
-										>
+										value="{ path:'oModelPurchase>/POFields/Price', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -247,6 +254,17 @@ xmlns:t="sap.ui.table">
 										</Label>
 										<Input width="100%" id="Doctotal" editable="false" placeholder="0.00"
 										value="{ path:'oModelPurchase>/POFields/DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Retention Transaction-->
+										<Label text="Retention Transaction" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="RetCode" required="true" visible="{InputHeader>/RetAmount/ENABLED}"  valueHelpRequest="onHandleValueProjCode" showValueHelp="true" value="{InputHeader>/InputHeader/Rettransaction}" liveChange="onRetTransaction" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
