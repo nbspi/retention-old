@@ -62,6 +62,7 @@ sap.ui.define([
 			this.currentFile = {} //File Object	
 			//kpag lumipat ako ng ibang line number sa editor hindi mo ko nakikta
 
+			var TransCode = this.byId("Docnum").getValue();
 
 	},
 	//BP Search Fragment
@@ -301,7 +302,7 @@ sap.ui.define([
 							var ErrorMassage = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
-							AppUI5.fErrorLogs("OPOR & POR1","Add PO","1","1",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"1",this.Database);
+							AppUI5.fErrorLogs("OPOR & POR1","Add PO",TransCode,"null",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"null",this.Database,oPO);
 						},
 						context: this,
 						success: function (json) {}
@@ -452,7 +453,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
-						AppUI5.fErrorLogs("U_APP_CPOR","Add Draft","1","1",ErrorMassage,"PurchaseOrder Add Draft",this.UserNmae,"1",oDatabase);
+						AppUI5.fErrorLogs("U_APP_CPOR","Add Draft",TransCode,"null",ErrorMassage,"PurchaseOrder Add Draft",this.UserNmae,"nul",oDatabase,oDraft);
 					},
 					context: this,
 					success: function (json) {}

@@ -412,6 +412,7 @@ sap.ui.define([
 		this.fShowBusyIndicator(4000, 0);
 		var oDatabase = this.Database;
 
+		var TransCode = this.getView().byId("Docnum").getValue();
 		var oVendor = this.VendorCode;
 		var oRetention = this.POData.getData().POCreation.Retention;
 		var oPostingDate = this.getView().byId("DateFrom").getValue();
@@ -488,7 +489,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
-						AppUI5.fErrorLogs("OPOR & POR1","Add PO","1","1",ErrorMassage,"Retention Adding PO",this.UserNmae,"1",this.Database);
+						AppUI5.fErrorLogs("OPOR & POR1","Add PO",TransCode,"null",ErrorMassage,"Retention Adding PO",this.UserNmae,"null",this.Database,oPO);
 					},
 					context: this,
 					success: function (json) {}
@@ -605,6 +606,7 @@ sap.ui.define([
 	fDraftUpdate: function () {
 		this.fShowBusyIndicator(4000, 0);
 
+		var TransacCode = this.getView().byId("Docnum").getValue(); 
 		var Contractor = this.getView().byId("BPCode").getValue();
 		var ContractAmount = this.getView().byId("CntAmount").getValue();
 		var ProjectCode = this.getView().byId("ProjCode").getValue();
@@ -643,7 +645,7 @@ sap.ui.define([
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(ErrorMassage);
 					this.fHideBusyIndicator();
-					AppUI5.fErrorLogs("U_APP_CPOR","Update PO Draft","1","1",ErrorMassage,"Retention Update PO Draft",this.UserNmae,"1",this.Database);
+					AppUI5.fErrorLogs("U_APP_CPOR","Update PO Draft",TransacCode,"null",ErrorMassage,"Retention Update PO Draft",this.UserNmae,"null",this.Database,oPo);
 				},
 				context: this,
 				success: function (json) {

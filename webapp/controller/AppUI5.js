@@ -52,7 +52,7 @@ sap.ui.define([
 			var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 			return date ;
 		},
-		fErrorLogs: function (sTableAffected,sOperation,sKey1,sKey2,sErrorDesc,sProcess,sProcessBy,sKey3,Database) {
+		fErrorLogs: function (sTableAffected,sOperation,sKey1,sKey2,sErrorDesc,sProcess,sProcessBy,sKey3,Database,BatchLogs) {
 			//var returnValue = 0;
 			var oDate = this.getTodaysDate();
 			var sCode = this.generateUDTCode(Database,"GetCode");
@@ -67,7 +67,8 @@ sap.ui.define([
 			sBodyRequest.U_Process = sProcess,
 			sBodyRequest.U_ProcessBy = sProcessBy,
 			sBodyRequest.U_ProcessDate = oDate,
-			sBodyRequest.U_Key3 = sKey3
+			sBodyRequest.U_Key3 = sKey3,
+			sBodyRequest.U_INPUTBODY = BatchLogs
 
 			$.ajax({
 				url: "https://18.136.35.41:50000/b1s/v1/U_APP_ERRORLOGS",

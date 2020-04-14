@@ -14,21 +14,16 @@ sap.ui.define([
 
     return Controller.extend("com.apptech.app-retention.controller.Main", {
 
-        _data : {
-            "UserAccount" : "manager"
-        },
         onInit: function() {
+            this.Database = jQuery.sap.storage.get("Database");
             this.UserName = jQuery.sap.storage.get("Usename");
-
-			var oModel = new JSONModel(this._data);
-			this.getView().setModel(oModel);
 
             this.router = this.getOwnerComponent().getRouter();
 
             this.oMdlMenu = new JSONModel("model/Menus.json");
             this.getView().setModel(this.oMdlMenu);
             
-            this._data.UserAccount = this.UserName;
+            this.getView().byId("Admin").setText(this.UserName);
 
         },
         onRoutePatternMatched: function(event) {
@@ -94,7 +89,10 @@ sap.ui.define([
 				},
 				crossDomain: true,
 				error: function (xhr, status, error) {
-					MessageToast.show("Invalid Credentials");
+					BusyIndicator.hide();
+					var ErrorMassage = xhr.responseJSON["error"].message.value;
+					MessageToast.show(ErrorMassage);
+					AppUI5.fErrorLogs("OUSR","LogOut",this.UserName,"null",ErrorMassage,"Retention Logout",this.UserName,"null",this.Database,"null");        
 				},
 				context: this,
                 success: function(json) {

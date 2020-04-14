@@ -93,6 +93,7 @@ sap.ui.define([
       this.Project.getData().Project.Active = "";  
       this.Project.refresh();
     },
+    //Add Project Code
     fAddProjCode: function(){
 
       this.fShowBusyIndicator(4000, 0);
@@ -104,8 +105,9 @@ sap.ui.define([
       }else{
 
           var Project = {};
+          var Code = this.Project.getData().Project.ProjectCode;
 
-          Project.Code = this.Project.getData().Project.ProjectCode;
+          Project.Code = Code;
           Project.Name = this.Project.getData().Project.ProjectName;
           Project.ValidFrom = this.Project.getData().Project.ValidFrom;
           Project.ValidTo = this.Project.getData().Project.ValidTo;
@@ -123,7 +125,7 @@ sap.ui.define([
               var ErrorMassage = xhr.responseJSON["error"].message.value;
               sap.m.MessageToast.show(ErrorMassage);
               this.fHideBusyIndicator();
-              AppUI5.fErrorLogs("OPRJ","Update Project Code","1","1",ErrorMassage,"Retention Update Project Code",this.UserName,"1",this.   Database);
+              AppUI5.fErrorLogs("OPRJ","Update Project Code",Code,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null", this.Database,Project);
 			    	},
 			    	context: this,
 			    	success: function (json) {}
@@ -178,7 +180,7 @@ sap.ui.define([
               var ErrorMassage = xhr.responseJSON["error"].message.value;
               sap.m.MessageToast.show(ErrorMassage);
               this.fHideBusyIndicator();
-              AppUI5.fErrorLogs("OPRJ","Update Project Code","1","1",ErrorMassage,"Retention Update Project Code",this.UserName,"1",this.Database);
+              AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);
           }
         }).done(function (results) {
           if (results) {

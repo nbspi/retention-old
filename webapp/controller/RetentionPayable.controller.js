@@ -1704,6 +1704,7 @@ sap.ui.define([
 		//Saving and Getting Data  on Draft
 		onSave: function () {
 			this.fShowBusyIndicator(4000, 0);
+			var TransCode = this.getView().byId("TransNo").getValue();
 
 			//if PO has Draft..Get Data in UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
@@ -1864,7 +1865,7 @@ sap.ui.define([
 							var oStartIndex = results.search("value") + 10;
 							var oEndIndex = results.indexOf("}") - 8;
 							var oMessage = results.substring(oStartIndex,oEndIndex);
-							AppUI5.fErrorLogs("U_APP_ORPT","Add Draft","1","1",oMessage,"Retention Add Draft",this.UserNmae,"1",this.Database);
+							AppUI5.fErrorLogs("U_APP_ORPT","Add Draft",TransCode,"null",oMessage,"Retention Add Draft",this.UserNmae,"null",this.Database,sBodyRequest);
 							sap.m.MessageToast.show(oMessage);
 							this.fHideBusyIndicator();
 						}else{
@@ -2159,6 +2160,7 @@ sap.ui.define([
 		//Saving DownPayment in SAP
 		onSavingDownPayment: function () {
 			this.fShowBusyIndicator(4000, 0);
+			var Transcode = this.getView().byId("TransNo").getValue();
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
@@ -2220,7 +2222,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
-						AppUI5.fErrorLogs("ODPO & DPO1","Add DownPayment","1","1",ErrorMassage,"Retention Adding DownPayment",this.UserNmae,"1",this.Database);
+						AppUI5.fErrorLogs("ODPO & DPO1","Add DownPayment",Transcode,"null",ErrorMassage,"Retention Adding DownPayment",this.UserNmae,"null",this.Database,oAPDown);
 					},
 					context: this,
 					success: function (json) {}
@@ -2236,6 +2238,7 @@ sap.ui.define([
 		onSavingFirstProgressBilling: function () {
 			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
+			var Transcode = this.getView().byId("TransNo").getValue();
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
@@ -2312,7 +2315,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
-						AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","1","1",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"1",this.Database);
+						AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 					},
 					context: this,
 					success: function (json) {}
@@ -2435,7 +2438,7 @@ sap.ui.define([
 										var ErrorMassage = xhr.responseJSON["error"].message.value;
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
-										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","1","1",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"1",this.Database);
+										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,oAPINV);
 									},
 									context: this,
 									success: function (json) {}
@@ -2462,6 +2465,7 @@ sap.ui.define([
 			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
+			var Transcode = this.getView().byId("TransNo").getValue();
 
 			if (SupplierCode === "") {
 				sap.m.MessageToast.show("No Data to Post in SAP");
@@ -2535,7 +2539,7 @@ sap.ui.define([
 								var ErrorMassage = xhr.responseJSON["error"].message.value;
 								sap.m.MessageToast.show(ErrorMassage);
 								this.fHideBusyIndicator();
-								AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","1","1",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"1",this.Database);
+								AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 							},
 							context: this,
 							success: function (json) {}
@@ -2629,7 +2633,7 @@ sap.ui.define([
 										var ErrorMassage = xhr.responseJSON["error"].message.value;
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
-										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","1","1",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"1",this.Database);
+										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"null",this.Database,oAPINV);
 									},
 									context: this,
 									success: function (json) {}
@@ -2651,7 +2655,7 @@ sap.ui.define([
 												var ErrorMassage = xhr.responseJSON["error"].message.value;
 												sap.m.MessageToast.show(ErrorMassage);
 												this.fHideBusyIndicator();
-												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","1","1",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"1",this.Database);
+												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
 											},
 											success: function (json) {},
 											context: this
@@ -2676,6 +2680,7 @@ sap.ui.define([
 		onSavingFinalBilling: function () {
 			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
+			var Transcode = this.getView().byId("TransNo").getValue();
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
 
@@ -2766,7 +2771,7 @@ sap.ui.define([
 							var ErrorMassage = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
-							AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","1","1",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"1",this.Database);
+							AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 						},
 						context: this,
 						success: function (json) {}
@@ -2910,7 +2915,7 @@ sap.ui.define([
 										var ErrorMassage = xhr.responseJSON["error"].message.value;
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
-										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","1","1",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"1",this.Database);
+										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"null",this.Database,oAPINV);
 									},
 									context: this,
 									success: function (json) {
@@ -2933,7 +2938,7 @@ sap.ui.define([
 												var ErrorMassage = xhr.responseJSON["error"].message.value;
 												sap.m.MessageToast.show(ErrorMassage);
 												this.fHideBusyIndicator();
-												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","1","1",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"1",this.Database);
+												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
 											},
 											success: function (json) {
 												this.fHideBusyIndicator();
@@ -2958,6 +2963,7 @@ sap.ui.define([
 		onSavingRetention: function () {
 			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
+			var Transcode = this.getView().byId("TransNo").getValue();
 
 			var oFGRPO = {};
 			var oFGRPOLines = {};
@@ -3004,7 +3010,7 @@ sap.ui.define([
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(ErrorMassage);
 					this.fHideBusyIndicator();
-					AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","1","1",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"1",this.Database);
+					AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 				},
 				context: this,
 				success: function (json) {}
@@ -3056,7 +3062,7 @@ sap.ui.define([
 									var ErrorMassage = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(ErrorMassage);
 									this.fHideBusyIndicator();
-									AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","1","1",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"1",this.Database);
+									AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,oAPINV);
 								},
 								context: this,
 								success: function (json) {}
