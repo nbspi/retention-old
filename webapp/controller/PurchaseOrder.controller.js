@@ -57,10 +57,10 @@ sap.ui.define([
 			this.CardName = "";
 			this.CardCode = "";
 			this.fGetTransactionNumber();
-			// new File();
+			
 			//CPA
-			this.currentFile = {} //File Object	
-			//kpag lumipat ako ng ibang line number sa editor hindi mo ko nakikta
+			this.currentFile = {}; //File Object	
+			
 
 			var TransCode = this.byId("Docnum").getValue();
 
@@ -371,28 +371,6 @@ sap.ui.define([
 
 			}
 
-					// var oFileUploader = this.byId("fileUploader");
-		// oFileUploader.upload();
-
-		// var form = new FormData();
-		// form.append("",this.currentFile, "");
-
-		// var settings = {
-		//   "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
-		//   "data": form,
-		//   "method": "POST",
-		//   "processData": false,
-		//   "mimeType": "multipart/form-data",
-		//   "contentType": false,
-		//   "xhrFields":{
-		// 	  "withCredentials": true
-		//   }
-		// };
-		
-		// $.ajax(settings).done(function (response) {
-		//   console.log(response);
-		// });
-
 	},
 	// Posting Draft
 	fDraft: function () {
@@ -576,40 +554,35 @@ sap.ui.define([
 			this.getView().byId("Progressive").setEnabled(true);
 		}
 
+	},
+	onUpload: function(oEvent){
+		this.handleValueChange();
+	},
+
+	handleValueChange: function (oEvt){
+		var aFiles = oEvt.getParameters().files;
+		this.currentFile = aFiles[0];
+
+		var form = new FormData();
+		form.append("",this.currentFile, "retentions.txt");
+
+		var settings = {
+		  "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
+		  "data": form,
+		  "method": "POST",
+		  "processData": false,
+		  "mimeType": "multipart/form-data",
+		  "contentType": false,
+		  "xhrFields":{
+			"withCredentials": true
+		   }
+		};
+		
+		$.ajax(settings).done(function (response) {
+		  console.log(response);
+		});
+
 	}
-
-	//-- For File Uploading--
-
-	// onHandleUploadComplete: function (oEvent){
-	
-	// },
-	// handleValueChange: function (oEvt){
-	// 	var aFiles=oEvt.getParameters().files;
-	// 	this.currentFile = aFiles[0];
-
-	// 	// var form = new FormData();
-	// 	// form.append("",this.currentFile, "");
-
-	// 	// var settings = {
-	// 	//   "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
-	// 	//   "data": form,
-	// 	//   "method": "POST",
-	// 	//   "processData": false,
-	// 	//   "mimeType": "multipart/form-data",
-	// 	//   "contentType": false
-	// 	// };
-		
-	// 	// $.ajax(settings).done(function (response) {
-	// 	//   console.log(response);
-	// 	// });
-	// 	//ayaw ng PurchaseOrder?
-	// 	// posted po sir all transaction excep dito nalang po sir problen ko po 
-		
-	// 	//pero kapag yung ajax request na Purchase Order is nasa loob ng handleValueChange?
-	// 	// hindi po nag po post sir try ko po kaya sy ailabas baka sakaling gumana??
-
-	// },
-
 
   });
 });

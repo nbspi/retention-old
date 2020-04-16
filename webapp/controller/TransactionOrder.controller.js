@@ -502,6 +502,7 @@ sap.ui.define([
 						}
 						this.fHideBusyIndicator();
 						this.fDeleteData();
+						this.fSelectPurchaseTransaction();
 					}
 
 				});
@@ -598,6 +599,7 @@ sap.ui.define([
 			if (results1) {
 				this.DraftCode = "";
 				this.fHideBusyIndicator();
+				this.fSelectPurchaseTransaction();
 			}
 		});
 
@@ -771,6 +773,7 @@ sap.ui.define([
 		if (oDocEntry !== ""){
 			this.fShowBusyIndicator(4000, 0);
 			this.fPOCancellation(oDocEntry);
+			this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 		}
 	},
 	foGetDocEntry: function (QueryTag,oDocEntry){

@@ -117,6 +117,8 @@ sap.ui.define([
 				this.GLAccount = "";
 				// to Get WItholding Tax Code
 				this.WTCode = "";
+				//Fragment Dialog
+				this._ValueHelpDialogs = null;
 
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
@@ -3072,8 +3074,10 @@ sap.ui.define([
 									if (this.Progressive === "Yes"){
 										this.fUpdateAPInvoice(this.APDocEntry);
 									}
+									this._ValueHelpDialogs = null;	
+									this._ValueHelpDialogs.destroy();
+									this.fHideBusyIndicator();
 									sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
-									this.fHideBusyIndicator();								
 								}
 
 					});
@@ -3082,7 +3086,6 @@ sap.ui.define([
 			});
 
 			}
-
 		},
 		// To get the Remainin Progress Billing Rate
 		fGetRemainingPrograte: function (oDocEntry) {
@@ -3486,22 +3489,26 @@ sap.ui.define([
 		var oBinding = oEvent.getSource().getBinding("items");
 		oBinding.filter([oFilter]);
 		},
+
 		onHandleValueProjCode: function (){
 		this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
-		if (!this._ValueHelpDialogs) {
-			Fragment.load({
-				name: "com.apptech.app-retention.view.fragments.RetentionFragment",
-				controller: this
-			}).then(function (ValueHelpDialogs) {
-				this._ValueHelpDialogs = ValueHelpDialogs;
-				this.getView().addDependent(this._ValueHelpDialogs);
+			if (!this._ValueHelpDialogs) {
+				this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
+				Fragment.load({
+					name: "com.apptech.app-retention.view.fragments.RetentionFragment",
+					controller: this
+				}).then(function (ValueHelpDialogs) {
+					this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
+					this._ValueHelpDialogs = ValueHelpDialogs;
+					this.getView().addDependent(this._ValueHelpDialogs);				
+					this._ValueHelpDialogs.open();
+				}.bind(this));
+			} else {
 				this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
 				this._ValueHelpDialogs.open();
-			}.bind(this));
-		} else {
-			this._ValueHelpDialogs.open();
-		}
+			}
 		},
+
 		fConfigValueHelpProjDialogs: function (DocEntry,Row) {
 		var DocEntry = this.DocEntry;
 		var Row = "R";
@@ -3519,22 +3526,27 @@ sap.ui.define([
 					// var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(error);
 				},
-				success: function (json) {},
+				success: function (json) {
+					this.oMdlAllProject.getData().allbp = json;
+					this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
+				},
 				context: this
 			}).done(function (results) {
-				if (results) {
-					this.oMdlAllProject.getData().allbp = results;
-					this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
-				}
+				// if (results) {
+				// 	this.oMdlAllProject.getData().allbp = results;
+				// 	this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
+				// }
 			});
 		}
 
+		
 		var aList = this.oMdlAllProject.getProperty("/allbp");
 
 		aList.forEach(function (oRecord) {
 			oRecord.selected = (oRecord.DocNum === sInputValue);
 		});
 		},
+
 		onHandleValueHelpRetentionCloseBatch: function (oEvent) {
 		var aContexts = oEvent.getParameter("selectedContexts");
 		var CardDetails = {};
@@ -3571,8 +3583,6 @@ sap.ui.define([
 		this.DTRetention.getData().DetailesRetention[0].NetProgress = CardDetails[0].LineTotal;
 
 		this.DTRetention.refresh();
-
-
 		
 		},
 		//------------------- Retention Transaction End -----------------//
@@ -3596,13 +3606,11 @@ sap.ui.define([
 				success: function (json) {}
 			}).done(function (results) {
 				if (results) {
+					
 				}
 			});
 			this.fDeleteData();
 		},
-		onRetTransaction: function (){
-			sap.m.MessageToast.show("error");
-		}
 
   });
 });
