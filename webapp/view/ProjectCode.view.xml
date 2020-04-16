@@ -125,13 +125,19 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Active" required="true" width="100%" items="{Project>/Active}" selectedKey="{Project>/Project/Active}" 
+										<Select id="Active" width="100%" items="{Project>/Active}" selectedKey="{Project>/Project/Active}" forceSelection="false" change="onSelectActive">
+											<core:ListItem key="{Project>CODE}" text="{Project>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData> 
+										</Select>
+										<!-- <ComboBox id="Active" required="true" width="100%" items="{Project>/Active}" selectedKey="{Project>/Project/Active}" 
 											selectionChange="onSelectActive" >
 											<core:Item key="{Project>CODE}" text="{Project>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</ComboBox>
+										</ComboBox> -->
 									</f:SimpleForm>
 								</VBox>
 							</IconTabFilter>

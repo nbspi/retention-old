@@ -173,14 +173,14 @@ sap.ui.define([
             this.fHideBusyIndicator();
             var Message = xhr.responseJSON["error"].message.value;
             sap.m.MessageToast.show(Message);
+            AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);
             this.fRemoveData();
           },
           context: this,
           success: function (json) {
-              var ErrorMassage = xhr.responseJSON["error"].message.value;
-              sap.m.MessageToast.show(ErrorMassage);
-              this.fHideBusyIndicator();
-              AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);
+            sap.m.MessageToast.show("Updated Successfully");
+            this.fRemoveData();
+            this.fHideBusyIndicator();
           }
         }).done(function (results) {
           if (results) {

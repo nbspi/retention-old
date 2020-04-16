@@ -3073,11 +3073,13 @@ sap.ui.define([
 									// /Progressive YES
 									if (this.Progressive === "Yes"){
 										this.fUpdateAPInvoice(this.APDocEntry);
+										this.fHideBusyIndicator();
+										sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
+									} else{
+										this.fHideBusyIndicator();
+										sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
 									}
-									this._ValueHelpDialogs = null;	
-									this._ValueHelpDialogs.destroy();
-									this.fHideBusyIndicator();
-									sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
+									
 								}
 
 					});

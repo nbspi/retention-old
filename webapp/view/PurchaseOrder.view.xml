@@ -53,13 +53,19 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Retention" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
+										<Select id="Retention" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}" forceSelection="false" loadItems="TransCode" change="fSelectRetention">
+											<core:ListItem key="{Retention>CODE}" text="{Retention>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Select>
+										<!-- <ComboBox id="Retention" required="true" editable="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
 											selectionChange="fSelectRetention" loadItems="TransCode">
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</ComboBox>
+										</ComboBox> -->
 										<!--Posting Date-->
 										<Label text="Posting Date" width="100%">
 											<layoutData>
@@ -101,13 +107,19 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}"
+										<Select id="Progressive" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}" forceSelection="false" change="onSelectRetention">
+											<core:ListItem key="{Retention>CODE}" text="{Retention>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData> 
+										</Select>
+										<!-- <ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}"
 											selectionChange="onSelectRetention" >
 											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</ComboBox>
+										</ComboBox> -->
 										<!--FileUploader-->
 										<u:FileUploader id="fileUploader" name="myFileUpload" tooltip="Upload your file to the local server"
 											uploadComplete="onHandleUploadComplete"
