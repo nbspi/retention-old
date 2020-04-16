@@ -174,6 +174,7 @@ sap.ui.define([
             var Message = xhr.responseJSON["error"].message.value;
             sap.m.MessageToast.show(Message);
             AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);
+            
             this.fRemoveData();
           },
           context: this,
