@@ -44,7 +44,7 @@ sap.ui.define([
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
 					MessageToast.show(ErrorMassage);
 					console.error(ErrorMassage);
-					AppUI5.fErrorLogs("OUSR","Login",this.oLogin.getData().Login.User,"null",ErrorMassage,"Retention Login",this.oLogin.getData().Login.User,"null",sDBCompany,oLoginCredentials);        
+					AppUI5.fErrorLogs("OUSR","Login","null","null",ErrorMassage,"Retention Login",this.oLogin.getData().Login.User,"null",sDBCompany,JSON.stringify(oLoginCredentials));        
                 },
                 context: this,
                 success: function (json) { }

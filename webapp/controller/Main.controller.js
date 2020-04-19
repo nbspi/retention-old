@@ -93,7 +93,7 @@ sap.ui.define([
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
                     MessageToast.show(ErrorMassage);
                     console.error(ErrorMassage);
-					AppUI5.fErrorLogs("OUSR","LogOut",this.UserName,"null",ErrorMassage,"Retention Logout",this.UserName,"null",this.Database,"null");        
+					AppUI5.fErrorLogs("OUSR","LogOut","null","null",ErrorMassage,"Retention Logout",this.UserName,"null",this.Database,"null",this.Database,"null");        
 				},
 				context: this,
                 success: function(json) {

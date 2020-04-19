@@ -65,6 +65,8 @@ sap.ui.define([
 			var TransCode = this.byId("Docnum").getValue();
 
 	},
+
+	//----------------------- Business Partner -------------------//
 	//BP Search Fragment
 	onHandleSearchBP: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
@@ -141,6 +143,7 @@ sap.ui.define([
 				oRecord.selected = (oRecord.CardCode === sInputValue);
 			});
 	},
+	//----------------- Business Partner END -------------------//
 
 	//------------------- Project Code ---------------------//
 	onHandleSearchProjCode: function (oEvent) {
@@ -303,7 +306,7 @@ sap.ui.define([
 							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
 							console.error(ErrorMassage);
-							AppUI5.fErrorLogs("OPOR & POR1","Add PO",TransCode,"null",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"null",this.Database,oPO);
+							AppUI5.fErrorLogs("OPOR & POR1","Add PO","null","null",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"null",this.Database,JSON.stringify(oPO));
 						},
 						context: this,
 						success: function (json) {}
@@ -356,6 +359,8 @@ sap.ui.define([
 							var Message = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(Message);
 							this.fHideBusyIndicator();
+							console.error(ErrorMassage);
+							AppUI5.fErrorLogs("OPOR & POR1","Add PO","null","null",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"null",this.Database,JSON.stringify(oPO));
 						},
 						context: this,
 						success: function (json) {}
@@ -433,7 +438,7 @@ sap.ui.define([
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
 						console.error(ErrorMassage);
-						AppUI5.fErrorLogs("U_APP_CPOR","Add Draft",TransCode,"null",ErrorMassage,"PurchaseOrder Add Draft",this.UserNmae,"nul",oDatabase,oDraft);
+						AppUI5.fErrorLogs("U_APP_CPOR","Add Draft",TransCode,"null",ErrorMassage,"PurchaseOrder Add Draft",this.UserNmae,"null",oDatabase,JSON.stringify(oDraft));
 					},
 					context: this,
 					success: function (json) {}

@@ -79,9 +79,7 @@ sap.ui.define([
 					withCredentials: true
 				},
 				error: function (xhr, status, error) {
-					// var Message = xhr.responseJSON["error"].message.value;			
-					// sap.m.MessageToast.show(Message);
-					// AppUI5.fHideBusyIndicator();
+					console.error("Error Posting in Error Logs");
 				},
 				success: function (json) {
 					//sap.m.MessageToast.show("Success saving Batch: " + BatchCode );

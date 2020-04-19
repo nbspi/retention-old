@@ -1868,6 +1868,7 @@ sap.ui.define([
 							var oEndIndex = results.indexOf("}") - 8;
 							var oMessage = results.substring(oStartIndex,oEndIndex);
 							AppUI5.fErrorLogs("U_APP_ORPT","Add Draft",TransCode,"null",oMessage,"Retention Add Draft",this.UserNmae,"null",this.Database,sBodyRequest);
+							console.log(oMessage);
 							sap.m.MessageToast.show(oMessage);
 							this.fHideBusyIndicator();
 						}else{
@@ -1985,9 +1986,10 @@ sap.ui.define([
 					withCredentials: true
 				},
 				error: function (xhr, status, error) {
-					var Message = xhr.responseJSON["error"].message.value;
-					sap.m.MessageToast.show(Message);
+					var ErrorMassage = xhr.responseJSON["error"].message.value;
+					sap.m.MessageToast.show(ErrorMassage);
 					console.error(ErrorMassage);
+					AppUI5.fErrorLogs("U_APP_ORPT","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON.stringify(oHeader));
 					this.fHideBusyIndicator();
 				},
 				context: this,
@@ -2049,11 +2051,11 @@ sap.ui.define([
 						withCredentials: true
 					},
 					error: function (xhr, status, error) {
-						var Message = xhr.responseJSON["error"].message.value;
-						sap.m.MessageToast.show(Message);
+						var ErrorMassage = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(ErrorMassage);
 						console.error(ErrorMassage);
+						AppUI5.fErrorLogs("U_APP_RPT1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.	Database,JSON.stringify(Detailes));
 						this.fHideBusyIndicator();
-						AppUI5.fErrorLogs("U_APP_ORPT","Update",Transcode,"null",ErrorMassage,"Update Contract Billing and Retention",this.UserNmae,"null",this.Database,Detailes);
 					},
 					context: this,
 					success: function (json) {
@@ -2230,7 +2232,7 @@ sap.ui.define([
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
 						console.error(ErrorMassage);
-						AppUI5.fErrorLogs("ODPO & DPO1","Add DownPayment",Transcode,"null",ErrorMassage,"Retention Adding DownPayment",this.UserNmae,"null",this.Database,oAPDown);
+						AppUI5.fErrorLogs("ODPO & DPO1","Add DownPayment","null","null",ErrorMassage,"Retention Adding DownPayment",this.UserNmae,"null",this.Database,JSON.stringify(oAPDown));
 					},
 					context: this,
 					success: function (json) {}
@@ -2324,7 +2326,7 @@ sap.ui.define([
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
 						console.error(ErrorMassage);
-						AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
+						AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","null","null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON.stringify(oFGRPO));
 					},
 					context: this,
 					success: function (json) {}
@@ -2448,7 +2450,7 @@ sap.ui.define([
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
 										console.error(ErrorMassage);
-										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,oAPINV);
+										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","null","null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,JSON.stringify(oAPINV));
 									},
 									context: this,
 									success: function (json) {}
@@ -2550,7 +2552,7 @@ sap.ui.define([
 								sap.m.MessageToast.show(ErrorMassage);
 								this.fHideBusyIndicator();
 								console.error(ErrorMassage);
-								AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
+								AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","null","null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON,stringify(oFGRPO));
 							},
 							context: this,
 							success: function (json) {}
@@ -2644,7 +2646,7 @@ sap.ui.define([
 										var ErrorMassage = xhr.responseJSON["error"].message.value;
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
-										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"null",this.Database,oAPINV);
+										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","null","null",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"null",this.Database,JSON.stringify(oAPINV));
 									},
 									context: this,
 									success: function (json) {}
@@ -2784,7 +2786,7 @@ sap.ui.define([
 							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
 							console.error(ErrorMassage);
-							AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
+							AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","null","null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON.stringify(oFGRPO));
 						},
 						context: this,
 						success: function (json) {}
@@ -2928,7 +2930,7 @@ sap.ui.define([
 										var ErrorMassage = xhr.responseJSON["error"].message.value;
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
-										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"null",this.Database,oAPINV);
+										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","null","null",ErrorMassage,"Retention Adding A/PInvoice",this.UserNmae,"null",this.Database,JSON.stringify(oAPINV));
 									},
 									context: this,
 									success: function (json) {
@@ -3025,7 +3027,7 @@ sap.ui.define([
 					sap.m.MessageToast.show(ErrorMassage);
 					this.fHideBusyIndicator();
 					console.error(ErrorMassage);
-					AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
+					AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","null","null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON.stringify(oFGRPO));
 				},
 				context: this,
 				success: function (json) {}
@@ -3078,7 +3080,7 @@ sap.ui.define([
 									sap.m.MessageToast.show(ErrorMassage);
 									this.fHideBusyIndicator();
 									console.error(ErrorMassage);
-									AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,oAPINV);
+									AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice","null","null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,JSON.stringify(oAPINV));
 								},
 								context: this,
 								success: function (json) {}
@@ -3088,6 +3090,7 @@ sap.ui.define([
 									if (this.Progressive === "Yes"){
 										var DocNum = results.DocNum;
 										this.fUpdateAPInvoice(this.APDocEntry,DocNum);
+										this._ValueHelpDialogs.clo
 									} else{
 										this.fHideBusyIndicator();
 										sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
@@ -3544,6 +3547,13 @@ sap.ui.define([
 				success: function (json) {
 					this.oMdlAllProject.getData().allbp = json;
 					this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
+
+					var aList = this.oMdlAllProject.getProperty("/allbp");
+
+					aList.forEach(function (oRecord) {
+						oRecord.selected = (oRecord.DocNum === sInputValue);
+					});
+
 				},
 				context: this
 			}).done(function (results) {
@@ -3554,12 +3564,11 @@ sap.ui.define([
 			});
 		}
 
-		
-		var aList = this.oMdlAllProject.getProperty("/allbp");
+		// var aList = this.oMdlAllProject.getProperty("/allbp");
 
-		aList.forEach(function (oRecord) {
-			oRecord.selected = (oRecord.DocNum === sInputValue);
-		});
+		// aList.forEach(function (oRecord) {
+		// 	oRecord.selected = (oRecord.DocNum === sInputValue);
+		// });
 		},
 
 		onHandleValueHelpRetentionCloseBatch: function (oEvent) {
@@ -3616,11 +3625,15 @@ sap.ui.define([
 				xhrFields: {
 					withCredentials: true
 				},
-				error: function (xhr, status, error) {},
+				error: function (xhr, status, error) {
+					var ErrorMassage = xhr.responseJSON["error"].message.value;
+					sap.m.MessageToast.show(ErrorMassage);
+					this.fHideBusyIndicator();
+					console.error(ErrorMassage);
+				},
 				context: this,
 				success: function (json) {
 					sap.m.MessageToast.show("DocNum# " + DocNum + "  Added Successfully");
-					// sap.ui.getCore().byId("pageRetention").getModel().refresh(true);
 					this.fHideBusyIndicator();
 				}
 			}).done(function (results) {

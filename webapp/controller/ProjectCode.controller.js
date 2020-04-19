@@ -126,7 +126,7 @@ sap.ui.define([
               sap.m.MessageToast.show(ErrorMassage);
               console.error(ErrorMassage);
               this.fHideBusyIndicator();
-              AppUI5.fErrorLogs("OPRJ","Update Project Code",Code,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null", this.Database,Project);
+              AppUI5.fErrorLogs("OPRJ","Posting Project Code","null","null",ErrorMassage,"Retention Posting Project Code",this.UserName,"null", this.Database,JSON.stringify(Project));
 			    	},
 			    	context: this,
 			    	success: function (json) {}
@@ -162,7 +162,7 @@ sap.ui.define([
         Project.ValidTo = this.Project.getData().Project.ValidTo;
         Project.Active = this.Project.getData().Project.Active;
   
-        // POsting Project in SAP
+        // Update Project in SAP
         $.ajax({
           url: "https://18.136.35.41:50000/b1s/v1/Projects('"+ sCode +"')",
           data: JSON.stringify(Project),
@@ -175,7 +175,7 @@ sap.ui.define([
             var Message = xhr.responseJSON["error"].message.value;
             sap.m.MessageToast.show(Message);
             console.error(ErrorMassage);
-            AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);      
+            AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,JSON.stringify(Project));      
             this.fRemoveData();
           },
           context: this,

@@ -490,7 +490,7 @@ sap.ui.define([
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
 						console.error(ErrorMassage);
-						AppUI5.fErrorLogs("OPOR & POR1","Add PO",TransCode,"null",ErrorMassage,"Retention Adding PO",this.UserNmae,"null",this.Database,oPO);
+						AppUI5.fErrorLogs("OPOR & POR1","Add PO","null","null",ErrorMassage,"Retention Adding PO",this.UserNmae,"null",this.Database,JSON.stringify(oPO));
 					},
 					context: this,
 					success: function (json) {}
@@ -546,8 +546,11 @@ sap.ui.define([
 						withCredentials: true
 					},
 					error: function (xhr, status, error) {
-						var Message = xhr.responseJSON["error"].message.value;
-						sap.m.MessageToast.show(Message);
+						var ErrorMassage = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(ErrorMassage);
+						this.fHideBusyIndicator();
+						console.error(ErrorMassage);
+						AppUI5.fErrorLogs("OPOR & POR1","Posting PO","null","null",ErrorMassage,"Retention Posting PO",this.UserName,"null",this.Database,JSON.stringify(oPo));
 					},
 					context: this,
 					success: function (json) {
@@ -589,8 +592,10 @@ sap.ui.define([
 				withCredentials: true
 			},
 			error: function (xhr, status, error) {
-				var Message = xhr.responseJSON["error"].message.value;
-				sap.m.MessageToast.show(Message);
+				BusyIndicator.hide();
+				var ErrorMassage = xhr.responseJSON["error"].message.value;
+				MessageToast.show(ErrorMassage);
+				console.error(ErrorMassage);
 			},
 			context: this,
 			success: function (json) {
@@ -649,7 +654,7 @@ sap.ui.define([
 					sap.m.MessageToast.show(ErrorMassage);
 					this.fHideBusyIndicator();
 					console.error(ErrorMassage);
-					AppUI5.fErrorLogs("U_APP_CPOR","Update PO Draft",TransacCode,"null",ErrorMassage,"Retention Update PO Draft",this.UserNmae,"null",this.Database,oPo);
+					AppUI5.fErrorLogs("U_APP_CPOR","Update PO Draft",TransacCode,"null",ErrorMassage,"Retention Update PO Draft",this.UserName,"null",this.Database,JSON.stringify(oPo));
 				},
 				context: this,
 				success: function (json) {
@@ -814,6 +819,7 @@ sap.ui.define([
 			error: function (xhr, status, error) {
 				var Message = xhr.responseJSON["error"].message.value;
 				sap.m.MessageToast.show(Message);
+				console.error(Message);
 				this.fHideBusyIndicator();
 			},
 			context: this,
