@@ -192,12 +192,18 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="TaxType" width="100%" items="{TaxType>/TaxType}" selectedKey="" selectionChange="onSelectionWTX" loadItems="TransCode">
+										<Select id="TaxType" width="100%" items="{TaxType>/TaxType}" forceSelection="false" change="onSelectionWTX" selectedKey="" >
+											<core:ListItem key="{TaxType>CODE}" text="{TaxType>NAME}"/>
+												<layoutData>
+													<l:GridData span="L3 M4 S12"/>
+												</layoutData> 
+										</Select>
+										<!-- <ComboBox id="TaxType" width="100%" items="{TaxType>/TaxType}" selectedKey="" selectionChange="onSelectionWTX" loadItems="TransCode">
 											<core:Item key="{TaxType>CODE}" text="{TaxType>NAME}"/>
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</ComboBox>
+										</ComboBox> -->
 										<!--RETENTION AMOUNT-->
 										<Label text="Retention Amount." width="100%">
 											<layoutData>

@@ -91,7 +91,8 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					BusyIndicator.hide();
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
-					MessageToast.show(ErrorMassage);
+                    MessageToast.show(ErrorMassage);
+                    console.error(ErrorMassage);
 					AppUI5.fErrorLogs("OUSR","LogOut",this.UserName,"null",ErrorMassage,"Retention Logout",this.UserName,"null",this.Database,"null");        
 				},
 				context: this,

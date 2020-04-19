@@ -1957,6 +1957,8 @@ sap.ui.define([
 			//-------Update Header
 			var oHeader = {};
 
+			var Transcode = this.getView().byId("TransNo").getValue();
+
 			oHeader.U_App_PostDate = this.oModelPurchase.getData().POFields.DocDate;
 			var DP = this.InputHeader.getData().InputHeader.DP;
 
@@ -1985,6 +1987,7 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(Message);
+					console.error(ErrorMassage);
 					this.fHideBusyIndicator();
 				},
 				context: this,
@@ -2048,7 +2051,9 @@ sap.ui.define([
 					error: function (xhr, status, error) {
 						var Message = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(Message);
+						console.error(ErrorMassage);
 						this.fHideBusyIndicator();
+						AppUI5.fErrorLogs("U_APP_ORPT","Update",Transcode,"null",ErrorMassage,"Update Contract Billing and Retention",this.UserNmae,"null",this.Database,Detailes);
 					},
 					context: this,
 					success: function (json) {
@@ -2224,6 +2229,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
+						console.error(ErrorMassage);
 						AppUI5.fErrorLogs("ODPO & DPO1","Add DownPayment",Transcode,"null",ErrorMassage,"Retention Adding DownPayment",this.UserNmae,"null",this.Database,oAPDown);
 					},
 					context: this,
@@ -2317,6 +2323,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
+						console.error(ErrorMassage);
 						AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 					},
 					context: this,
@@ -2440,6 +2447,7 @@ sap.ui.define([
 										var ErrorMassage = xhr.responseJSON["error"].message.value;
 										sap.m.MessageToast.show(ErrorMassage);
 										this.fHideBusyIndicator();
+										console.error(ErrorMassage);
 										AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,oAPINV);
 									},
 									context: this,
@@ -2541,6 +2549,7 @@ sap.ui.define([
 								var ErrorMassage = xhr.responseJSON["error"].message.value;
 								sap.m.MessageToast.show(ErrorMassage);
 								this.fHideBusyIndicator();
+								console.error(ErrorMassage);
 								AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 							},
 							context: this,
@@ -2657,6 +2666,7 @@ sap.ui.define([
 												var ErrorMassage = xhr.responseJSON["error"].message.value;
 												sap.m.MessageToast.show(ErrorMassage);
 												this.fHideBusyIndicator();
+												console.error(ErrorMassage);
 												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
 											},
 											success: function (json) {},
@@ -2773,6 +2783,7 @@ sap.ui.define([
 							var ErrorMassage = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
+							console.error(ErrorMassage);
 							AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 						},
 						context: this,
@@ -2940,6 +2951,7 @@ sap.ui.define([
 												var ErrorMassage = xhr.responseJSON["error"].message.value;
 												sap.m.MessageToast.show(ErrorMassage);
 												this.fHideBusyIndicator();
+												console.error(ErrorMassage);
 												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
 											},
 											success: function (json) {
@@ -3012,6 +3024,7 @@ sap.ui.define([
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(ErrorMassage);
 					this.fHideBusyIndicator();
+					console.error(ErrorMassage);
 					AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO",Transcode,"null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,oFGRPO);
 				},
 				context: this,
@@ -3064,6 +3077,7 @@ sap.ui.define([
 									var ErrorMassage = xhr.responseJSON["error"].message.value;
 									sap.m.MessageToast.show(ErrorMassage);
 									this.fHideBusyIndicator();
+									console.error(ErrorMassage);
 									AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,oAPINV);
 								},
 								context: this,
@@ -3072,9 +3086,8 @@ sap.ui.define([
 								if (results) {
 									// /Progressive YES
 									if (this.Progressive === "Yes"){
-										this.fUpdateAPInvoice(this.APDocEntry);
-										this.fHideBusyIndicator();
-										sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
+										var DocNum = results.DocNum;
+										this.fUpdateAPInvoice(this.APDocEntry,DocNum);
 									} else{
 										this.fHideBusyIndicator();
 										sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
@@ -3590,7 +3603,7 @@ sap.ui.define([
 		//------------------- Retention Transaction End -----------------//
 		
 		//Update / Untag the AP Invoice in Retention Transaction Fragment
-		fUpdateAPInvoice: function (DocEntry){
+		fUpdateAPInvoice: function (DocEntry,DocNum){
 
 			var oPo = {};
 
@@ -3605,10 +3618,16 @@ sap.ui.define([
 				},
 				error: function (xhr, status, error) {},
 				context: this,
-				success: function (json) {}
+				success: function (json) {
+					sap.m.MessageToast.show("DocNum# " + DocNum + "  Added Successfully");
+					// sap.ui.getCore().byId("pageRetention").getModel().refresh(true);
+					this.fHideBusyIndicator();
+				}
 			}).done(function (results) {
 				if (results) {
-					
+					sap.m.MessageToast.show("DocNum# " + DocNum + "  Added Successfully");
+					// sap.ui.getCore().byId("pageRetention").getModel().refresh(true);
+					this.fHideBusyIndicator();
 				}
 			});
 			this.fDeleteData();

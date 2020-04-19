@@ -43,6 +43,7 @@ sap.ui.define([
 					BusyIndicator.hide();
 					var ErrorMassage = xhr.responseJSON["error"].message.value;
 					MessageToast.show(ErrorMassage);
+					console.error(ErrorMassage);
 					AppUI5.fErrorLogs("OUSR","Login",this.oLogin.getData().Login.User,"null",ErrorMassage,"Retention Login",this.oLogin.getData().Login.User,"null",sDBCompany,oLoginCredentials);        
                 },
                 context: this,

@@ -124,6 +124,7 @@ sap.ui.define([
 			    	error: function (xhr, status, error) {
               var ErrorMassage = xhr.responseJSON["error"].message.value;
               sap.m.MessageToast.show(ErrorMassage);
+              console.error(ErrorMassage);
               this.fHideBusyIndicator();
               AppUI5.fErrorLogs("OPRJ","Update Project Code",Code,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null", this.Database,Project);
 			    	},
@@ -173,8 +174,8 @@ sap.ui.define([
             this.fHideBusyIndicator();
             var Message = xhr.responseJSON["error"].message.value;
             sap.m.MessageToast.show(Message);
-            AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);
-            
+            console.error(ErrorMassage);
+            AppUI5.fErrorLogs("OPRJ","Update Project Code",sCode,"null",ErrorMassage,"Retention Update Project Code",this.UserName,"null",this.Database,Project);      
             this.fRemoveData();
           },
           context: this,

@@ -302,6 +302,7 @@ sap.ui.define([
 							var ErrorMassage = xhr.responseJSON["error"].message.value;
 							sap.m.MessageToast.show(ErrorMassage);
 							this.fHideBusyIndicator();
+							console.error(ErrorMassage);
 							AppUI5.fErrorLogs("OPOR & POR1","Add PO",TransCode,"null",ErrorMassage,"PurchaseOrder Save",this.UserNmae,"null",this.Database,oPO);
 						},
 						context: this,
@@ -431,6 +432,7 @@ sap.ui.define([
 						var ErrorMassage = xhr.responseJSON["error"].message.value;
 						sap.m.MessageToast.show(ErrorMassage);
 						this.fHideBusyIndicator();
+						console.error(ErrorMassage);
 						AppUI5.fErrorLogs("U_APP_CPOR","Add Draft",TransCode,"null",ErrorMassage,"PurchaseOrder Add Draft",this.UserNmae,"nul",oDatabase,oDraft);
 					},
 					context: this,
