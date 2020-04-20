@@ -94,7 +94,8 @@ sap.ui.define([
 		}
 		this.fDeleteData();
 	},
-	//BP Search Fragment
+
+	//--------------------- Business Partner Fragment -----------------//
 	onHandleSearchBP: function (oEvent) {
 		var sValue = oEvent.getParameter("value");
 		var oFilter = new Filter("CardName", FilterOperator.Contains, sValue);
@@ -116,11 +117,12 @@ sap.ui.define([
 		}
 		oEvent.getSource().getBinding("items").filter([]);
 		this.getView().byId("BPCode").setValue(CardDetails[0].CardName);
+		this.fConfigValueHelpDialogs();
 		this.VendorCode = CardDetails[0].CardCode;
 	},
 	///BP LIST FROM FRAGMENT
 	onHandleValueBPMaster: function () {
-		if (!this._oValueHelpDialogs) {
+
 			Fragment.load({
 				name: "com.apptech.app-retention.view.fragments.BPMasterFragment",
 				controller: this
@@ -130,16 +132,13 @@ sap.ui.define([
 				this.fConfigValueHelpDialogs();
 				this._oValueHelpDialogs.open();
 			}.bind(this));
-		} else {
-			this.fConfigValueHelpDialogs();
-			this._oValueHelpDialogs.open();
-		}
+
 	},
 	//BP Fragment Dialog Configuration	
 	fConfigValueHelpDialogs: function () {
 		var Database = this.Database;
 		var sInputValue = this.byId("BPCode").getValue();
-		if (this.oMdlAllBP.getData().allbp.length <= 0) {
+
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 					"&procName=spAppRetention&queryTag=getBPMaster&value1=&value2=&value3=&value4=",
@@ -156,16 +155,19 @@ sap.ui.define([
 				if (results) {
 					this.oMdlAllBP.getData().allbp = results;
 					this.getView().setModel(this.oMdlAllBP, "oMdlAllBP");
+					this.oMdlAllBP.refresh();
+
+					var aList = this.oMdlAllBP.getProperty("/allbp");
+
+					aList.forEach(function (oRecord) {
+						oRecord.selected = (oRecord.CardCode === sInputValue);
+					});
+
 				}
 			});
-		}
-
-		var aList = this.oMdlAllBP.getProperty("/allbp");
-
-		aList.forEach(function (oRecord) {
-			oRecord.selected = (oRecord.CardCode === sInputValue);
-		});
 	},
+	//---------------------- Business Partner Fragmenr End -----------------//
+
 	// To Get Transaction Number
 	fGetTransactionNumber: function () {
 
@@ -466,6 +468,7 @@ sap.ui.define([
 				oPOLines1.UnitPrice = oCWIP;
 				oPOLines1.VatGroup = "IVAT-EXC";
 				oPOLines1.U_APP_RtnRowType = "C";
+				oPOLines1.ProjectCode = this.POData.getData().POCreation.ProjectCode;
 				oPO.DocumentLines.push(oPOLines1);
 
 				oPOLines2.LineNum = 1;
@@ -473,6 +476,7 @@ sap.ui.define([
 				oPOLines2.UnitPrice = iRetention;
 				oPOLines2.VatGroup = "IVAT-EXC";
 				oPOLines2.U_APP_RtnRowType = "R";
+				oPOLines2.ProjectCode = this.POData.getData().POCreation.ProjectCode;
 				oPO.DocumentLines.push(oPOLines2);
 
 				oPO.Comments = oRemarks;
@@ -532,6 +536,7 @@ sap.ui.define([
 				oPOLines1.UnitPrice = oContract;
 				oPOLines1.VatGroup = "IVAT-EXC";
 				oPOLines1.U_APP_RtnRowType = "C";
+				oPOLines1.ProjectCode = this.POData.getData().POCreation.ProjectCode;
 
 				oPO.DocumentLines.push(oPOLines1);
 
@@ -836,6 +841,7 @@ sap.ui.define([
 		});
 
 	},
+
 	//------------------- Project Code ---------------------//
 	onHandleSearchProjCode: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
@@ -844,25 +850,22 @@ sap.ui.define([
 			oBinding.filter([oFilter]);
 	},
 	onHandleValueProjCode: function (){
-			if (!this._ValueHelpDialogs) {
-				Fragment.load({
-					name: "com.apptech.app-retention.view.fragments.ProjCodeFragment",
-					controller: this
-				}).then(function (ValueHelpDialogs) {
-					this._ValueHelpDialogs = ValueHelpDialogs;
-					this.getView().addDependent(this._ValueHelpDialogs);
-					this.fConfigValueHelpProjDialogs();
-					this._ValueHelpDialogs.open();
-				}.bind(this));
-			} else {
-				this.fConfigValueHelpProjDialogs();
-				this._ValueHelpDialogs.open();
-			}
+
+		Fragment.load({
+			name: "com.apptech.app-retention.view.fragments.ProjCodeFragment",
+			controller: this
+		}).then(function (ValueHelpDialogs) {
+			this._ValueHelpDialogs = ValueHelpDialogs;
+			this.getView().addDependent(this._ValueHelpDialogs);
+			this.fConfigValueHelpProjDialogs();
+			this._ValueHelpDialogs.open();
+		}.bind(this));
+
 	},
 	fConfigValueHelpProjDialogs: function () {
 			var Database = this.Database;
 			var sInputValue = this.byId("BPCode").getValue();
-			if (this.oMdlAllProject.getData().allbp.length <= 0) {
+
 				$.ajax({
 					url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 						"&procName=spAppRetention&queryTag=getAllActiveProjectCode&value1=&value2=&value3=&value4=",
@@ -881,15 +884,17 @@ sap.ui.define([
 					if (results) {
 						this.oMdlAllProject.getData().allbp = results;
 						this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
+						this.oMdlAllProject.refresh();
+
+						var aList = this.oMdlAllProject.getProperty("/allbp");
+	
+						aList.forEach(function (oRecord) {
+							oRecord.selected = (oRecord.CardCode === sInputValue);
+						});
+
 					}
 				});
-			}
-	
-			var aList = this.oMdlAllProject.getProperty("/allbp");
-	
-			aList.forEach(function (oRecord) {
-				oRecord.selected = (oRecord.CardCode === sInputValue);
-			});
+
 	},
 	onHandleValueHelpProjCloseBatch: function (oEvent) {
 			var aContexts = oEvent.getParameter("selectedContexts");
@@ -904,11 +909,13 @@ sap.ui.define([
 				});
 			}
 			oEvent.getSource().getBinding("items").filter([]);
+			this.fConfigValueHelpProjDialogs();
 			this.getView().byId("ProjCode").setValue(CardDetails[0].ProjectCode);
 			this.fGetTransactionNumber();
 	
 	},
 	//------------------- Project Code End -----------------//
+
 	fSelectRetention: function(){
 
 		var Retention = this.getView().byId("Retention").getSelectedKey();

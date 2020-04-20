@@ -169,10 +169,33 @@ sap.ui.define([
 
 			var oPoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
-			that.DocTotalProcess = oRowSelected.DocTotal;
+			// that.DocTotalProcess = oRowSelected.DocTotal;
 
 			//  Get Data From UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
+
+			//Progressive YES
+			if (this.Progressive === "Yes"){
+
+				if (oPoStatus === "7") {
+					// Gettting PO Transaction
+					this.fGetPOTransaction(this.oSCode, this.ColType);
+				}else{
+					// Gettting Data Information
+					this.onGetRetentionProcess(this.oSCode, this.ColType);
+					// Getting Transtion Number
+					this.fGetRetentionProcess();
+					// Gettting PO Transaction for Retention
+					this.fGetPOTransaction(this.oSCode, this.ColType);
+				}
+			} else{
+				// Gettting Data Information
+				this.onGetRetentionProcess(this.oSCode, this.ColType);
+				// Getting Transtion Number
+				this.fGetRetentionProcess();
+				// Gettting PO Transaction for Retention
+				this.fGetPOTransaction(this.oSCode, this.ColType);
+			}
 
 					if (oPoStatus === "2" || oPoStatus === "1") {
 						this.fDeleteData();
@@ -199,6 +222,7 @@ sap.ui.define([
 						this.oFilter.getData().SaveDraft.oDraft = "Update";
 						this.oFilter.refresh();
 					} else if (oPoStatus === "5") {
+						this.fGetRemainingPrograte(this.oSCode);
 						this.fDeleteData();
 						this.oGetDatafromHeaderUDT("FinPB");
 						this.fSetTransacationType("5");
@@ -650,7 +674,8 @@ sap.ui.define([
 				this.getView().byId("Wtax").setVisible(true);
 			} else if (PoStatus === "5") {
 				this.fNableAllFields("1");
-				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
+				this.fFilterPurchaseOrderTransaction("getFinalBilling");
+				// getFinalBilling
 				this.oFilter.getData().Process.ProcName = "Process";
 				this.oFilter.getData().NetAmount.NAME = "Net Progress Billing Amount";
 				this.oFilter.refresh();
@@ -873,23 +898,30 @@ sap.ui.define([
 						var oProratedRetention = Number([ProratedRetention]);
 						var fWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
 						var ofWTHTaxRate = Number([fWTHTaxRate]);
+						var DetailesWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
+						var oDetailesWTX = Number([DetailesWTX]);
+						var HeaderWTX = this.InputHeader.getData().InputHeader.WTax;
+						var oHeaderWTX = Number([HeaderWTX]);
 
-						var fGrossCount = ofWTHTaxRate / 100;
-						var Wtx1 = oGrossAmout - oProratedDP;
-						var Wtx2 = Wtx1 - oProratedRetention;
-						var Wtx3 = Wtx2 / 1.12;
-						var Wtx4 = Wtx3 * fGrossCount;
-						var oDTWtx = Wtx4.toFixed(2);
+						// var fGrossCount = ofWTHTaxRate / 100;
+						// var Wtx1 = oGrossAmout - oProratedDP;
+						// var Wtx2 = Wtx1 - oProratedRetention;
+						// var Wtx3 = Wtx2 / 1.12;
+						// var Wtx4 = Wtx3 * fGrossCount;
+						// var oDTWtx = Wtx4.toFixed(2);
 
-						var oodtlWTX = Number([oDTWtx]);
-						var oFTotalFWTX = Number([FTotalFWTX]);
-						var osdtlWTX = oodtlWTX + oFTotalFWTX;
-						var FdtlFWTX = osdtlWTX.toFixed(2);
+						// var oodtlWTX = Number([oDTWtx]);
+						// var oFTotalFWTX = Number([FTotalFWTX]);
+						// var osdtlWTX = oodtlWTX + oFTotalFWTX;
+						// var FdtlFWTX = osdtlWTX.toFixed(2);
 
-						this.DTRetention.getData().DetailesRetention[0].WTX = FdtlFWTX;
+						var FdtlFWTX = oDetailesWTX + oHeaderWTX ;
+						var oFdtlFWTX = FdtlFWTX.toFixed(2);
+
+						this.DTRetention.getData().DetailesRetention[0].WTX = oFdtlFWTX;
 						this.DTRetention.refresh();
 
-						var oNetProgBill = GrossAmount - FdtlFWTX;
+						var oNetProgBill = GrossAmount - oFdtlFWTX;
 						var ooNetProgBill = Number([oNetProgBill]);
 						var soNetProgBill = ooNetProgBill - oProratedDP;
 						var osoNetProgBill = Number([soNetProgBill]);
@@ -901,6 +933,8 @@ sap.ui.define([
 						this.DTRetention.refresh();
 
 					}else{
+						this.DTRetention.getData().DetailesRetention[0].WTX = 0;
+						this.DTRetention.refresh();
 						this.onProgressBIll();
 					}
 
@@ -920,6 +954,7 @@ sap.ui.define([
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=" + ColType + "&value3=&value4=",
 					type: "GET",
+					async:false,
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 					},
@@ -1058,6 +1093,8 @@ sap.ui.define([
 
 						this.DTRetention.getData().DetailesRetention[0].WTX = fooTotal4;
 						this.DTRetention.refresh();
+
+						this.onProgressBIll();
 					} else {
 						this.DTRetention.getData().DetailesRetention[0].WTX = "0";
 						this.DTRetention.refresh();
@@ -1149,6 +1186,7 @@ sap.ui.define([
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=" + ColType + "&value3=&value4=",
 					type: "GET",
+					async:false,
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 					},
@@ -1324,6 +1362,8 @@ sap.ui.define([
 		// Formula for Each Progress Billing Type
 		onProgressBillingType: function () {
 
+			var Progressive = this.Progressive;
+
 			var ProgType = this.getView().byId("PBType").getSelectedKey();
 
 			// First Progress Billing Computation
@@ -1367,7 +1407,7 @@ sap.ui.define([
 				var APDocTotal = this.oAPDocTotal.getData().doctotal[0].U_App_GrossAmnt;
 
 				//Progressive Yes
-				if (this.Progressive === "Yes" ){				
+				if (Progressive === "Yes" ){				
 
 				var oProgbillRate = ProgresBill / 100;
 				var CWIP1 = PODocTotal * oProgbillRate;
@@ -1462,7 +1502,7 @@ sap.ui.define([
 				var APDocTotal = this.oAPDocTotal.getData().doctotal[0].U_App_GrossAmnt;
 
 				//Progressive Yes
-				if (this.Progressive === "Yes" ){
+				if (Progressive === "Yes" ){
 
 					var CWIP1 = PODocTotal * oProgresBill;
 					var oCWIP1 = Number([CWIP1]);
@@ -1543,7 +1583,7 @@ sap.ui.define([
 				//Computation for CWIP
 
 				//Progressive Yes
-				if (this.Progressive === "Yes" ){
+				if (Progressive === "Yes" ){
 
 					var oDowPaymentTotal = Number([PODownpayment]);
 					var oFirstBilling_CWIP = Number([FirstBillingCWIPNO]);
@@ -1587,7 +1627,7 @@ sap.ui.define([
 				if (TaxType === "0") {
 
 					//Progressive Yes
-					if (this.Progressive === "Yes" ){
+					if (Progressive === "Yes" ){
 
 						// if POCoung = "1" Without Retention Amount
 						if(this.POCount === "1"){
@@ -1664,7 +1704,7 @@ sap.ui.define([
 				// Computation for Net Progress Billing
 
 				//Progressive Yes
-				if (this.Progressive === "Yes" ){
+				if (Progressive === "Yes" ){
 						
 					// var POLineTotal = Number([this.POLineTotal]);
 					var FinProgBillingRate = Number([this.FinalBillingRate]);
@@ -2149,7 +2189,9 @@ sap.ui.define([
 						}
 						this.fDeleteData();
 						
-					} else if (ProgType === "4") {
+					// else if (ProgType === "4")
+					//Retention Posting
+					} else {
 						this.onSavingRetention();
 						this.Tag = "0";
 						if (this.STatus !== "Draft") {
@@ -2987,7 +3029,7 @@ sap.ui.define([
 			var GRPOCardCode = this.getView().byId("VenSupCode").getValue();
 			var oPrice = this.getView().byId("RentAmount").getValue();
 			var oGlAccount = this.GLAccount;			
-			var APWTCode = this.WTCode
+			var APWTCode = this.WTCode;
 			var APRemarks = this.getView().byId("TextArea").getValue();
 
 			if (GRPOCardCode === ""){
@@ -3090,7 +3132,6 @@ sap.ui.define([
 									if (this.Progressive === "Yes"){
 										var DocNum = results.DocNum;
 										this.fUpdateAPInvoice(this.APDocEntry,DocNum);
-										this._ValueHelpDialogs.clo
 									} else{
 										this.fHideBusyIndicator();
 										sap.m.MessageToast.show("DocNum# " + results.DocNum + "  Added Successfully");
@@ -3195,7 +3236,7 @@ sap.ui.define([
 					} else if (PoStatus === "4") {
 						this.fGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
 					} else if (PoStatus === "5") {
-						this.fGetFilterValues("getFilterSubsequentBillingCardName", oVAlue1);
+						this.fGetFilterValues("getFilterFinalBillingCardName", oVAlue1);
 					} else if (PoStatus === "6") {
 						this.fGetFilterValues("getFilterCompleteTransactionCardName", oVAlue1);
 					} else if (PoStatus === "7") {
@@ -3217,7 +3258,7 @@ sap.ui.define([
 					} else if (PoStatus === "4") {
 						this.fGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
 					} else if (PoStatus === "5") {
-						this.fGetFilterValues("getFilterSubsequentBillingDocNum", oVAlue1);
+						this.fGetFilterValues("getFilterFinalBillingDocNum", oVAlue1);
 					} else if (PoStatus === "6") {
 						this.fGetFilterValues("getFilterCompleteTransactionDocNum", oVAlue1);
 					} else if (PoStatus === "7") {
@@ -3239,7 +3280,7 @@ sap.ui.define([
 					} else if (PoStatus === "4") {
 						this.fGetFilterValues("getFilterSubsequentBillingDate", oVAlue1);
 					} else if (PoStatus === "5") {
-						this.fGetFilterValues("getFilterSubsequentBillingDate", oVAlue1);
+						this.fGetFilterValues("getFilterFinalBillingDate", oVAlue1);
 					} else if (PoStatus === "6") {
 						this.fGetFilterValues("getFilterCompleteTransactionDate", oVAlue1);
 					} else if (PoStatus === "7") {
@@ -3261,7 +3302,7 @@ sap.ui.define([
 					} else if (PoStatus === "4") {
 						this.fGetFilterValues("getFilterSubsequentBillingProjCode", oVAlue1);
 					} else if (PoStatus === "5") {
-						this.fGetFilterValues("getFilterSubsequentBillingProjCode", oVAlue1);
+						this.fGetFilterValues("getFilterFinalBillingProjCode", oVAlue1);
 					} else if (PoStatus === "6") {
 						this.fGetFilterValues("getFilterCompleteTransactionProjCode", oVAlue1);
 					} else if (PoStatus === "7") {
@@ -3315,7 +3356,7 @@ sap.ui.define([
 			} else if (PoStatus === "4") {
 				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 			} else if (PoStatus === "5") {
-				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
+				this.fFilterPurchaseOrderTransaction("getFinalBilling");
 			} else if (PoStatus === "6") {
 				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
 			} else if (PoStatus === "7") {
@@ -3500,6 +3541,7 @@ sap.ui.define([
 				}
 			});
 		},
+		
 		//------------------- Retention Transaction Fragment ---------------------//
 		onHandleSearchRetention: function (oEvent) {
 		var sValue = oEvent.getParameter("value");
@@ -3507,32 +3549,25 @@ sap.ui.define([
 		var oBinding = oEvent.getSource().getBinding("items");
 		oBinding.filter([oFilter]);
 		},
-
 		onHandleValueProjCode: function (){
-		this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
-			if (!this._ValueHelpDialogs) {
-				this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
-				Fragment.load({
-					name: "com.apptech.app-retention.view.fragments.RetentionFragment",
-					controller: this
-				}).then(function (ValueHelpDialogs) {
-					this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
-					this._ValueHelpDialogs = ValueHelpDialogs;
-					this.getView().addDependent(this._ValueHelpDialogs);				
-					this._ValueHelpDialogs.open();
-				}.bind(this));
-			} else {
-				this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
-				this._ValueHelpDialogs.open();
-			}
-		},
 
+			Fragment.load({
+				name: "com.apptech.app-retention.view.fragments.RetentionFragment",
+				controller: this
+			}).then(function (ValueHelpDialogs) {
+				this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
+				this._ValueHelpDialogs = ValueHelpDialogs;
+				this.getView().addDependent(this._ValueHelpDialogs);				
+				this._ValueHelpDialogs.open();
+			}.bind(this));
+
+		},
 		fConfigValueHelpProjDialogs: function (DocEntry,Row) {
 		var DocEntry = this.DocEntry;
 		var Row = "R";
 
 		var sInputValue = this.byId("RetCode").getValue();
-		if (this.oMdlAllProject.getData().allbp.length <= 0) {
+
 			$.ajax({
 				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
 				type: "GET",
@@ -3543,34 +3578,25 @@ sap.ui.define([
 				error: function (xhr, status, error) {
 					// var Message = xhr.responseJSON["error"].message.value;
 					sap.m.MessageToast.show(error);
+					
 				},
-				success: function (json) {
-					this.oMdlAllProject.getData().allbp = json;
+				success: function (json) {},
+				context: this
+			}).done(function (results) {
+				if (results) {
+					this.oMdlAllProject.getData().allbp = results;
 					this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
+					this.oMdlAllProject.refresh();
 
 					var aList = this.oMdlAllProject.getProperty("/allbp");
 
 					aList.forEach(function (oRecord) {
 						oRecord.selected = (oRecord.DocNum === sInputValue);
 					});
-
-				},
-				context: this
-			}).done(function (results) {
-				// if (results) {
-				// 	this.oMdlAllProject.getData().allbp = results;
-				// 	this.getView().setModel(this.oMdlAllProject, "oMdlAllProject");
-				// }
+				}
 			});
-		}
 
-		// var aList = this.oMdlAllProject.getProperty("/allbp");
-
-		// aList.forEach(function (oRecord) {
-		// 	oRecord.selected = (oRecord.DocNum === sInputValue);
-		// });
 		},
-
 		onHandleValueHelpRetentionCloseBatch: function (oEvent) {
 		var aContexts = oEvent.getParameter("selectedContexts");
 		var CardDetails = {};
@@ -3607,6 +3633,8 @@ sap.ui.define([
 		this.DTRetention.getData().DetailesRetention[0].NetProgress = CardDetails[0].LineTotal;
 
 		this.DTRetention.refresh();
+
+		this.fConfigValueHelpProjDialogs(this.DocEntry,"R");
 		
 		},
 		//------------------- Retention Transaction End -----------------//
@@ -3639,7 +3667,6 @@ sap.ui.define([
 			}).done(function (results) {
 				if (results) {
 					sap.m.MessageToast.show("DocNum# " + DocNum + "  Added Successfully");
-					// sap.ui.getCore().byId("pageRetention").getModel().refresh(true);
 					this.fHideBusyIndicator();
 				}
 			});
