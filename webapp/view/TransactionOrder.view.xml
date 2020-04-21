@@ -132,13 +132,6 @@ xmlns:t="sap.ui.table">
 													<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Select>
-										<!-- <ComboBox id="Retention" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
-											selectionChange="fSelectRetention" required="true" loadItems="TransCode">
-											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
-											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
-											</layoutData>
-										</ComboBox> -->
 										<!--Posting Date-->
 										<Label text="Posting Date" width="100%">
 											<layoutData>
@@ -187,16 +180,8 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData> 
 										</Select>
-										<!-- <ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}"
-											selectionChange="onSelectRetention" >
-											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
-											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
-											</layoutData>
-										</ComboBox> -->
 										<!--FileUploader-->
-										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
-											uploadComplete="handleUploadComplete" width="100%"/>
+										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server" change="handleValueChange" uploadComplete="handleUploadComplete" width="100%"/>
 										<!--Remarks-->
 										<Label text="Remarks." width="100%">
 											<layoutData>

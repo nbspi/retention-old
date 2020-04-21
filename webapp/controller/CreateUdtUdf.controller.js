@@ -64,7 +64,8 @@ sap.ui.define([
       this.createField("App_TaxType", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_Remarks", "Remarks", "@APP_ORPT", "db_Alpha", "", 250);
       this.createField("App_RentAmnt", "Retention Amount", "@APP_ORPT", "db_Float", "st_Sum", 30);
-      this.createField("App_File", "Attachment", "@APP_ORPT", "db_Alpha", "", 250);
+	  this.createField("App_File", "Attachment", "@APP_ORPT", "db_Alpha", "", 250);
+	  this.createField("App_FileKey", "File Key", "@APP_ORPT", "db_Alpha", "", 250);
       this.createField("App_DwnPymnt", "Down Payment", "@APP_ORPT", "db_Float", "st_Sum", 30);
       this.createField("App_ProgBill", "Progress Billing", "@APP_ORPT", "db_Float", "st_Sum", 30);
       this.createField("App_ContractAmount", "Contract Amount", "@APP_ORPT", "db_Float", "st_Sum", 30);
@@ -97,7 +98,8 @@ sap.ui.define([
       this.createField("App_TranNum", "Transaction Number", "@APP_CPOR", "db_Alpha", "", 30);
       this.createField("App_Retention", "Retention", "@APP_CPOR", "db_Alpha", "", 30);
       this.createField("App_PostDate", "Posting Date", "@APP_CPOR", "db_Date", "", "");
-      this.createField("App_File", "Attachment", "@APP_CPOR", "db_Alpha", "", 250);
+	  this.createField("App_File", "Attachment", "@APP_CPOR", "db_Alpha", "", 250);
+	  this.createField("App_FileKey", "File Key", "@APP_CPOR", "db_Alpha", "", 250);
       this.createField("App_Remarks", "Remarkss", "@APP_CPOR", "db_Alpha", "", 250);
       this.createField("App_Status", "PO Status", "@APP_CPOR", "db_Alpha", "", 250);
 	  this.createField("App_ConAmount", "Contract Amount", "@APP_CPOR", "db_Alpha", "", 30);

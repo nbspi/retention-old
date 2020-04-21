@@ -120,6 +120,12 @@ sap.ui.define([
 				//Fragment Dialog
 				this._ValueHelpDialogs = null;
 
+
+				//CPA
+				this.currentFile = {}; //File Object
+				//Get File / Attachment Key
+				this.FileKey = null;
+
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
 
@@ -513,11 +519,14 @@ sap.ui.define([
 					}
 					this.byId("RentAmount").setValue(oRetention);
 					this.byId("Doctotal").setValue(oDocTotal);
-					this.oModelPurchase.getData().POFields.Price = oRetention;
 					this.getView().byId("DPayment").setValue(oDP);
-					this.oModelPurchase.getData().POFields.DocTotal = oDocTotal;
 					this.getView().byId("ProgBill").setValue(oProgBill);
 					this.getView().byId("TextArea").setValue(oRemarks);
+					this.getView().byId("fileUploader").setValue(results[0].File);
+					this.FileKey = results[0].FileKey;
+
+					this.oModelPurchase.getData().POFields.DocTotal = oDocTotal;
+					this.oModelPurchase.getData().POFields.Price = oRetention;
 					this.oModelPurchase.refresh();
 
 					this.getView().byId("BAmount").setValue(that.oModelUDT.getData().UDTFields.U_App_BaseAmount);
@@ -748,6 +757,8 @@ sap.ui.define([
 			this.getView().byId("CWIP").setValue("");
 			this.getView().byId("TextArea").setValue("");
 			this.getView().byId("RetCode").setValue("");
+			this.getView().byId("fileUploader").setValue("");
+			this.FileKey = null;
 			
 
 			this.DTRetention.getData().DetailesRetention[0].CWIP = "";
@@ -1800,6 +1811,8 @@ sap.ui.define([
 					oPurchase_Order.U_App_RentAmnt = this.oModelPurchase.getData().POFields.Price;
 					oPurchase_Order.U_App_BaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
 					oPurchase_Order.U_App_WithTax = this.InputHeader.getData().InputHeader.WTax;
+					oPurchase_Order.U_App_File = this.getView().byId("fileUploader").getValue();
+					oPurchase_Order.U_App_FileKey = this.FileKey;
 
 					if (oPoStatus === "0") {
 						oPurchase_Order.U_App_DosStatus = "DP";
@@ -2015,6 +2028,9 @@ sap.ui.define([
 			oHeader.U_App_UpdatedDate = this.fGetTodaysDate();
 			oHeader.U_App_BaseAmount = this.InputHeader.getData().InputHeader.BaseAmount;
 			oHeader.U_App_WithTax = this.InputHeader.getData().InputHeader.WTax;
+			oHeader.U_App_File = this.getView().byId("fileUploader").getValue();
+			oHeader.U_App_FileKey = this.FileKey;
+
 
 
 			$.ajax({
@@ -2237,6 +2253,7 @@ sap.ui.define([
 				oAPDown.U_APP_GrossAmount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
 				oAPDown.U_APP_WTX = this.DTRetention.getData().DetailesRetention[0].WTX;
 				oAPDown.U_APP_DPAmount = this.DTRetention.getData().DetailesRetention[0].NetProgress;
+				oAPDown.AttachmentEntry = this.FileKey;
 
 				oAPDown.DocumentLines = [];
 
@@ -2360,6 +2377,7 @@ sap.ui.define([
 					url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					type: "POST",
+					async:false,
 					xhrFields: {
 						withCredentials: true
 					},
@@ -2383,6 +2401,7 @@ sap.ui.define([
 						$.ajax({
 							url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&	queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
 							type: "GET",
+							async:false,
 							beforeSend: function (xhr) {
 								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
 							  },
@@ -2417,6 +2436,7 @@ sap.ui.define([
 								oAPINV.U_APP_ProRetention = nProRetention;
 								oAPINV.U_APP_ProgBillAmount = nProgBill;
 								oAPINV.U_APP_DocEntry = this.DocEntry;
+								oAPINV.AttachmentEntry = this.FileKey;
 
 								// Progressive YES
 								if (this.Progressive === "Yes"){
@@ -2484,6 +2504,7 @@ sap.ui.define([
 									url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
+									async:false,
 									xhrFields: {
 										withCredentials: true
 									},
@@ -2586,18 +2607,19 @@ sap.ui.define([
 					url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					type: "POST",
-							xhrFields: {
-								withCredentials: true
-							},
-							error: function (xhr, status, error) {
-								var ErrorMassage = xhr.responseJSON["error"].message.value;
-								sap.m.MessageToast.show(ErrorMassage);
-								this.fHideBusyIndicator();
-								console.error(ErrorMassage);
-								AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","null","null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON,stringify(oFGRPO));
-							},
-							context: this,
-							success: function (json) {}
+					async:false,
+					xhrFields: {
+						withCredentials: true
+					},
+					error: function (xhr, status, error) {
+						var ErrorMassage = xhr.responseJSON["error"].message.value;
+						sap.m.MessageToast.show(ErrorMassage);
+						this.fHideBusyIndicator();
+						console.error(ErrorMassage);
+						AppUI5.fErrorLogs("OPDN & PDN1","Add GRPO","null","null",ErrorMassage,"Retention Adding GRPO",this.UserNmae,"null",this.Database,JSON,stringify(oFGRPO));
+					},
+					context: this,
+					success: function (json) {}
 				}).done(function (results) {
 					if (results) {
 
@@ -2625,6 +2647,7 @@ sap.ui.define([
 								oAPINV.U_APP_ProRetention = nProRetention;
 								oAPINV.U_APP_ProgBillAmount = nProgBill;
 								oAPINV.U_APP_DocEntry = this.DocEntry;
+								oAPINV.AttachmentEntry = this.FileKey;
 
 								// Progressive YES
 								if (this.Progressive === "Yes"){
@@ -2681,6 +2704,7 @@ sap.ui.define([
 									url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
+									async:false,
 									xhrFields: {
 										withCredentials: true
 									},
@@ -2703,6 +2727,7 @@ sap.ui.define([
 										$.ajax({
 											url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
 											type: "POST",
+											async:false,
 											xhrFields: {
 												withCredentials: true
 											},
@@ -2819,6 +2844,7 @@ sap.ui.define([
 					// Posting GRPO in SAP
 					url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
+					async:false,
 					type: "POST",
 						xhrFields: {
 							withCredentials: true
@@ -2859,7 +2885,8 @@ sap.ui.define([
 									oAPINV.U_APP_ProRetention = nProRetention;
 									oAPINV.U_APP_ProgBillAmount = nProgBill;
 									oAPINV.U_APP_DocEntry = this.DocEntry;
-					
+									oAPINV.AttachmentEntry = this.FileKey;
+
 									oAPINV.DocumentLines = [];
 
 								// Progressive YES
@@ -2965,6 +2992,7 @@ sap.ui.define([
 									url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
+									async:false,
 									xhrFields: {
 										withCredentials: true
 									},
@@ -2988,6 +3016,7 @@ sap.ui.define([
 										$.ajax({
 											url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
 											type: "POST",
+											async:false,
 											xhrFields: {
 												withCredentials: true
 											},
@@ -3061,6 +3090,7 @@ sap.ui.define([
 				url: "https://18.136.35.41:50000/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
 				type: "POST",
+				async:false,
 				xhrFields: {
 					withCredentials: true
 				},
@@ -3093,6 +3123,7 @@ sap.ui.define([
 							oAPINV.Comments = APRemarks;
 							oAPINV.U_APP_RETTranstype = 5;
 							oAPINV.U_APP_IsForRetention = "Y";
+							oAPINV.AttachmentEntry = this.FileKey;
 
 							oAPINV.DocumentLines = [];
 
@@ -3114,6 +3145,7 @@ sap.ui.define([
 								url: "https://18.136.35.41:50000/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
 								type: "POST",
+								async:false,
 								xhrFields: {
 									withCredentials: true
 								},
@@ -3672,6 +3704,67 @@ sap.ui.define([
 			});
 			this.fDeleteData();
 		},
+		//Attachment Function
+		handleValueChange: function (oEvt){
+		var aFiles = oEvt.getParameters().files;
+		this.currentFile = aFiles[0];
+		var FileName = this.getView().byId("fileUploader").getValue();
+
+		var form = new FormData();
+		form.append("",this.currentFile,FileName);
+
+		//Postinf Attachment in SAP
+		$.ajax({
+			url: "https://18.136.35.41:50000/b1s/v1/Attachments2",
+			data: form,
+			type: "POST",
+			processData:false,
+			mimeType: "multipart/form-data",
+			contentType: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function (xhr, status, error) {
+				var ErrorMassage = xhr.responseJSON["error"].message.value;
+				sap.m.MessageToast.show(ErrorMassage);
+				this.fHideBusyIndicator();
+				console.error(ErrorMassage);
+			},
+			context: this,
+			success: function (json) {}
+		}).done(function (results) {			
+			if (results) {
+				console.log(results);
+				this.fgetFileAbsEntry();
+			}	
+
+		}); 
+		
+		},
+		//Get AbsEntry or Key of File Attachment
+		fgetFileAbsEntry: function (){
+
+		$.ajax({
+			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
+			type: "GET",
+			dataType: "json",
+			async:false,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			},
+				error: function (xhr, status, error) {
+					sap.m.MessageToast.show(error);
+			},
+			success: function (json) {},
+			context: this
+		}).done(function (results) {
+			if (results) {
+				this.FileKey = results[0].AbsEntry;			
+			}
+		});
+
+		}
 
   });
 });

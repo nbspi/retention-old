@@ -198,12 +198,6 @@ xmlns:t="sap.ui.table">
 													<l:GridData span="L3 M4 S12"/>
 												</layoutData> 
 										</Select>
-										<!-- <ComboBox id="TaxType" width="100%" items="{TaxType>/TaxType}" selectedKey="" selectionChange="onSelectionWTX" loadItems="TransCode">
-											<core:Item key="{TaxType>CODE}" text="{TaxType>NAME}"/>
-											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
-											</layoutData>
-										</ComboBox> -->
 										<!--RETENTION AMOUNT-->
 										<Label text="Retention Amount." width="100%">
 											<layoutData>
@@ -359,7 +353,7 @@ xmlns:t="sap.ui.table">
 										</t:columns>
 									</t:Table>
 									<!--FileUploader-->
-									<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
+									<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server" change="handleValueChange"
 										uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
 									<!--Remarks-->
 									<Label text="Remarks." width="100%">

@@ -61,8 +61,10 @@ sap.ui.define([
 			
 			//CPA
 			this.currentFile = {}; //File Object	
+			//For Attachment File Key
+			this.FileKey = null;
 			
-
+			//Transaction Code
 			var TransCode = this.byId("Docnum").getValue();
 
 	},
@@ -260,9 +262,11 @@ sap.ui.define([
 					oPO.DocDate = PostingDate;
 					oPO.DocumentLines = [];
 					oPO.DocType = "dDocument_Service";
+					oPO.AttachmentEntry = this.FileKey;
 					oPO.U_APP_IsForRetention = "Y";
 					oPO.U_APP_Retention = "Y";
 					oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
+
 
 					if (this.POData.getData().POCreation.Progressive === "0" ){
 						oPO.U_APP_Progressive = "Yes";
@@ -324,6 +328,7 @@ sap.ui.define([
 					oPO.U_APP_IsForRetention = "Y";
 					oPO.DocType = "dDocument_Service";
 					oPO.U_APP_Retention = "N";
+					oPO.AttachmentEntry = this.FileKey;
 					oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
 					
 					if (this.POData.getData().POCreation.Progressive === "0" ){
@@ -415,6 +420,9 @@ sap.ui.define([
 				oDraft.U_App_CreatedBy = this.UserNmae;
 				oDraft.U_App_Progressive = this.POData.getData().POCreation.Progressive;
 				oDraft.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
+				oDraft.U_App_File = this.getView().byId("fileUploader").getValue();
+				oDraft.U_App_FileKey = this.FileKey;
+
 	
 				
 				if (this.PurchaseAdd === "1"){
@@ -468,6 +476,7 @@ sap.ui.define([
 			this.byId("CntAmount").setValue("");
 			this.getView().byId("TextArea").setValue("");
 			this.POData.refresh();
+			this.FileKey = null;
 	},
 	//To get UDT Code
 	fGenerateUDTCode: function (docType) {
@@ -558,31 +567,66 @@ sap.ui.define([
 		}
 
 	},
-	onUpload: function(oEvent){
-		this.handleValueChange();
-	},
-
+	//Attachment Posting
 	handleValueChange: function (oEvt){
 		var aFiles = oEvt.getParameters().files;
 		this.currentFile = aFiles[0];
+		var FileName = this.getView().byId("fileUploader").getValue();
 
 		var form = new FormData();
-		form.append("",this.currentFile, "retentions.txt");
+		form.append("",this.currentFile,FileName);
 
-		var settings = {
-		  "url": "https://18.136.35.41:50000/b1s/v1/Attachments2",
-		  "data": form,
-		  "method": "POST",
-		  "processData": false,
-		  "mimeType": "multipart/form-data",
-		  "contentType": false,
-		  "xhrFields":{
-			"withCredentials": true
-		   }
-		};
-		
-		$.ajax(settings).done(function (response) {
-		  console.log(response);
+		//Postinf Attachment in SAP
+		$.ajax({
+			url: "https://18.136.35.41:50000/b1s/v1/Attachments2",
+			data: form,
+			type: "POST",
+			processData:false,
+			mimeType: "multipart/form-data",
+			contentType: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function (xhr, status, error) {
+				var ErrorMassage = xhr.responseJSON["error"].message.value;
+				sap.m.MessageToast.show(ErrorMassage);
+				this.fHideBusyIndicator();
+				console.error(ErrorMassage);
+			},
+			context: this,
+			success: function (json) {}
+		}).done(function (results) {			
+			if (results) {
+				console.log(results);
+				this.fgetFileAbsEntry();
+			}	
+
+		}); 
+
+
+
+	},
+	//Get AbsEntry or Key of File Attachment
+	fgetFileAbsEntry: function (){
+
+		$.ajax({
+			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
+			type: "GET",
+			dataType: "json",
+			async:false,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			},
+				error: function (xhr, status, error) {
+					sap.m.MessageToast.show(error);
+			},
+			success: function (json) {},
+			context: this
+		}).done(function (results) {
+			if (results) {
+				this.FileKey = results[0].AbsEntry;			
+			}
 		});
 
 	}

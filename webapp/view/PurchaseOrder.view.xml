@@ -113,14 +113,6 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData> 
 										</Select>
-										<!-- <ComboBox id="Progressive" required="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}"
-											selectionChange="onSelectRetention" >
-											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
-											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
-											</layoutData>
-										</ComboBox> -->
-										<!--FileUploader-->
 										<u:FileUploader id="fileUploader" name="myFileUpload" tooltip="Upload your file to the local server"
 											uploadComplete="onHandleUploadComplete"
 											change="handleValueChange"
