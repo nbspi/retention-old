@@ -24,7 +24,7 @@ xmlns:t="sap.ui.table">
 									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
 									<t:extension>
 										<Toolbar>
-											<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="fProcess" icon="sap-icon://add"/>
+											<Button id="TranProcess" text="{oFilter>/Process/ProcName}" tooltip="Add" press="fProcess" icon="sap-icon://add" visible="{buttons>/buttons/TranProcess}" />
 											<ToolbarSpacer/>
 										</Toolbar>
 									</t:extension>
@@ -88,10 +88,11 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab2" text="Contract No:" count="{Retention>/POCount/PONum}" key="tab2">
 							<Toolbar>
 								<content>
-								<Button id="btnTransUpdate" text="Update" tooltip="Add" press="fDraftUpdate" icon="sap-icon://save"/>
-								<Button id="btnTransAdd" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add"/>
-								<Button id="btnTransCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
-								<Button id="btnTransPrint" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
+								<Button id="btnTransUpdate" text="Update" tooltip="Add" press="fDraftUpdate" icon="sap-icon://save" visible="{buttons>/buttons/btnTransUpdate}" />
+								<Button id="btnTransAdd" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add" visible="{buttons>/buttons/btnTransAdd}" />
+								<Button id="btnTransCancel" text="Cancel" tooltip="Cancel" press="onCancel" icon="sap-icon://cancel" visible="{buttons>/buttons/btnTransCancel}" />
+								<Button id="btnTransPrint" text="Print" tooltip="Print" press="onPrint" icon="sap-icon://print"
+								visible="{buttons>/buttons/btnTransPrint}" />
 								</content>
 							</Toolbar>
 								<VBox class="sapUiTinyMargin">

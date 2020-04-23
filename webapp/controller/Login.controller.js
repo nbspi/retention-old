@@ -54,7 +54,6 @@ sap.ui.define([
 					jQuery.sap.storage.put("Database", this.getView().byId("selectDatabase").getSelectedKey());
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("isLogin", true);
-					// jQuery.sap.intervalCall(1800000, this, "fHidePanelAgain", [this]);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
 					BusyIndicator.hide();
                 }

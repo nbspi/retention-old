@@ -8,16 +8,33 @@ sap.ui.define([
 	"sap/m/Button",
 	"sap/m/library",
 	"sap/m/MessageToast",
-	"sap/ui/core/BusyIndicator"
-], function (jQuery, Device, Fragment, Controller, JSONModel, Popover, Button, mobileLibrary, MessageToast,BusyIndicator) {
+	"sap/ui/core/BusyIndicator",
+	"com/apptech/app-retention/controller/AppUI5",
+], function (jQuery, Device, Fragment, Controller, JSONModel, Popover, Button, mobileLibrary, MessageToast,BusyIndicator,AppUI5) {
 	"use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.CreateUdtUdf", {
 
-    // onInit: function () {
+    onInit: function () {
 
+		//Getting Data From LoginView
+		this.Database = jQuery.sap.storage.get("Database");
+		this.UserName = jQuery.sap.storage.get("Usename");
 
-    // },
+		//getButtons
+		this.oMdlButtons = new JSONModel();
+		this.oResults = AppUI5.fGetButtons(this.Database,this.UserName,"configuration");
+		var newresult = [];
+			  this.oResults.forEach((e)=> {
+				  var d = {};
+				  d[e.U_ActionDesc] = JSON.parse(e.visible);
+				  newresult.push(JSON.parse(JSON.stringify(d)));
+			  });
+		var modelresult = JSON.parse("{" + JSON.stringify(newresult).replace(/{/g,"").replace(/}/g,"").replace("[","").replace("]","") + "}");
+		this.oMdlButtons.setJSON("{\"buttons\" : " + JSON.stringify(modelresult) + "}");
+		this.getView().setModel(this.oMdlButtons, "buttons");
+
+    },
     onCreateUDT: function(oEvent){
 		this.fShowBusyIndicator(4000, 0);
     	// Retention Payable Header

@@ -8,8 +8,8 @@
 				<content>
 					<Toolbar>
 						<content>
-							<Button id="btnUDT" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add"/>
-							<Button id="btnUDF" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add"/>
+							<Button id="btnUDT" text="Create UDT" tooltip="Add" press="onCreateUDT" icon="sap-icon://add" visible="{buttons>/buttons/btnUDT}" />
+							<Button id="btnUDF" text="Create UDF" tooltip="Add" press="onCreateUDF" icon="sap-icon://add" visible="{buttons>/buttons/btnUDF}" />
 						</content>
 					</Toolbar>
 				</content>

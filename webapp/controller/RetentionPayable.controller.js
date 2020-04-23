@@ -129,6 +129,19 @@ sap.ui.define([
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
 
+				//getButtons
+				this.oMdlButtons = new JSONModel();
+				this.oResults = AppUI5.fGetButtons(this.Database,this.UserNmae,"paymentprocess");
+				var newresult = [];
+					  this.oResults.forEach((e)=> {
+						  var d = {};
+						  d[e.U_ActionDesc] = JSON.parse(e.visible);
+						  newresult.push(JSON.parse(JSON.stringify(d)));
+					  });
+				var modelresult = JSON.parse("{" + JSON.stringify(newresult).replace(/{/g,"").replace(/}/g,"").replace("[","").replace("]","") + "}");
+				this.oMdlButtons.setJSON("{\"buttons\" : " + JSON.stringify(modelresult) + "}");
+				this.getView().setModel(this.oMdlButtons, "buttons");
+
 		},
 		// Icontab Sekector
 		fIconTabSelect: function () {
@@ -1370,6 +1383,7 @@ sap.ui.define([
 			}
 
 		},
+		
 		// Formula for Each Progress Billing Type
 		onProgressBillingType: function () {
 

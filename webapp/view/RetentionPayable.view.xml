@@ -24,9 +24,8 @@ xmlns:t="sap.ui.table">
 									<t:extension>
 										<Toolbar>
 											<content>
-												<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess
-												" icon="sap-icon://add"/>
-												<Button text="Refresh" press="onRefresh"/>
+												<Button id="Process" text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess" icon="sap-icon://add" visible="{buttons>/buttons/Process}" />
+												<Button text="Refresh" press="onRefresh" visible="{buttons>/buttons/Refresh}" />
 												<ToolbarSpacer/>
 											</content>
 										</Toolbar>
@@ -96,10 +95,10 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab2" text="Contract No:" count="{oModelPurchase>/POFields/DocNum}" key="tab2">
 								<Toolbar>
 									<content>
-									<Button id="btnRetSave" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://save"/>
-									<Button id="btnRetAdd" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://add"/>
-									<Button id="btnRetCancel" text="Cancel" tooltip="Cancel" press="onCancel" visible="false"  icon="sap-icon://cancel"/>
-									<Button id="btnRetUpdate" text="Print" tooltip="Print" press="onPrint" visible="false" icon="sap-icon://print"/>
+									<Button id="btnRetSave" text="{oFilter>/SaveDraft/oDraft}" tooltip="Add" press="onSave" icon="sap-icon://save" visible="{buttons>/buttons/btnRetSave}" />
+									<Button id="btnRetAdd" text="Add" tooltip="Add" press="onAddingSAP" icon="sap-icon://add" visible="{buttons>/buttons/btnRetAdd}" />
+									<Button id="btnRetCancel" text="Cancel" tooltip="Cancel" press="onCancel"  icon="sap-icon://cancel" visible="{buttons>/buttons/btnRetCancel}" />
+									<Button id="btnRetUpdate" text="Print" tooltip="Print" press="onPrint" icon="sap-icon://print" visible="{buttons>/buttons/btnRetUpdate}" />
 									</content>
 								</Toolbar>
 								<VBox class="sapUiTinyMargin">

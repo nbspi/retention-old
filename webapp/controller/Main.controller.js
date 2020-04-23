@@ -20,10 +20,40 @@ sap.ui.define([
 
             this.router = this.getOwnerComponent().getRouter();
 
-            this.oMdlMenu = new JSONModel("model/Menus.json");
-            this.getView().setModel(this.oMdlMenu);
+            // this.oMdlMenu = new JSONModel("model/Menus.json");
+            // this.getView().setModel(this.oMdlMenu);
             
             this.getView().byId("Admin").setText(this.UserName);
+
+           //get Menu/s
+		    this.oMdlMenu = new JSONModel();
+		    this.fGetAllMenu();
+
+		    this.router = this.getOwnerComponent().getRouter();
+		    var sSelectedMenu = this.oMdlMenu.getData().navigation[0].key;
+		    	switch (sSelectedMenu) {
+                case "purchaseorder":
+                    this.router.navTo("PurchaseOrder");
+                    break;
+                case "paymentprocess":
+                    this.router.navTo("RetentionPayable");
+                    break;
+                case "configuration":
+                     this.router.navTo("CreateUdtUdf");
+                    break;
+                case "contractreport":
+                    // this.router.navTo("CreateUDT_UDF");
+                    break;
+                case "transactionrecords":
+                    this.router.navTo("TransactionOrder");
+                    break;
+                case "projectCode":
+                    this.router.navTo("ProjectCode");
+                    break;
+
+		    	default:
+
+		    	} 
 
         },
         onRoutePatternMatched: function(event) {
@@ -44,7 +74,7 @@ sap.ui.define([
                 case "purchaseorder":
                     this.router.navTo("PurchaseOrder");
                     break;
-                case "paymentprocessing":
+                case "paymentprocess":
                     this.router.navTo("RetentionPayable");
                     break;
                 case "configuration":
@@ -103,6 +133,29 @@ sap.ui.define([
                     this._data.UserAccount = "";
                 }
             });
-        }
+        },
+        fGetAllMenu: function(){
+			$.ajax({
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
+				"&VALUE1="+ this.UserName +"&VALUE2=&VALUE3=&VALUE4=",
+				type: "GET",
+				async: false,
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				},
+				error: function (xhr, status, error) {
+					var Message = xhr.responseJSON["error"].message.value;			
+					sap.m.MessageToast.show(Message);
+				},
+				success: function (json) {},
+				context: this
+			}).done(function (results) {
+				if (results) {
+					this.oMdlMenu.setJSON("{\"navigation\" : " + JSON.stringify(results) + "}");
+					this.getView().setModel(this.oMdlMenu);
+				}
+			});
+		},
     }); 
 });

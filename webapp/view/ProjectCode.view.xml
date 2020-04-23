@@ -21,7 +21,7 @@ xmlns:t="sap.ui.table">
 									rowSelectionChange="onSelectionChange" rows="{oMdlAllProjects>/allbp}">
 									<t:extension>
 										<Toolbar>
-											<Button id="btnProjProcess" text="Process" tooltip="Add" press="fProcess" icon="sap-icon://add"/>
+											<Button text="Process" id="btnProjProcess" tooltip="Add" press="fProcess" icon="sap-icon://add" visible="{buttons>/buttons/btnProjProcess}"/>
 											<ToolbarSpacer/>
 										</Toolbar>
 									</t:extension>
@@ -67,8 +67,8 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab2" text="Project Code" key="tab2">
 							<Toolbar>
 								<content>
-								<Button id="btnProjUpdate" text="Update" tooltip="Add" enabled="{Project>/btnUpdate/ENABLED}" press="fUpdateProjCode" icon="sap-icon://save"/>
-								<Button id="btnProjsAdd" text="Add" tooltip="Add" enabled="{Project>/btnAdd/ENABLED}" press="fAddProjCode" icon="sap-icon://add"/>
+								<Button id="btnProjUpdate" text="Update" tooltip="Add" enabled="{Project>/btnUpdate/ENABLED}" press="fUpdateProjCode" icon="sap-icon://save" visible="{buttons>/buttons/btnProjUpdate}" />
+								<Button id="btnProjsAdd" text="Add" tooltip="Add" enabled="{Project>/btnAdd/ENABLED}" press="fAddProjCode" icon="sap-icon://add" visible="{buttons>/buttons/btnProjsAdd}" />
 								</content>
 							</Toolbar>
 								<VBox class="sapUiTinyMargin">

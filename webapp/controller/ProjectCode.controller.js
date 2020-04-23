@@ -23,7 +23,21 @@ sap.ui.define([
 
 			//INPUT PO CREATION PROJECTS
 			this.Project = new JSONModel("model/ProjectCode.json");
-			this.getView().setModel(this.Project, "Project");
+      this.getView().setModel(this.Project, "Project");
+      
+      //getButtons
+			this.oMdlButtons = new JSONModel();
+			this.oResults = AppUI5.fGetButtons(this.Database,this.UserName,"projectCode");
+			var newresult = [];
+				this.oResults.forEach((e)=> {
+					var d = {};
+					d[e.U_ActionDesc] = JSON.parse(e.visible);
+					newresult.push(JSON.parse(JSON.stringify(d)));
+				});
+			var modelresult = JSON.parse("{" + JSON.stringify(newresult).replace(/{/g,"").replace(/}/g,"").replace("[","").replace("]","") + "}");
+			this.oMdlButtons.setJSON("{\"buttons\" : " + JSON.stringify(modelresult) + "}");
+			this.getView().setModel(this.oMdlButtons, "buttons");
+
 
     },
     fGetAllProjectCode: function (queryTag) {

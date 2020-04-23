@@ -19,8 +19,8 @@ xmlns:t="sap.ui.table">
 							<IconTabFilter id="tab1" text="Contracts">
 							<Toolbar>
 								<content>
-									<Button id="btnPODraft" text="Save as Draft" tooltip="Add" press="fDraft" icon="sap-icon://save"/>
-									<Button id="btnPOAdd" text="Add" tooltip="Add" press="onSave" icon="sap-icon://add"/>
+									<Button id="btnPODraft" text="Save as Draft" tooltip="Add" press="fDraft" icon="sap-icon://save" visible="{buttons>/buttons/btnPODraft}" />
+									<Button id="btnPOAdd" text="Add" tooltip="Add" press="onSave" icon="sap-icon://add" visible="{buttons>/buttons/btnPOAdd}" />
 								</content>
 							</Toolbar>
 								<VBox class="sapUiResponsiveMargin">
