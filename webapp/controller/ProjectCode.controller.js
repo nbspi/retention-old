@@ -1,13 +1,14 @@
 sap.ui.define([
   "sap/m/MessageBox",
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/model/json/JSONModel",
+  "sap/ui/model/json/JSONModel",
+  "sap/ui/core/Fragment",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter",
   "sap/ui/model/FilterOperator",
   "com/apptech/app-retention/controller/AppUI5",
 	"sap/ui/core/BusyIndicator"
-], function(MessageBox, Controller, JSONModel, MessageToast, Filter, FilterOperator,AppUI5,BusyIndicator) {
+], function(MessageBox, Controller, JSONModel,Fragment, MessageToast, Filter, FilterOperator,AppUI5,BusyIndicator) {
   "use strict";
 
   return Controller.extend("com.apptech.app-retention.controller.ProjectCode", {
@@ -17,6 +18,9 @@ sap.ui.define([
       //Getting Data From LoginView
 			this.Database = jQuery.sap.storage.get("Database");
       this.UserName = jQuery.sap.storage.get("Usename");
+
+      this.oMdlAllEmp = new JSONModel(); //
+			this.oMdlAllEmp.getData().allbp = [];
 
       this.oMdlAllProjects = new JSONModel();
       this.fGetAllProjectCode("getAllProjectCode");
@@ -38,6 +42,7 @@ sap.ui.define([
 			this.oMdlButtons.setJSON("{\"buttons\" : " + JSON.stringify(modelresult) + "}");
 			this.getView().setModel(this.oMdlButtons, "buttons");
 
+      this.EmpName = "";
 
     },
     fGetAllProjectCode: function (queryTag) {
@@ -77,6 +82,7 @@ sap.ui.define([
       this.Project.getData().Project.ValidFrom = oRowSelected.ValidFrom; 
       this.Project.getData().Project.ValidTo = oRowSelected.ValidTo;
       this.Project.getData().Project.Active = oRowSelected.Active;  
+      this.getView().byId("ProjMAnager").setValue(oRowSelected.ProjectManager);
       this.Project.getData().btnAdd.ENABLED = false ;  
       this.Project.getData().btnUpdate.ENABLED = true ;
       this.Project.getData().ProjectCode.ENABLED = false ;
@@ -100,6 +106,8 @@ sap.ui.define([
       }
     },
     fRemoveData: function(){
+      this.EmpName = "";
+      this.getView().byId("ProjMAnager").setValue("");
       this.Project.getData().Project.ProjectCode = "";
       this.Project.getData().Project.ProjectName = "";
       this.Project.getData().Project.ValidFrom = ""; 
@@ -126,6 +134,7 @@ sap.ui.define([
           Project.ValidFrom = this.Project.getData().Project.ValidFrom;
           Project.ValidTo = this.Project.getData().Project.ValidTo;
           Project.Active = this.Project.getData().Project.Active;
+          Project.U_APP_ProjectManager = this.EmpName;
 
           // POsting Project in SAP
 			    $.ajax({
@@ -175,6 +184,7 @@ sap.ui.define([
         Project.ValidFrom = this.Project.getData().Project.ValidFrom;
         Project.ValidTo = this.Project.getData().Project.ValidTo;
         Project.Active = this.Project.getData().Project.Active;
+        Project.U_APP_ProjectManager = this.EmpName;
   
         // Update Project in SAP
         $.ajax({
@@ -262,7 +272,96 @@ sap.ui.define([
 				}
 			});
 
-		}
+    },
+    //Add New Project Code Button
+    fAddNew:function (){
+
+      var Tab = this.getView().byId("idIconTabBarInlineMode").getSelectedKey();
+
+        this.Project.getData().btnAdd.ENABLED = true ;  
+        this.Project.getData().btnUpdate.ENABLED = false ;
+        this.Project.getData().ProjectCode.ENABLED = true ;
+        this.Project.refresh();
+      var otab1 = this.getView().byId("idIconTabBarInlineMode");
+      otab1.setSelectedKey("tab2");    
+    },
+
+    	//----------------------- Business Partner -------------------//
+    	//BP Search Fragment
+    onHandleSearchEmployee: function (oEvent) {
+        var sValue = oEvent.getParameter("value");
+        var oFilter = new Filter("firstName", FilterOperator.Contains, sValue);
+        var oBinding = oEvent.getSource().getBinding("items");
+        oBinding.filter([oFilter]);
+    },
+    //BP Close Fragment
+    onHandleValueHelpCloseBatch: function (oEvent) {
+        var aContexts = oEvent.getParameter("selectedContexts");
+        var CardDetails = {};
+        if (aContexts && aContexts.length) {
+        
+          CardDetails = aContexts.map(function (oContext) {
+            var oCard = {};
+            oCard.firtName = oContext.getObject().firstName;
+            oCard.lastName = oContext.getObject().lastName;
+            return oCard;
+          });
+        }
+        oEvent.getSource().getBinding("items").filter([]);
+        this.EmpName =  CardDetails[0].firtName + " " + CardDetails[0].lastName;
+        // this.CardName = CardDetails[0].firtN;
+        // this.CardCode = CardDetails[0].CardCode;
+        this.getView().byId("ProjMAnager").setValue(this.EmpName);
+    },
+    ///BP LIST FROM FRAGMENT
+    onHandleValueEmpMaster: function () {
+          Fragment.load({
+            name: "com.apptech.app-retention.view.fragments.EmployeeFragment",
+            controller: this
+          }).then(function (oValueHelpDialogs) {
+            this._oValueHelpDialogs = oValueHelpDialogs;
+            this.getView().addDependent(this._oValueHelpDialogs);
+            this.fConfigValueHelpDialogs();
+            this._oValueHelpDialogs.open();
+          }.bind(this));
+    },
+    //BP Fragment Dialog Configuration
+    fConfigValueHelpDialogs: function () {
+        var Database = this.Database;
+        var sInputValue = this.byId("ProjMAnager").getValue();
+    
+          $.ajax({
+            url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+              "&procName=spAppRetention&queryTag=getEmployee&value1=&value2=&value3=&value4=",
+            type: "GET",
+            dataType: "json",
+            beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+            },
+            error: function (xhr, status, error) {
+              // var Message = xhr.responseJSON["error"].message.value;
+              sap.m.MessageToast.show(error);
+            },
+            success: function (json) {},
+            context: this
+          }).done(function (results) {
+            if (results) {
+              this.oMdlAllEmp.getData().allbp = results;
+              this.getView().setModel(this.oMdlAllEmp, "oMdlAllEmp");
+              this.oMdlAllEmp.refresh();
+            
+              var aList = this.oMdlAllEmp.getProperty("/allbp");
+            
+              aList.forEach(function (oRecord) {
+                oRecord.selected = (oRecord.firstName === sInputValue);
+              });
+            
+            }
+          });
+        
+    },
+    //----------------- Business Partner END -------------------//
+
 
   });
 });

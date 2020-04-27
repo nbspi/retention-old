@@ -70,6 +70,7 @@ sap.ui.define([
 	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Alpha", "",5);
 	  this.createField("APP_DocEntry", "DocEntry", "OPCH", "db_Alpha", "", 20);
 	  this.createField("APP_Processed", "Processed", "OPCH", "db_Alpha", "", 20);
+	  this.createField("APP_ProjectManager", "Project Manager", "OPRJ", "db_Alpha", "", 20);
 
       // -- Retention Payable Header --
 
@@ -122,7 +123,7 @@ sap.ui.define([
 	  this.createField("App_ConAmount", "Contract Amount", "@APP_CPOR", "db_Alpha", "", 30);
 	  this.createField("App_Progressive", "Progressive", "@APP_CPOR", "db_Alpha", "", 5);
 	  this.createField("App_ProjectCode", "Project Code", "@APP_CPOR", "db_Alpha", "", 20);
-      this.createMandatoryFields("@APP_CPOR");
+	  this.createMandatoryFields("@APP_CPOR");
 
 
 	  this.fHideBusyIndicator();

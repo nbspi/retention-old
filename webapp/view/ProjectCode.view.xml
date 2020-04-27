@@ -21,7 +21,8 @@ xmlns:t="sap.ui.table">
 									rowSelectionChange="onSelectionChange" rows="{oMdlAllProjects>/allbp}">
 									<t:extension>
 										<Toolbar>
-											<Button text="Process" id="btnProjProcess" tooltip="Add" press="fProcess" icon="sap-icon://add" visible="{buttons>/buttons/btnProjProcess}"/>
+											<Button text=" View " id="btnProjProcess" tooltip="Add" press="fProcess" icon="sap-icon://detail-view" visible="{buttons>/buttons/btnProjProcess}"/>
+											<Button text="AddNew" id="btnProjAddNew" tooltip="Add" press="fAddNew" icon="sap-icon://add" visible="true"/>
 											<ToolbarSpacer/>
 										</Toolbar>
 									</t:extension>
@@ -131,13 +132,17 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData> 
 										</Select>
-										<!-- <ComboBox id="Active" required="true" width="100%" items="{Project>/Active}" selectedKey="{Project>/Project/Active}" 
-											selectionChange="onSelectActive" >
-											<core:Item key="{Project>CODE}" text="{Project>NAME}"/>
+										<!-- Project Manager -->
+										<Label text="ProjectManager" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input id="ProjMAnager" type="Text" valueHelpRequest="onHandleValueEmpMaster" valueHelpOnly="true" showValueHelp="true"  value="{oMdlAllBP>/allbp/Vendor}" required="true">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</ComboBox> -->
+										</Input>
 									</f:SimpleForm>
 								</VBox>
 							</IconTabFilter>

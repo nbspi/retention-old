@@ -31,7 +31,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input id="BPCode" type="Text" valueHelpRequest="onHandleValueBPMaster" showValueHelp="true"  value="{oMdlAllBP>/allbp/Vendor}" required="true">
+										<Input id="BPCode" type="Text" valueHelpRequest="onHandleValueBPMaster" valueHelpOnly="true" showValueHelp="true"  value="{oMdlAllBP>/allbp/Vendor}" required="true">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -59,13 +59,6 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Select>
-										<!-- <ComboBox id="Retention" required="true" editable="true" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
-											selectionChange="fSelectRetention" loadItems="TransCode">
-											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
-											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
-											</layoutData>
-										</ComboBox> -->
 										<!--Posting Date-->
 										<Label text="Posting Date" width="100%">
 											<layoutData>
@@ -96,7 +89,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProjCode" required="true" valueHelpRequest="onHandleValueProjCode" showValueHelp="true" value="{POData>/POCreation/ProjectCode}" >
+										<Input width="100%" id="ProjCode" required="true" valueHelpRequest="onHandleValueProjCode" valueHelpOnly="true" showValueHelp="true" value="{POData>/POCreation/ProjectCode}" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
