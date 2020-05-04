@@ -63,6 +63,13 @@ xmlns:t="sap.ui.table">
 											<Text text="{oMdlAllProjects>Active}" wrapping="false"/>
 										</t:template>
 									</t:Column>
+									<!--Project Manager-->
+									<t:Column width="12rem">
+										<Label text="Project Manager"/>
+										<t:template>
+											<Text text="{oMdlAllProjects>ProjectManager}" wrapping="false"/>
+										</t:template>
+									</t:Column>
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="Project Code" key="tab2">

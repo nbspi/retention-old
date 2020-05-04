@@ -486,7 +486,7 @@ sap.ui.define([
 				}
 
 				oPOLines1.LineNum = 0;
-				oPOLines1.AccountCode = 161111; //CWIP
+				oPOLines1.AccountCode = 1229902101; //CWIP
 				oPOLines1.UnitPrice = oCWIP;
 				oPOLines1.VatGroup = "IVAT-EXC";
 				oPOLines1.U_APP_RtnRowType = "C";
@@ -494,7 +494,7 @@ sap.ui.define([
 				oPO.DocumentLines.push(oPOLines1);
 
 				oPOLines2.LineNum = 1;
-				oPOLines2.AccountCode = 242001; //Retention
+				oPOLines2.AccountCode = 2110208101; //Retention
 				oPOLines2.UnitPrice = iRetention;
 				oPOLines2.VatGroup = "IVAT-EXC";
 				oPOLines2.U_APP_RtnRowType = "R";
@@ -555,7 +555,7 @@ sap.ui.define([
 				}
 
 				oPOLines1.LineNum = 0;
-				oPOLines1.AccountCode = 161111; //CWIP
+				oPOLines1.AccountCode = 1229902101; //CWIP
 				oPOLines1.UnitPrice = oContract;
 				oPOLines1.VatGroup = "IVAT-EXC";
 				oPOLines1.U_APP_RtnRowType = "C";

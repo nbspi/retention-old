@@ -264,7 +264,7 @@ sap.ui.define([
 						
 					} else if (oPoStatus === "6") {
 						this.fDeleteData();
-						this.oGetDatafromHeaderUDT("RentPB");
+						this.oGetDatafromHeaderUDT("FinPB");
 						this.fSetTransacationType("6");
 						this.oFilter.getData().SaveDraft.oDraft = "Update";
 						this.oFilter.refresh()
@@ -1829,19 +1829,19 @@ sap.ui.define([
 					oPurchase_Order.U_App_FileKey = this.FileKey;
 
 					if (oPoStatus === "0") {
-						oPurchase_Order.U_App_DosStatus = "DP";
+						oPurchase_Order.U_App_DocStatus = "DP";
 						// oPurchase_Order.U_App_DocStatus = "DP";
 					} else if (oPoStatus === "3") {
-						oPurchase_Order.U_App_DosStatus = "1stPB";
+						oPurchase_Order.U_App_DocStatus = "1stPB";
 						//oPurchase_Order.U_App_DocStatus = "1stPB";
 					} else if (oPoStatus === "4") {
-						oPurchase_Order.U_App_DosStatus = "SubPB";
+						oPurchase_Order.U_App_DocStatus = "SubPB";
 						//oPurchase_Order.U_App_DocStatus = "SubPB";
 					} else if (oPoStatus === "5") {
-						oPurchase_Order.U_App_DosStatus = "FinPB";
+						oPurchase_Order.U_App_DocStatus = "FinPB";
 						//oPurchase_Order.U_App_DocStatus = "FinPB";	
 					} else {
-						oPurchase_Order.U_App_DosStatus = "RentPB";
+						oPurchase_Order.U_App_DocStatus = "RentPB";
 						//oPurchase_Order.U_App_DocStatus = "RentPB";
 					}
 
@@ -1887,19 +1887,19 @@ sap.ui.define([
 						oPurchase_Details.U_App_LineNum = iLineNumDP;
 
 						if (oPoStatus === "0") {
-							oPurchase_Details.U_App_DosStatus = "DP";
+							oPurchase_Details.U_App_DocStatus = "DP";
 							//oPurchase_Details.U_App_DocStatus = "DP";
 						} else if (oPoStatus === "3") {
-							oPurchase_Details.U_App_DosStatus = "1stPB";
+							oPurchase_Details.U_App_DocStatus = "1stPB";
 							//oPurchase_Details.U_App_DocStatus = "1stPB";
 						} else if (oPoStatus === "4") {
-							oPurchase_Details.U_App_DosStatus = "SubPB";
+							oPurchase_Details.U_App_DocStatus = "SubPB";
 							//oPurchase_Details.U_App_DocStatus = "SubPB";
 						} else if (oPoStatus === "5") {
-							oPurchase_Details.U_App_DosStatus = "FinPB";
+							oPurchase_Details.U_App_DocStatus = "FinPB";
 							//oPurchase_Details.U_App_DocStatus = "FinPB";
 						} else {
-							oPurchase_Details.U_App_DosStatus = "RentPB";
+							oPurchase_Details.U_App_DocStatus = "RentPB";
 							//oPurchase_Details.U_App_DocStatus = "RentPB";
 						}
 

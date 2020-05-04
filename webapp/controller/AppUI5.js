@@ -18,13 +18,12 @@ sap.ui.define([
 									"bott_MasterData","bott_MasterDataLines",
 									"bott_NoObject","bott_NoObjectAutoIncrement")
 		*/
-
 		generateUDTCode: function (Database,docType) {
 
 			var generatedCode = "";
 
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database + "&procName=spAppRetention&DocType=" + docType,
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName="+ Database +"&procName=SPAPP_GENERATENUMBER&DocType="+ docType,
 				type: "GET",
 				async: false,
 				beforeSend: function (xhr) {
@@ -96,7 +95,7 @@ sap.ui.define([
         fGetButtons: function(sDatabase,sUserCode,sModule){
 			var aReturnResult = [];
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName="+ sDatabase +"&procName=spAppBankIntegration&QUERYTAG=getButtons" +
+				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName="+ sDatabase +"&procName=spAppRetention&QUERYTAG=getButtons" +
 				"&VALUE1="+ sUserCode +"&VALUE2="+ sModule +"&VALUE3=&VALUE4=",
 				type: "GET",
 				async: false,

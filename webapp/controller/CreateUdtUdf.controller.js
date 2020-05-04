@@ -56,16 +56,17 @@ sap.ui.define([
       // 3 - Subsequent Progress Billing
       // 4 - Final Progress Billing
       // 5 - Retention Payment
-
-      this.createField("APP_ProgBillRate", "Progress Billing Rate", "OPOR", "db_Numeric", "st_Sum", 30);
-      this.createField("APP_CWIP", "CWIP", "OPOR", "db_Float", "st_Sum", 30);
+	  this.createField("APP_IsForRetention", "For Retention Process", "OPOR", "db_Alpha", "", 1);
+	  this.createField("APP_ProgBillRate", "Progress Billing Rate", "OPOR", "db_Numeric", "st_Sum", 30)	  
+	  this.createField("APP_CWIP", "CWIP", "OPOR", "db_Float", "st_Sum", 30);
+	  
       this.createField("APP_GrossAmount", "Gross Amount", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_WTX", "WTX", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_ProratedDP", "Prorated DP", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_ProRetention", "Prorated Retention", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_ProgBillAmount", "Progress Billing Amount", "OPOR", "db_Float", "st_Sum", 30);
       this.createField("APP_DPAmount", "Down Payment Amount", "OPOR", "db_Float", "st_Sum", 30);
-	  this.createField("APP_Retention", "With Retention", "OPOR", "db_Alpha", "", 250);
+	  this.createField("APP_Retention", "With Retention", "OPOR", "db_Alpha", "", 250);	  
 	  this.createField("APP_ProjCode", "Project Code", "OPOR", "db_Alpha", "",30);
 	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Alpha", "",5);
 	  this.createField("APP_DocEntry", "DocEntry", "OPCH", "db_Alpha", "", 20);
@@ -74,9 +75,9 @@ sap.ui.define([
 
       // -- Retention Payable Header --
 
-      this.createField("App_Vendor", "Vendor", "@APP_ORPT", "db_Alpha", "", 30);
-      this.createField("App_Name", "Name", "@APP_ORPT", "db_Alpha", "", 30);
-      this.createField("App_DocNum", "Document Number", "@APP_ORPT", "db_Alpha", "", 30);
+    //   this.createField("App_Vendor", "Vendor", "@APP_ORPT", "db_Alpha", "", 30);
+    //   this.createField("App_Name", "Name", "@APP_ORPT", "db_Alpha", "", 30);
+    //   this.createField("App_DocNum", "Document Number", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_TransDate", "Transaction Date", "@APP_ORPT", "db_Date", "", "");
       this.createField("App_TransType", "Transaction Type", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_TaxType", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
@@ -92,7 +93,7 @@ sap.ui.define([
       this.createField("App_TransNum", "Transaction Number", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_DocEntry", "DocEntry", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_PostDate", "Posting Date", "@APP_ORPT", "db_Alpha", "", 30);
-	  this.createField("App_DosStatus", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
+	  this.createField("App_DocStatus", "Tax Type", "@APP_ORPT", "db_Alpha", "", 30);
 	  this.createField("App_BaseAmount", "Base Amount", "@APP_ORPT", "db_Float", "st_Sum", 30);
       this.createField("App_WithTax", "Witholding Tax", "@APP_ORPT", "db_Float", "st_Sum", 30);
       this.createMandatoryFields("@APP_ORPT");
@@ -107,7 +108,7 @@ sap.ui.define([
       this.createField("App_DocNum", "DocNum", "@APP_RPT1", "db_Numeric", "st_Sum", 30);
       this.createField("App_DocEntry", "DocEntry", "@APP_RPT1", "db_Alpha", "", 30);
       this.createField("App_TransNum", "Transaction Number", "@APP_RPT1", "db_Alpha", "", 30);
-      this.createField("App_DosStatus", "Document Status", "@APP_RPT1", "db_Alpha", "", 30);
+      this.createField("App_DocStatus", "Document Status", "@APP_RPT1", "db_Alpha", "", 30);
       this.createField("App_CWIP", "CWIP", "@APP_RPT1", "db_Numeric", "st_Sum", 30);
 
     // -- Purchase Order Transaction --
