@@ -120,6 +120,20 @@
 					"target": [
 						"ProjectCode"
 					]
+				},
+				{
+					"name": "ContractReport",
+					"pattern": "ContractReport",
+					"target": [
+						"ContractReport"
+					]
+				},
+				{
+					"name": "RetentionRecords",
+					"pattern": "RetentionRecords",
+					"target": [
+						"RetentionRecords"
+					]
 				}
 			],
 			"targets": {
@@ -172,6 +186,26 @@
 					"viewPath": "com.apptech.app-retention.view",
 					"viewType": "XML",
 					"viewName": "ProjectCode",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"ContractReport": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "ContractReport",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"RetentionRecords": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "RetentionRecords",
 					"parent": "Main",
 					"controlId": "pageContainer",
 					"controlAggregation": "pages",

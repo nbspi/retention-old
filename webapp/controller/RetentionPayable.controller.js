@@ -119,6 +119,8 @@ sap.ui.define([
 				this.WTCode = "";
 				//Fragment Dialog
 				this._ValueHelpDialogs = null;
+				//Retention Yes CWIP
+				this.RetentionYCWIP = "";
 
 
 				//CPA
@@ -1038,49 +1040,59 @@ sap.ui.define([
 			this.InputHeader.refresh();
 			var DPValue = this.InputHeader.getData().InputHeader.DP;
 
-			if (DPValue === "" || DPValue === "0") {
-
+			if (DPValue < 0 || DPValue > 100){
+				this.InputHeader.getData().InputHeader.DP = "";
+				this.InputHeader.refresh();
+				this.getView().byId("DPayment").getValue("");
 				this.fDeleteDetailes();
-
+				
 			} else {
 
-				// // COMPUTATION FOR GROSS AMOUNT
-				var PoDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
-				var Down_Payment = DPValue;
-				var oDowPayment = Down_Payment / 100;
-				var oDowPayment1 = Number([oDowPayment]);
-				var oDownPayment = oDowPayment1.toFixed(2);
+				if (DPValue === "" || DPValue === "0") {
 
-				var oToTal = PoDocTotal * oDownPayment;
-				var oTotal5 = Number([oToTal]);
-				var oTotal4 = oTotal5.toFixed(2);
+					this.fDeleteDetailes();
+	
+				} else {
+	
+					// // COMPUTATION FOR GROSS AMOUNT
+					var PoDocTotal = this.oModelPurchase.getData().POFields.DocTotal;
+					var Down_Payment = DPValue;
+					var oDowPayment = Down_Payment / 100;
+					var oDowPayment1 = Number([oDowPayment]);
+					var oDownPayment = oDowPayment1.toFixed(2);
+	
+					var oToTal = PoDocTotal * oDownPayment;
+					var oTotal5 = Number([oToTal]);
+					var oTotal4 = oTotal5.toFixed(2);
+	
+	
+					this.DTRetention.getData().DetailesRetention[0].GrossAmount = oTotal4;
+					this.DTRetention.refresh();
+	
+					// //Computation for WTX
+	
+					var Gross_Amount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
+					var oWTX1 = Gross_Amount / 1.12;
+					var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
+					var sWTHTaxRate1 = sWTHTaxRate / 100;
+					var oTotalWTX = oWTX1 * sWTHTaxRate1;
+					var oTotal = Number([oTotalWTX]);
+					var FTotalFWTX = oTotal.toFixed(2);
+	
+					this.DTRetention.getData().DetailesRetention[0].WTX = FTotalFWTX;
+					this.DTRetention.refresh();
+	
+					// //Computation for Net DownPayment Amount
+	
+					var Total1 = oTotal4;
+					var Total2 = FTotalFWTX;
+	
+					var oNetDP = Total1 - Total2;
+	
+					this.DTRetention.getData().DetailesRetention[0].NetProgress = oNetDP;
+					this.DTRetention.refresh();
+				}
 
-
-				this.DTRetention.getData().DetailesRetention[0].GrossAmount = oTotal4;
-				this.DTRetention.refresh();
-
-				// //Computation for WTX
-
-				var Gross_Amount = this.DTRetention.getData().DetailesRetention[0].GrossAmount;
-				var oWTX1 = Gross_Amount / 1.12;
-				var sWTHTaxRate = this.oModelPurchase.getData().POFields.Rate;
-				var sWTHTaxRate1 = sWTHTaxRate / 100;
-				var oTotalWTX = oWTX1 * sWTHTaxRate1;
-				var oTotal = Number([oTotalWTX]);
-				var FTotalFWTX = oTotal.toFixed(2);
-
-				this.DTRetention.getData().DetailesRetention[0].WTX = FTotalFWTX;
-				this.DTRetention.refresh();
-
-				// //Computation for Net DownPayment Amount
-
-				var Total1 = oTotal4;
-				var Total2 = FTotalFWTX;
-
-				var oNetDP = Total1 - Total2;
-
-				this.DTRetention.getData().DetailesRetention[0].NetProgress = oNetDP;
-				this.DTRetention.refresh();
 			}
 
 		},
@@ -1443,6 +1455,8 @@ sap.ui.define([
 				var CWIP5 = CWIP4 + oProReten;
 				this.FirstBillCWIP = Number([CWIP4]);
 				var TotalCWIP = CWIP5.toFixed(2);
+				this.RetentionYCWIP = TotalCWIP;
+
 
 				//Progressive No
 				}else{
@@ -1536,6 +1550,7 @@ sap.ui.define([
 					var CWIP4 = CWIP3 + oProReten;
 					this.SubsequentBillCWIP = Number([CWIP3]);
 					var TotalCWIP = CWIP4.toFixed(2);
+					this.RetentionYCWIP = TotalCWIP
 
 				//Progressive No
 				}else{
@@ -2442,6 +2457,11 @@ sap.ui.define([
 								oAPINV.DocType = "dDocument_Service";
 								oAPINV.Comments = APRemarks;
 								oAPINV.U_APP_RETTranstype = 2;
+
+								if (this.Progressive === "Yes" ){
+									oAPINV.U_APP_YCWIP = this.RetentionYCWIP;
+								}
+
 								oAPINV.U_APP_CWIP = this.FirstBillCWIP;
 								oAPINV.U_APP_GrossAmount = nGrossAmount;
 								oAPINV.U_APP_WTX = nWTX;
@@ -2654,6 +2674,11 @@ sap.ui.define([
 								oAPINV.Comments = APRemarks;
 								oAPINV.U_APP_IsForRetention = "Y";
 								oAPINV.U_APP_RETTranstype = 3;
+
+								if (this.Progressive === "Yes" ){
+									oAPINV.U_APP_YCWIP = this.RetentionYCWIP;
+								}
+
 								oAPINV.U_APP_CWIP = this.SubsequentBillCWIP;
 								oAPINV.U_APP_GrossAmount = nGrossAmount;
 								oAPINV.U_APP_WTX = nWTX;
@@ -2892,6 +2917,11 @@ sap.ui.define([
 									oAPINV.Comments = APRemarks;
 									oAPINV.U_APP_IsForRetention = "Y";
 									oAPINV.U_APP_RETTranstype = 4;
+
+									if (this.Progressive === "Yes" ){
+										oAPINV.U_APP_YCWIP = this.RetentionYCWIP;
+									}
+
 									oAPINV.U_APP_CWIP = nCWIP;
 									oAPINV.U_APP_GrossAmount = nGrossAmount;
 									oAPINV.U_APP_WTX = nWTX;

@@ -263,14 +263,17 @@ sap.ui.define([
 		if (oPoStatus === "0") {
 			this.fGetDatafromHeaderUDT(this.DocNum);
 			this.getView().byId("btnTransUpdate").setEnabled(true);
+			this.getView().byId("btnTransAdd").setEnabled(true);
+		} else if (oPoStatus === "1") {
+			this.fGetDatafromPO(this.oSCode);
+			this.getView().byId("btnTransAdd").setEnabled(false);
 		} else {
-		    this.fGetDatafromPO(this.oSCode);
+			this.fGetDatafromPO(this.oSCode);
+			this.getView().byId("btnTransAdd").setEnabled(false);
 		}
 
 		var otab1 = this.getView().byId("idIconTabBarInlineMode");
 		otab1.setSelectedKey("tab2");
-		this.getView().byId("btnTransAdd").setEnabled(true);
-
 
 	},
 	// Get Header Data In UDT

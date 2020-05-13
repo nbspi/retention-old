@@ -55,6 +55,9 @@ sap.ui.define([
 					jQuery.sap.storage.put("Usename", this.oLogin.getData().Login.User);
 					jQuery.sap.storage.put("isLogin", true);
 					sap.ui.core.UIComponent.getRouterFor(this).navTo("Main");
+					this.oLogin.getData().Login.User = "";
+					this.oLogin.getData().Login.Pass = "";
+					this.oLogin.refresh();
 					BusyIndicator.hide();
                 }
 		    }); 

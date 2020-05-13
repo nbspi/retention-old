@@ -42,7 +42,7 @@ sap.ui.define([
                      this.router.navTo("CreateUdtUdf");
                     break;
                 case "contractreport":
-                    // this.router.navTo("CreateUDT_UDF");
+                    this.router.navTo("ContractReport");
                     break;
                 case "transactionrecords":
                     this.router.navTo("TransactionOrder");
@@ -50,7 +50,9 @@ sap.ui.define([
                 case "projectCode":
                     this.router.navTo("ProjectCode");
                     break;
-
+                case "contractransaction":
+                    this.router.navTo("RetentionRecords");
+                    break;
 		    	default:
 
 		    	} 
@@ -81,13 +83,16 @@ sap.ui.define([
                      this.router.navTo("CreateUdtUdf");
                     break;
                 case "contractreport":
-                    // this.router.navTo("CreateUDT_UDF");
+                    this.router.navTo("ContractReport");
                     break;
                 case "transactionrecords":
                     this.router.navTo("TransactionOrder");
                     break;
                 case "projectCode":
                     this.router.navTo("ProjectCode");
+                    break;
+                case "contractransaction":
+                    this.router.navTo("RetentionRecords");
                     break;
                 default:
 

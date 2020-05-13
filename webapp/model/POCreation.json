@@ -19,6 +19,19 @@
 	{
 		"CODE":"2",
 		"NAME": "3 - Posted Contracts with Down Payment and  Progress Billing "
+	}],
+	"RetentionSelection":[{
+		"CODE": "1",
+		"NAME": "1 - First Billing"	
+	},{
+		"CODE": "2",
+		"NAME": "2 - Subsequent Billing"
+	},{
+		"CODE":"3",
+		"NAME":"3 - Final Billing"
+	},{
+		"CODE":"4",
+		"NAME":"4 - Retention Payment"
 	}]
 
 }
