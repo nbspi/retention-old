@@ -20,6 +20,7 @@ sap.ui.define([
       
       		//Selection Menu
 			this.POData = new JSONModel("model/POCreation.json");
+			
 			this.getView().setModel(this.POData, "POData");
 
 
