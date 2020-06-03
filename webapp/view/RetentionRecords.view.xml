@@ -21,7 +21,7 @@
 									<core:ListItem key="{POData>CODE}" text="{POData>NAME}"/>
 								</Select>
 								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="fFilterValue"
-									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
+									rowSelectionChange="onSelectionChange" rows="{oMdlAllRecords>/allbp}">
 									<t:extension>
 										<Toolbar>
 											<Button id="btnContractView" text="View" tooltip="Add" press="fProcess" icon="sap-icon://add" visible="{buttons>/buttons/btnContractView}" />
@@ -29,11 +29,11 @@
 										</Toolbar>
 									</t:extension>
 									<!--DocNum-->
-									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
+									<t:Column id="colDoc" width="12rem" filterOperator="DocNumFilter" filtered="true"
 										filterProperty="DocNum">
 										<Label text="Document Number"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
+											<Text text="{oMdlAllRecords>DocNum}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--Project Code-->
@@ -41,21 +41,21 @@
 										filterProperty="DocNum">
 										<Label text="Project Code"/>
 										<t:template>
-											<Text text="{oModelOpenPO>ProjectCode}" wrapping="false"/>
+											<Text text="{oMdlAllRecords>U_APP_ProjCode}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--VendorName-->
 									<t:Column id="colVendor" width="12rem" filterValue="" filtered="true" filterOperator="" filterProperty="Vendor">
 										<Label text="VendorName"/>
 										<t:template>
-											<Text text="{oModelOpenPO>CardName}" wrapping="false"/>
+											<Text text="{oMdlAllRecords>CardName}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--Posting Date-->
 									<t:Column width="12rem" filtered="true" filterProperty="DocDate" >
 										<Label text="Posting Date"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
+											<Text text="{oMdlAllRecords>DocDate}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--Doctotal-->
@@ -63,35 +63,24 @@
 										<Label text="Total Amount"/>
 										<t:template>
 											<Text text="
-											{ path:'oModelOpenPO>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
+											{ path:'oMdlAllRecords>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
 											"
 											wrapping="false"/>
 										</t:template>
 									</t:Column>
-									<!-- Document Statuses -->
-									<!-- <t:Column width="12rem">
-										<Label text="Document Status"/>
+									<!-- Document Status -->
+									<t:Column width="12rem">
+										<Label text="Progressive"/>
 										<t:template>
-											<Text id="DocStat" text="{oModelOpenPO>oDocStatus}" wrapping="false"/>
+											<Text id="DocStat" text="{oMdlAllRecords>U_APP_Progressive}" wrapping="false"/>
 										</t:template>
-									</t:Column> -->
-									<!-- Updated Date-->
-									<!-- <t:Column width="12rem">
-										<Label text="Date Updated"/>
-										<t:template>
-											<Text id="Update" text="{oModelOpenPO>Update}"
-											wrapping="false"/>
-										</t:template>
-									</t:Column> -->
+									</t:Column>
 								</t:Table>
 							</IconTabFilter>
 							<IconTabFilter id="tab2" text="Contract No:" count="{Retention>/POCount/PONum}" key="tab2">
 							<Toolbar>
 								<content>
 								<Button id="btnContractPrint" text="Print" tooltip="Add" press="fPrint" icon="sap-icon://print" visible="{buttons>/buttons/btnContractPrint}" />
-								<!-- <Button id="btnTransCancel" text="Cancel" tooltip="Cancel" press="onCancel" icon="sap-icon://cancel" visible="{buttons>/buttons/btnTransCancel}" />
-								<Button id="btnTransPrint" text="Print" tooltip="Print" press="onPrint" icon="sap-icon://print"
-								visible="{buttons>/buttons/btnTransPrint}" /> -->
 								</content>
 							</Toolbar>
 								<VBox class="sapUiTinyMargin">
@@ -102,8 +91,8 @@
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input id="BPCode" type="Text" value="{oMdlAllBP>/allbp/Vendor}"
-										required="true" width="100%">
+										<Input id="BPCode" type="Text" value="{POData>/RetenTransaction/Contractor}"
+										required="true" width="100%" editable="false" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
@@ -114,24 +103,25 @@
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="Docnum" required="true" value="{POData>/POCreation/DocumentNum}" editable="false" valueHelpOnly="true"
+										<Input width="100%" id="Docnum" required="true" value="{POData>/RetenTransaction/TransactionNumber}" editable="false" valueHelpOnly="true"
 											valueHelpRequest="handleValueHelpSupplier">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
-										<!--Retention-->
-										<Label text="Retention" width="100%">
+										<!---Contract Amount-->
+										<Label text="Contract Amount" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Select id="Retention" items="{Retention>/Retention}" forceSelection="false" selectedKey="{POData>/POCreation/Retention}" required="true" change="fSelectRetention">
-											<core:ListItem key="{Retention>CODE}" text="{Retention>NAME}"/>
+										<Input width="100%" id="CntAmount" required="true" value="{ path:'POData>/RetenTransaction/ContractAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
+											liveChange="fContractAmount" editable="false" >
 											<layoutData>
-													<l:GridData span="L3 M4 S12"/>
+												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</Select>
+										</Input>
 										<!--Posting Date-->
 										<Label text="Posting Date" width="100%">
 											<layoutData>
@@ -139,60 +129,107 @@
 											</layoutData>
 										</Label>
 										<DatePicker id="DateFrom" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
-											value="{POData>/POCreation/PostingDate}">
+											value="{POData>/RetenTransaction/PostingDate}" editable="false" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</DatePicker>
-										<!---Contract Amount-->
-										<Label text="Contract Amount" width="100%">
-											<layoutData>
-												<l:GridData span="L3 M2 S12"/>
-											</layoutData>
-										</Label>
-										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
-											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
-											liveChange="fContractAmount" >
-											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
-											</layoutData>
-										</Input>
 										<!---Project Code-->
 										<Label text="Project Code" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input  width="100%" id="ProjCode" required="true" valueHelpRequest="onHandleValueProjCode" showValueHelp="true" valueHelpOnly="true" value="{POData>/POCreation/ProjectCode}" >
+										<Input  width="100%" id="ProjCode" required="true" 
+										value="{POData>/RetenTransaction/ProjectCode}" editable="false" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
-										<!--Progressive-->
-										<Label text="Progressive" width="100%">
+										<!---Progress BIll%-->
+										<Label text="Progress Bill%" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Select id="Progressive" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}" forceSelection="false">
-											<core:ListItem  key="{Retention>CODE}" text="{Retention>NAME}"/>
+										<Input  width="100%" id="ProgBill" required="true" 
+										value="{POData>/RetenTransaction/ProgressBIll}" editable="false" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
-											</layoutData> 
-										</Select>
-										<!--FileUploader-->
-										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server" change="handleValueChange" uploadComplete="handleUploadComplete" width="100%"/>
-										<!--Remarks-->
-										<Label text="Remarks." width="100%">
+											</layoutData>
+										</Input>
+										<!---Retention Yes CWIP-->
+										<Label text="Retention Yes CWIP" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<TextArea id="TextArea" required="true" cols="200" width="100%" height="100px">
+										<Input  width="100%" id="RetYCwip" required="true" 
+										value="{ path:'POData>/RetenTransaction/RetenYCWIP', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" >
 											<layoutData>
-												<l:GridData span="L9 M10 S12"/>
+												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</TextArea>
+										</Input>
+										<!---Retention No CWIP-->
+										<Label text="Retention No CWIP" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="RetNCwip" required="true" 
+										value="{ path:'POData>/RetenTransaction/RetenNCWIP', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!---Gross Amount-->
+										<Label text="Gross Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="GrossAmnt" required="true" 
+										value="{ path:'POData>/RetenTransaction/GrossAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!---Prorated Retention-->
+										<Label text="Prorated Retention" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="ProReten" required="true" 
+										value="{ path:'POData>/RetenTransaction/ProratedReten', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!---Progress BIll Amount-->
+										<Label text="Progress Bill Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="ProgBillAmnt" required="true" 
+										value="{ path:'POData>/RetenTransaction/ProgBillAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!---Prorated DP-->
+										<Label text="Prorated DP" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="ProDP" required="true" 
+										value="{ path:'POData>/RetenTransaction/ProratedDP', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
 									</f:SimpleForm>
 								</VBox>
 							</IconTabFilter>

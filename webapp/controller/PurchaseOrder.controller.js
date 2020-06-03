@@ -58,7 +58,7 @@ sap.ui.define([
 			this.CardName = "";
 			this.CardCode = "";
 			this.fGetTransactionNumber();
-			
+
 			//CPA
 			this.currentFile = {}; //File Object	
 			//For Attachment File Key
@@ -289,7 +289,7 @@ sap.ui.define([
 					
 					
 					oPOLines1.LineNum = 0;
-					oPOLines1.AccountCode = 1229902101; //CWIP
+					oPOLines1.AccountCode = this.fGetGLAccount("getCWIPGLAccountOnly",1); //CWIP
 					oPOLines1.UnitPrice = oCWIP;
 					oPOLines1.VatGroup = "IVAT-EXC";
 					oPOLines1.U_APP_RtnRowType = "C";
@@ -297,7 +297,7 @@ sap.ui.define([
 					oPO.DocumentLines.push(oPOLines1);
 
 					oPOLines2.LineNum = 1;
-					oPOLines2.AccountCode = 2110208101; //Retention
+					oPOLines2.AccountCode = this.fGetGLAccount("getRPGLAccountOnly",1); //Retention
 					oPOLines2.UnitPrice = Retention;
 					oPOLines2.VatGroup = "IVAT-EXC";
 					oPOLines2.U_APP_RtnRowType = "R";
@@ -353,7 +353,7 @@ sap.ui.define([
 					oPO.DocumentLines = [];
 
 					oPOLines1.LineNum = 0;
-					oPOLines1.AccountCode = 1229902101; //CWIP
+					oPOLines1.AccountCode = this.fGetGLAccount("getCWIPGLAccountOnly",1); //CWIP
 					oPOLines1.UnitPrice = oContract;
 					oPOLines1.VatGroup = "IVAT-EXC";
 					oPOLines1.U_APP_RtnRowType = "C";
@@ -427,7 +427,6 @@ sap.ui.define([
 				oDraft.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
 				oDraft.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
 				oDraft.U_App_VendorName = this.CardName;
-				oDraft.U_App_File = "";
 				oDraft.U_App_Remarks = this.getView().byId("TextArea").getValue();
 				oDraft.U_App_CreatedDate = this.fGetTodaysDate();
 				oDraft.U_App_CreatedBy = this.UserNmae;
@@ -610,39 +609,41 @@ sap.ui.define([
 			success: function (json) {}
 		}).done(function (results) {			
 			if (results) {
-				console.log(results);
-				this.fgetFileAbsEntry();
+				var oResult =JSON.parse(results);
+				this.FileKey = oResult.AbsoluteEntry;
 			}	
-
 		}); 
-
-
-
 	},
-	//Get AbsEntry or Key of File Attachment
-	fgetFileAbsEntry: function (){
+	//To get UDT Code
+	fGetGLAccount: function (QueryTag,Active) {
 
+		var oGLAccount = "";
+
+		//To Get Code for UDT
 		$.ajax({
 			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
-				"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
+			"&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" +
+			Active + "&value2=&value3=&value4=",
 			type: "GET",
-			dataType: "json",
-			async:false,
+			async: false,
 			beforeSend: function (xhr) {
 				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+		  	},
+
+			error: function (xhr, status, error) {
+				jQuery.sap.log.error("This should never have happened!");
 			},
-				error: function (xhr, status, error) {
-					sap.m.MessageToast.show(error);
+			success: function (json) {
+				oGLAccount = json[0].AcctCode;
+
 			},
-			success: function (json) {},
 			context: this
 		}).done(function (results) {
 			if (results) {
-				this.FileKey = results[0].AbsEntry;			
+				oGLAccount = results[0].AcctCode;
 			}
 		});
-
+		return oGLAccount;
 	}
-
   });
 });

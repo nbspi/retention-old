@@ -32,6 +32,20 @@
 	},{
 		"CODE":"4",
 		"NAME":"4 - Retention Payment"
-	}]
+	}],
+	"RetenTransaction":{
+		"Contractor":"",
+		"TransactionNumber":"",
+		"ContractAmount":"",
+		"PostingDate":"",
+		"ProjectCode":"",
+		"ProgressBIll":"",
+		"RetenYCWIP":"",
+		"RetenNCWIP":"",
+		"GrossAmount":"",
+		"ProratedReten":"",
+		"ProgBillAmount":"",
+		"ProratedDP":""
+	}
 
 }

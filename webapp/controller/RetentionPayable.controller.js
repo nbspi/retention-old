@@ -3778,37 +3778,37 @@ sap.ui.define([
 			success: function (json) {}
 		}).done(function (results) {			
 			if (results) {
-				console.log(results);
-				this.fgetFileAbsEntry();
+				var oResult =JSON.parse(results);
+				this.FileKey = oResult.AbsoluteEntry;
 			}	
 
 		}); 
 		
 		},
 		//Get AbsEntry or Key of File Attachment
-		fgetFileAbsEntry: function (){
+		// fgetFileAbsEntry: function (){
 
-		$.ajax({
-			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
-				"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
-			type: "GET",
-			dataType: "json",
-			async:false,
-			beforeSend: function (xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
-			},
-				error: function (xhr, status, error) {
-					sap.m.MessageToast.show(error);
-			},
-			success: function (json) {},
-			context: this
-		}).done(function (results) {
-			if (results) {
-				this.FileKey = results[0].AbsEntry;			
-			}
-		});
+		// $.ajax({
+		// 	url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+		// 		"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
+		// 	type: "GET",
+		// 	dataType: "json",
+		// 	async:false,
+		// 	beforeSend: function (xhr) {
+		// 		xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+		// 	},
+		// 		error: function (xhr, status, error) {
+		// 			sap.m.MessageToast.show(error);
+		// 	},
+		// 	success: function (json) {},
+		// 	context: this
+		// }).done(function (results) {
+		// 	if (results) {
+		// 		this.FileKey = results[0].AbsEntry;			
+		// 	}
+		// });
 
-		}
+		// }
 
   });
 });
