@@ -2283,6 +2283,7 @@ sap.ui.define([
 				oAPDown.U_APP_WTX = this.DTRetention.getData().DetailesRetention[0].WTX;
 				oAPDown.U_APP_DPAmount = this.DTRetention.getData().DetailesRetention[0].NetProgress;
 				oAPDown.AttachmentEntry = this.FileKey;
+				oAPDown.U_APP_DPNature = "DP001";
 
 				oAPDown.DocumentLines = [];
 

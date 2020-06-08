@@ -243,7 +243,7 @@ sap.ui.define([
 			var Retention = this.POData.getData().POCreation.Retention;
 			var PostingDate = this.getView().byId("DateFrom").getValue();
 			var Remarks = this.getView().byId("TextArea").getValue();
-			var ContranctAmount = this.POData.getData().POCreation.ContractAmount;
+			var ContranctAmount = this.byId("CntAmount").getValue();
 
 			if (Vendor === "" ) {
 				sap.m.MessageToast.show("Input Data First");
@@ -264,7 +264,8 @@ sap.ui.define([
 				var oPOLines2 = {};
 
 				if (Retention === "0") { // YES
-					var oContract = Number([ContranctAmount.replace(",","")]);
+					var poContract = ContranctAmount.replace(/,/g, '',/./g,'');
+					var oContract = Number([poContract]);
 					var oContract2 = oContract * 0.1;
 					var Retention = Number([oContract2]); //For Retention
 
@@ -334,7 +335,8 @@ sap.ui.define([
 
 				} else { //NO
 				
-					var oContract = Number([ContranctAmount.replace(",",".")]);
+					var poContract = ContranctAmount.replace(/,/g, '',/./g,'');
+					var oContract = Number([poContract]);
 
 					oPO.CardCode = Vendor;
 					oPO.DocDate = PostingDate;

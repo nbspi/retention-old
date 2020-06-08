@@ -443,7 +443,7 @@ sap.ui.define([
 		var oRetention = this.POData.getData().POCreation.Retention;
 		var oPostingDate = this.getView().byId("DateFrom").getValue();
 		var oRemarks = this.getView().byId("TextArea").getValue();
-		var oContranctAmount = this.POData.getData().POCreation.ContractAmount;
+		var oContranctAmount = this.byId("CntAmount").getValue();
 		var ProjectCode = this.getView().byId("ProjCode").getValue();
 
 		if (oVendor === "") {
@@ -464,8 +464,8 @@ sap.ui.define([
 			var oPOLines2 = {};
 
 			if (oRetention === "0") { // YES
-
-				var oContract = Number([oContranctAmount.replace(',','.')]);
+				var poContract = ContranctAmount.replace(/,/g, '',/./g,'');
+				var oContract = Number([poContract]);
 
 				var oContract2 = oContract * 0.1;
 				var iRetention = Number([oContract2]); //For Retention
@@ -540,7 +540,8 @@ sap.ui.define([
 
 			} else { //NO
 
-				var oContract = Number([oContranctAmount.replace(',','.')]);
+				var poContract = ContranctAmount.replace(/,/g, '',/./g,'');
+				var oContract = Number([poContract]);
 
 				oPO.CardCode = oVendor;
 				oPO.DocDate = oPostingDate;
@@ -665,7 +666,7 @@ sap.ui.define([
 			oPo.U_App_VendorName = this.oMdlAllBP.getData().allbp.Vendor;
 			oPo.U_App_Retention = this.POData.getData().POCreation.Retention;
 			oPo.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
-			oPo.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
+			oPo.U_App_ConAmount = this.byId("CntAmount").getValue();
 			oPo.U_App_Remarks = this.getView().byId("TextArea").getValue();
 			oPo.U_App_Progressive = this.POData.getData().POCreation.Progressive;
 			oPo.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
