@@ -481,6 +481,7 @@ sap.ui.define([
 				oPO.U_APP_Retention = "Y";
 				oPO.AttachmentEntry = this.FileKey;
 				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
+				oPo.U_APP_PODocEntry = ""
 
 				if (this.POData.getData().POCreation.Progressive === "0" ){
 					oPO.U_APP_Progressive = "Yes";

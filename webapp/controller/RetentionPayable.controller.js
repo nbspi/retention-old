@@ -121,8 +121,8 @@ sap.ui.define([
 				this._ValueHelpDialogs = null;
 				//Retention Yes CWIP
 				this.RetentionYCWIP = "";
-
-
+				//To Get The Purhcase Order DocEntry
+				this.PO_DocEntry = "";
 				//CPA
 				this.currentFile = {}; //File Object
 				//Get File / Attachment Key
@@ -130,6 +130,7 @@ sap.ui.define([
 
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
+				this.getView().byId("TaxType").setVisible(false);
 
 				//getButtons
 				this.oMdlButtons = new JSONModel();
@@ -178,6 +179,7 @@ sap.ui.define([
 			this.POCount = oRowSelected.POCount; 
 			this.Progressive = oRowSelected.Progressive;
 			this.DocEntry = oRowSelected.DocEntry;
+			this.PO_DocEntry = oRowSelected.DocEntry;
 			// var POType = oRowSelected.POCount
 			if (this.POCount === "2") {
 				this.ColType = "R";
@@ -365,6 +367,7 @@ sap.ui.define([
 				this.getView().byId("ProgBill").setEnabled(false);
 				this.getView().byId("PBType").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
+				this.getView().byId("TaxType").setVisible(false);
 			} else if (TransCode === "2") {
 
 				this.getView().byId("TransType").setSelectedKey("0");
@@ -373,6 +376,7 @@ sap.ui.define([
 				this.getView().byId("ProgBill").setEnabled(false);
 				this.getView().byId("PBType").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(true);
+				this.getView().byId("TaxType").setVisible(false);
 			} else if (TransCode === "3") {
 
 				this.getView().byId("TransType").setSelectedKey("1");
@@ -381,6 +385,7 @@ sap.ui.define([
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
 				this.getView().byId("Doctotal").setEnabled(false);
+				this.getView().byId("TaxType").setVisible(false);
 
 			} else if (TransCode === "4") {
 
@@ -390,6 +395,7 @@ sap.ui.define([
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
 				this.getView().byId("Doctotal").setEnabled(false);
+				this.getView().byId("TaxType").setVisible(true);
 
 			} else if (TransCode === "5") {
 
@@ -400,6 +406,7 @@ sap.ui.define([
 				this.getView().byId("DPayment").setEnabled(false);
 				this.getView().byId("Doctotal").setEnabled(false);
 				this.getView().byId("ProgBill").setEnabled(false);
+				this.getView().byId("TaxType").setVisible(true);
 
 			} else if (TransCode === "6") {
 				this.getView().byId("TransType").setSelectedKey("1");
@@ -409,6 +416,7 @@ sap.ui.define([
 				this.getView().byId("DPayment").setEnabled(false);
 				this.getView().byId("Doctotal").setEnabled(false);
 				this.getView().byId("ProgBill").setEnabled(false);
+				this.getView().byId("TaxType").setVisible(true);
 			} else if (TransCode === "7") {
 				this.getView().byId("TransType").setSelectedKey("1");
 				this.getView().byId("TransType").setEnabled(false);
@@ -418,6 +426,7 @@ sap.ui.define([
 				this.getView().byId("Doctotal").setEnabled(false);
 				this.getView().byId("ProgBill").setEnabled(false);
 				this.getView().byId("TaxType").setEnabled(false);
+				this.getView().byId("TaxType").setVisible(true);
 				
 			}
 		},
@@ -2284,6 +2293,7 @@ sap.ui.define([
 				oAPDown.U_APP_DPAmount = this.DTRetention.getData().DetailesRetention[0].NetProgress;
 				oAPDown.AttachmentEntry = this.FileKey;
 				oAPDown.U_APP_DPNature = "DP001";
+				oAPDown.U_APP_PODocEntry = this.PO_DocEntry;
 
 				oAPDown.DocumentLines = [];
 
@@ -2359,6 +2369,8 @@ sap.ui.define([
 				oFGRPO.U_APP_RETTranstype = 2;
 				oFGRPO.U_APP_IsForRetention = "Y";
 				oFGRPO.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.ProgressBilling;
+				oFGRPO.U_APP_PODocEntry = this.PO_DocEntry;
+
 				oFGRPO.DocumentLines = [];
 
 				oFGRPOLines.BaseLine = 0;
@@ -2472,6 +2484,7 @@ sap.ui.define([
 								oAPINV.U_APP_ProgBillAmount = nProgBill;
 								oAPINV.U_APP_DocEntry = this.DocEntry;
 								oAPINV.AttachmentEntry = this.FileKey;
+								oAPINV.U_APP_PODocEntry = this.PO_DocEntry;
 
 								// Progressive YES
 								if (this.Progressive === "Yes"){
@@ -2688,6 +2701,7 @@ sap.ui.define([
 								oAPINV.U_APP_ProgBillAmount = nProgBill;
 								oAPINV.U_APP_DocEntry = this.DocEntry;
 								oAPINV.AttachmentEntry = this.FileKey;
+								oAPINV.U_APP_PODocEntry = this.PO_DocEntry;
 
 								// Progressive YES
 								if (this.Progressive === "Yes"){
@@ -2931,6 +2945,7 @@ sap.ui.define([
 									oAPINV.U_APP_ProgBillAmount = nProgBill;
 									oAPINV.U_APP_DocEntry = this.DocEntry;
 									oAPINV.AttachmentEntry = this.FileKey;
+									oAPINV.U_APP_PODocEntry = this.PO_DocEntry;
 
 									oAPINV.DocumentLines = [];
 
@@ -3169,6 +3184,7 @@ sap.ui.define([
 							oAPINV.U_APP_RETTranstype = 5;
 							oAPINV.U_APP_IsForRetention = "Y";
 							oAPINV.AttachmentEntry = this.FileKey;
+							oAPINV.U_APP_PODocEntry = this.PO_DocEntry;
 
 							oAPINV.DocumentLines = [];
 
