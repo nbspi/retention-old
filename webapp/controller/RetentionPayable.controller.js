@@ -2307,6 +2307,8 @@ sap.ui.define([
 				oAPLines.VatGroup = "IVAT-EXC";
 				oAPLines.UnitPrice = this.oModelPurchase.getData().POFields.DocTotal;
 				oAPLines.U_APP_RtnRowType = "C";
+				oAPLines.ProjectCode = "";
+
 				oAPDown.DownPaymentPercentage = this.InputHeader.getData().InputHeader.DP;
 				oAPDown.U_APP_ProgBillRate = this.InputHeader.getData().InputHeader.DP;
 
