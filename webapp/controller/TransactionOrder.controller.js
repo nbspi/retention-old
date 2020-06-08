@@ -257,6 +257,7 @@ sap.ui.define([
 		this.STatus = oRowSelected.DocStatus;
 		this.oSCode = oRowSelected.DocEntry;
 		this.DocNum = oRowSelected.DocNum;
+		this.oPOStatus = oRowSelected.oDocStatus;
 
 		var oPoStatus = this.getView().byId("selectRecordGroup").getSelectedKey();
 
@@ -314,7 +315,7 @@ sap.ui.define([
 			this.POData.getData().POCreation.ContractAmount = ooDocTotal;
 			this.POData.refresh();
 			this.VendorCode = results[0].CardCode;
-			this.oPOStatus = results[0].DocStatus;
+			//this.oPOStatus = results[0].DocStatus;
 			this.FileKey = Number([results[0].FileKey]);
 		});
 	},
@@ -464,7 +465,7 @@ sap.ui.define([
 			var oPOLines2 = {};
 
 			if (oRetention === "0") { // YES
-				var poContract = ContranctAmount.replace(/,/g, '',/./g,'');
+				var poContract = oContranctAmount.replace(/,/g, '',/./g,'');
 				var oContract = Number([poContract]);
 
 				var oContract2 = oContract * 0.1;
@@ -481,7 +482,6 @@ sap.ui.define([
 				oPO.U_APP_Retention = "Y";
 				oPO.AttachmentEntry = this.FileKey;
 				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
-				oPo.U_APP_PODocEntry = ""
 
 				if (this.POData.getData().POCreation.Progressive === "0" ){
 					oPO.U_APP_Progressive = "Yes";
@@ -523,7 +523,16 @@ sap.ui.define([
 						AppUI5.fErrorLogs("OPOR & POR1","Add PO","null","null",ErrorMassage,"Retention Adding PO",this.UserNmae,"null",this.Database,JSON.stringify(oPO));
 					},
 					context: this,
-					success: function (json) {}
+					success: function (json) {
+						sap.m.MessageToast.show("Added Successfully");
+
+						if (this.oPOStatus === "Draft") {
+							this.fUPdate();
+						}
+						this.fHideBusyIndicator();
+						this.fDeleteData();
+						this.fSelectPurchaseTransaction();
+					}
 					}).done(function (results) {
 					if (results) {
 						sap.m.MessageToast.show("Added Successfully");
@@ -541,7 +550,7 @@ sap.ui.define([
 
 			} else { //NO
 
-				var poContract = ContranctAmount.replace(/,/g, '',/./g,'');
+				var poContract = oContranctAmount.replace(/,/g, '',/./g,'');
 				var oContract = Number([poContract]);
 
 				oPO.CardCode = oVendor;
@@ -587,7 +596,13 @@ sap.ui.define([
 					},
 					context: this,
 					success: function (json) {
+						sap.m.MessageToast.show("Added Successfully");
+
+						if (this.oPOStatus === "Draft") {
+							this.fUPdate();
+						}
 						this.fHideBusyIndicator();
+						this.fDeleteData();
 					}
 					}).done(function (results) {
 					if (results) {

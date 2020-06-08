@@ -385,7 +385,7 @@ sap.ui.define([
 				this.getView().byId("RentAmount").setEnabled(false);
 				this.getView().byId("DPayment").setEnabled(false);
 				this.getView().byId("Doctotal").setEnabled(false);
-				this.getView().byId("TaxType").setVisible(false);
+				this.getView().byId("TaxType").setVisible(true);
 
 			} else if (TransCode === "4") {
 
@@ -664,7 +664,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
-				this.getView().byId("Wtax").setVisible(false);
+				this.getView().byId("TaxType").setVisible(false);
 			} else if (PoStatus === "1") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getDPwthOP");
@@ -674,7 +674,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(true);
 				this.getView().byId("btnRetUpdate").setVisible(true);
 				this.getView().byId("BAmount").setVisible(false);
-				this.getView().byId("Wtax").setVisible(false);
+				this.getView().byId("TaxType").setVisible(false);
 			} else if (PoStatus === "2") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getPOwithAPDP");
@@ -684,7 +684,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
-				this.getView().byId("Wtax").setVisible(false);
+				this.getView().byId("TaxType").setVisible(false);
 			} else if (PoStatus === "3") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getFirstBilling");
@@ -694,7 +694,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
-				this.getView().byId("Wtax").setVisible(true);
+				this.getView().byId("TaxType").setVisible(true);
 			} else if (PoStatus === "4") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
@@ -704,7 +704,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
-				this.getView().byId("Wtax").setVisible(true);
+				this.getView().byId("TaxType").setVisible(true);
 			} else if (PoStatus === "5") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getFinalBilling");
@@ -715,7 +715,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(true);
-				this.getView().byId("Wtax").setVisible(true);
+				this.getView().byId("TaxType").setVisible(true);
 			} else if (PoStatus === "6") {
 				this.fNableAllFields("0");
 				this.fFilterPurchaseOrderTransaction("getCompleteTransaction");
@@ -725,7 +725,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
-				this.getView().byId("Wtax").setVisible(false);
+				this.getView().byId("TaxType").setVisible(false);
 			} else if (PoStatus === "7") {
 				this.fNableAllFields("1");
 				this.fFilterPurchaseOrderTransaction("getRetentionBilling");
@@ -735,7 +735,7 @@ sap.ui.define([
 				this.getView().byId("btnRetCancel").setVisible(false);
 				this.getView().byId("btnRetUpdate").setVisible(false);
 				this.getView().byId("BAmount").setVisible(false);
-				this.getView().byId("Wtax").setVisible(false);
+				this.getView().byId("TaxType").setVisible(false);
 			}
 
 		},
