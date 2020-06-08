@@ -127,6 +127,8 @@ sap.ui.define([
 				this.currentFile = {}; //File Object
 				//Get File / Attachment Key
 				this.FileKey = null;
+				//To Get the PO Projec Code
+				this.PO_ProjectCode = "";
 
 				this.getView().byId("BAmount").setVisible(false);
 				this.getView().byId("Wtax").setVisible(false);
@@ -180,6 +182,7 @@ sap.ui.define([
 			this.Progressive = oRowSelected.Progressive;
 			this.DocEntry = oRowSelected.DocEntry;
 			this.PO_DocEntry = oRowSelected.DocEntry;
+			this.PO_ProjectCode = oRowSelected.ProjectCode;
 			// var POType = oRowSelected.POCount
 			if (this.POCount === "2") {
 				this.ColType = "R";
@@ -2506,6 +2509,7 @@ sap.ui.define([
 									oAPINVlines2.AccountCode = oGlAccount;
 									oAPINVlines2.Price = 0;
 									oAPINVlines2.PriceAfterVAT = 0;
+									oAPINVlines2.ProjectCode = this.PO_ProjectCode;
 
 									var UnitPrice = -1 * nProRetention;
 									var oUnitPrice = Number([UnitPrice]);
@@ -2723,6 +2727,7 @@ sap.ui.define([
 									oAPINVlines2.AccountCode = oGlAccount;
 									oAPINVlines2.Price = 0;
 									oAPINVlines2.PriceAfterVAT = 0;
+									oAPINVlines2.ProjectCode = this.PO_ProjectCode;
 
 									var UnitPrice = -1 * nProRetention;
 									var oUnitPrice = Number([UnitPrice]);
@@ -2985,6 +2990,7 @@ sap.ui.define([
 									oAPINVlines2.AccountCode = oGlAccount;
 									oAPINVlines2.Price = 0;
 									oAPINVlines2.PriceAfterVAT = 0;
+									oAPINVlines2.ProjectCode = this.PO_ProjectCode;
 									
 									var UnitPrice = -1 * this.FinalBillingRetention;
 									var oUnitPrice = Number([UnitPrice]);
