@@ -1480,6 +1480,7 @@ sap.ui.define([
 				var CWIP3 = CWIP2 - oProReten;
 				var CWIP4 = CWIP3 + APDocTotal;
 				var TotalCWIP = CWIP4.toFixed(2);
+				this.RetentionYCWIP = TotalCWIP;
 
 				}
 
@@ -1572,7 +1573,7 @@ sap.ui.define([
 					var CWIP2 = oCWIP1 - oProdDP;
 					var CWIP3 = CWIP2 - oProReten;
 					var TotalCWIP = CWIP3.toFixed(2);
-
+					this.RetentionYCWIP = TotalCWIP;
 				}
 
 				this.DTRetention.getData().DetailesRetention[0].CWIP = TotalCWIP;
@@ -2477,7 +2478,7 @@ sap.ui.define([
 								oAPINV.U_APP_RETTranstype = 2;
 
 								if (this.Progressive === "Yes" ){
-									oAPINV.U_APP_YCWIP = this.RetentionYCWIP;
+									oAPINV.U_APP_YCWIP = Number([this.RetentionYCWIP]);
 								}
 
 								oAPINV.U_APP_CWIP = this.FirstBillCWIP;
@@ -2696,7 +2697,7 @@ sap.ui.define([
 								oAPINV.U_APP_RETTranstype = 3;
 
 								if (this.Progressive === "Yes" ){
-									oAPINV.U_APP_YCWIP = this.RetentionYCWIP;
+									oAPINV.U_APP_YCWIP = Number([this.RetentionYCWIP]);
 								}
 
 								oAPINV.U_APP_CWIP = this.SubsequentBillCWIP;
@@ -2942,6 +2943,8 @@ sap.ui.define([
 
 									if (this.Progressive === "Yes" ){
 										oAPINV.U_APP_YCWIP = this.RetentionYCWIP;
+									}else{
+										oAPINV.U_APP_CWIP = this.RetentionYCWIP;
 									}
 
 									oAPINV.U_APP_CWIP = nCWIP;
@@ -3193,6 +3196,7 @@ sap.ui.define([
 							oAPINV.U_APP_IsForRetention = "Y";
 							oAPINV.AttachmentEntry = this.FileKey;
 							oAPINV.U_APP_PODocEntry = this.PO_DocEntry;
+							
 
 							oAPINV.DocumentLines = [];
 

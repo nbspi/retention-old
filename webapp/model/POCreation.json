@@ -22,17 +22,19 @@
 	}],
 	"RetentionSelection":[{
 		"CODE": "1",
-		"NAME": "1 - First Billing"	
+		"NAME": "1 - Down Payment"	
 	},{
 		"CODE": "2",
-		"NAME": "2 - Subsequent Billing"
+		"NAME": "2 - First Billing"	
 	},{
-		"CODE":"3",
-		"NAME":"3 - Final Billing"
+		"CODE": "3",
+		"NAME": "3 - Subsequent Billing"
 	},{
 		"CODE":"4",
-		"NAME":"4 - Retention Payment"
-	}],
+		"NAME":"4 - Final Billing"
+	}
+
+	],
 	"RetenTransaction":{
 		"Contractor":"",
 		"TransactionNumber":"",
@@ -45,7 +47,10 @@
 		"GrossAmount":"",
 		"ProratedReten":"",
 		"ProgBillAmount":"",
-		"ProratedDP":""
+		"ProratedDP":"",
+		"WTX":"",
+		"LineTotal":"",
+		"DPAmount":""
 	}
 
 }
