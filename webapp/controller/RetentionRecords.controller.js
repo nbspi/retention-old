@@ -39,6 +39,8 @@ sap.ui.define([
 			var modelresult = JSON.parse("{" + JSON.stringify(newresult).replace(/{/g,"").replace(/}/g,"").replace("[","").replace("]","") + "}");
 			this.oMdlButtons.setJSON("{\"buttons\" : " + JSON.stringify(modelresult) + "}");
 			this.getView().setModel(this.oMdlButtons, "buttons");
+
+
 	},	
 	fGetAllRecords: function (queryTag,Param) {
 
@@ -167,74 +169,120 @@ sap.ui.define([
 		ProratedDP = this.getView().byId("ProDP").getValue();
 		ProratedRetention = this.getView().byId("ProReten").getValue();
 
+
 		var doc = new jsPDF('p');
+
+		var today = new Date();
+		var dd = today.getDate();
+
+		var mm = today.getMonth()+1; 
+		var yyyy = today.getFullYear();
+		if(dd<10) 
+		{
+		    dd='0'+dd;
+		} 
+
+		if(mm<10) 
+		{
+		    mm='0'+mm;
+		} 
+		today = mm+'-'+dd+'-'+yyyy;
+		console.log(today);
 
 		var SelectedKey = this.getView().byId("selectRecordGroup").getSelectedKey();
 
 		switch(SelectedKey)
 		{
 			case "1":
-
+``
+				doc.setFontType("bold");
 				doc.text(20,20,'Biotech Farms Inc.(BFI)');
+
 				doc.setFontSize(12)
 				doc.text(20,25,'Bo.6,Sout Cotabato');
 
 				doc.setFontSize(20)
 				doc.text(38,45,'DOWNPAYMENT TRANSACTION REPORT');
+
+				doc.setFontType("normal");
 				doc.setFontSize(14)
-				doc.text(160,54,'2020-20-20');
+				doc.text(160,54,today);
 				doc.text(145,55,'Date:____________');
 
+				doc.setFontType("bold");
 				doc.text(20,70,ConName.concat('Contractor Name:','',Contractor));
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
 
+				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
-				doc.text(100,90,ContractAmount);
+				doc.text(100,90, "PHP " + ContractAmount);
 				doc.text(30,100,'Down Payment Rate:');
-				doc.text(100,101,'__________');
+				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Down Payment Amount:');
-				doc.text(100,110,DPAmount);
-				doc.text(30,120,'Withholding Tax:');
-				doc.text(100,120,oTax.concat('(',WTaX,')'));
-				doc.text(100,121,'__________');
+				doc.text(100,110,"PHP " + DPAmount);
+				doc.text(30,120,"PHP " + 'Withholding Tax:');
+				doc.text(100,120,oTax.concat("PHP " + '(',WTaX,')'));
+				doc.text(100,121,'________________');
 				doc.text(30,130,'Amount to Pay:');
-				doc.text(100,130,AmntPay);
+				doc.text(100,130,"PHP " + AmntPay);
+				doc.text(100,131,'________________');
+				doc.text(100,132,'________________');
 				doc.save('Downpayment.pdf');	
 			break;
 			case "2":
+				doc.setFontType("bold");
 				doc.text(20,20,'Biotech Farms Inc.(BFI)');
 				doc.setFontSize(12)
 				doc.text(20,25,'Bo.6,Sout Cotabato');
 
 				doc.setFontSize(20)
 				doc.text(68,45,'FIRST BILLING REPORT');
-				doc.setFontSize(14)
-				doc.text(160,54,'2020-20-20');
+				doc.setFontSize(14);
+
+				doc.setFontType("normal");
+				doc.text(160,54,today);
 				doc.text(145,55,'Date:____________');
 
+				doc.setFontType("bold");
 				doc.text(20,70,ConName.concat('Contractor Name:','',Contractor));
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
+				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
-				doc.text(100,90,ContractAmount);
+				doc.text(100,90,"PHP " + ContractAmount);
 				doc.text(30,100,'Progress Billing Rate:');
-				doc.text(100,101,'__________');
+				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Gross Amount:');
-				doc.text(100,110,GrossAmount);
+				doc.text(100,110,"PHP " + GrossAmount);
 				doc.text(30,120,'Prorated Down Payment:');
-				doc.text(97,120,oTax.concat('- ',ProratedDP));
+				if (ProratedDP !== '0.00'){
+					doc.text(97,120,oTax.concat('- ',"PHP" + ProratedDP));
+				}else{
+					doc.text(97,120,'-');
+				}
 				doc.text(30,130,'Prorated Retention:');
-				doc.text(97,130,oTaxx.concat('- ',ProratedRetention));
+				if (ProratedRetention !== '0.00'){
+					doc.text(97,130,oTaxx.concat('- ',"PHP " + ProratedRetention));
+				}else{
+					doc.text(97,130,'-');
+				}		
 				doc.text(30,140,'Withholding Tax:');
-				doc.text(97,140,oTaxxx.concat('- ',WTaX,));
-				doc.text(100,141,'__________');
+				if (WTaX !== '0.00'){
+					doc.text(97,140,oTaxxx.concat('- ',"PHP " + WTaX));
+				}else{
+					doc.text(97,140,'-');
+				}	
+				doc.text(100,141,'________________');
 				doc.text(30,150,'Amount to Pay:');
-				doc.text(100,150,AmntPay);
+				doc.text(100,150,"PHP " + AmntPay);
+				doc.text(100,151,'________________');
+				doc.text(100,152,'________________');
 				doc.save('FirstBilling.pdf');	
 
 			break;
 			case "3":
+				doc.setFontType("bold");
 				doc.text(20,20,'Biotech Farms Inc.(BFI)');
 				doc.setFontSize(12)
 				doc.text(20,25,'Bo.6,Sout Cotabato');
@@ -242,31 +290,49 @@ sap.ui.define([
 				doc.setFontSize(20)
 				doc.text(50,45,'SUBSEQUENT BILLING REPORT');
 				doc.setFontSize(14)
-				doc.text(160,54,'2020-20-20');
+				doc.setFontType("normal");
+				doc.text(160,54,today);
 				doc.text(145,55,'Date:____________');
 
+				doc.setFontType("bold");
 				doc.text(20,70,ConName.concat('Contractor Name:','',Contractor));
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
+				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
-				doc.text(100,90,ContractAmount);
+				doc.text(100,90,"PHP " + ContractAmount);
 				doc.text(30,100,'Progress Billing Rate:');
-				doc.text(100,101,'__________');
+				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Gross Amount:');
-				doc.text(100,110,GrossAmount);
+				doc.text(100,110,"PHP " + GrossAmount);
 				doc.text(30,120,'Prorated Down Payment:');
-				doc.text(97,120,oTax.concat('- ',ProratedDP));
+				if (ProratedDP !== '0.00'){
+					doc.text(97,120,oTax.concat('- ',"PHP " + ProratedDP));
+				}else{
+					doc.text(97,120,'-');
+				}
 				doc.text(30,130,'Prorated Retention:');
-				doc.text(97,130,oTaxx.concat('- ',ProratedRetention));
+				if (ProratedRetention !== '0.00'){
+					doc.text(97,130,oTaxx.concat('- ',"PHP " + ProratedRetention));
+				}else{
+					doc.text(97,130,'-');
+				}		
 				doc.text(30,140,'Withholding Tax:');
-				doc.text(97,140,oTaxxx.concat('- ',WTaX,));
-				doc.text(100,141,'__________');
+				if (WTaX !== '0.00'){
+					doc.text(97,140,oTaxxx.concat('- ',"PHP " + WTaX));
+				}else{
+					doc.text(97,140,'-');
+				}	
+				doc.text(100,141,'________________');
 				doc.text(30,150,'Amount to Pay:');
-				doc.text(100,150,AmntPay);
+				doc.text(100,150,"PHP " + AmntPay);
+				doc.text(100,151,'________________');
+				doc.text(100,152,'________________');
 				doc.save('Subsequent.pdf');	
 
 			break;
 			case "4":
+				doc.setFontType("bold");
 				doc.text(20,20,'Biotech Farms Inc.(BFI)');
 				doc.setFontSize(12)
 				doc.text(20,25,'Bo.6,Sout Cotabato');
@@ -274,11 +340,13 @@ sap.ui.define([
 				doc.setFontSize(20)
 				doc.text(50,45,'FINAL BILLING REPORT');
 				doc.setFontSize(14)
-				doc.text(160,54,'2020-20-20');
+				doc.setFontType("normal");
+				doc.text(160,54,today);
 				doc.text(145,55,'Date:____________');
-
+				doc.setFontType("bold");
 				doc.text(20,70,ConName.concat('Contractor Name:','',Contractor));
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
+				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
 				doc.text(100,90,ContractAmount);
 				doc.text(30,100,'Progress Billing Rate:');
@@ -287,14 +355,28 @@ sap.ui.define([
 				doc.text(30,110,'Gross Amount:');
 				doc.text(100,110,GrossAmount);
 				doc.text(30,120,'Prorated Down Payment:');
-				doc.text(97,120,oTax.concat('- ',ProratedDP));
+				if (ProratedDP !== '0.00'){
+					doc.text(97,120,oTax.concat('- ',ProratedDP));
+				}else{
+					doc.text(97,120,'-');
+				}
 				doc.text(30,130,'Prorated Retention:');
-				doc.text(97,130,oTaxx.concat('- ',ProratedRetention));
+				if (ProratedRetention !== '0.00'){
+					doc.text(97,130,oTaxx.concat('- ',ProratedRetention));
+				}else{
+					doc.text(97,130,'-');
+				}		
 				doc.text(30,140,'Withholding Tax:');
-				doc.text(97,140,oTaxxx.concat('- ',WTaX,));
+				if (WTaX !== '0.00'){
+					doc.text(97,140,oTaxxx.concat('- ',WTaX));
+				}else{
+					doc.text(97,140,'-');
+				}	
 				doc.text(100,141,'__________');
 				doc.text(30,150,'Amount to Pay:');
 				doc.text(100,150,AmntPay);
+				doc.text(100,151,'__________');
+				doc.text(100,152,'__________');
 				doc.save('Final.pdf');	
 
 			break;

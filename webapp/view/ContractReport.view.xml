@@ -22,6 +22,7 @@
 									<Button id="btnRptExport" text="Export" press="Export" icon="sap-icon://pdf-attachment" visible="{buttons>/buttons/btnRptExport}" />
 									<Button id="btnRptGenerate" text="Generate" tooltip="Add" press="fGenerate" icon="sap-icon://process" visible="{buttons>/buttons/btnRptGenerate}" />
 									<Button id="btnRptPrint" text="Print" tooltip="Print" press="fPrint" icon="sap-icon://print" visible="{buttons>/buttons/btnRptPrint}" />
+									<Button id="btnRptClear" text="Clear" tooltip="clear" press="fClear" icon="sap-icon://clear-filter" />
 								</content>
 							</Toolbar>
 								<VBox class="sapUiResponsiveMargin">

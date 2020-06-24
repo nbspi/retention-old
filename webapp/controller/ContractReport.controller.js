@@ -50,21 +50,19 @@ sap.ui.define([
 
 		//Get All Contract and Retention Records
 			this.oMdlAllRecords = new JSONModel();
+		//Get All Contract and Retention Records
+			this.oMdlTotal = new JSONModel();
 		//Row Count
-		    this.RowCount = 0;
+			this.RowCount = 0;
+			
+		//Totals
+			this.ContractAmountTotal = 0;
+			this.PaymentTotal = 0;
+			this.BalanceTotal = 0 ;
+			this.CardName = "";
 
 	},
-	Export:function(){
 
-		var doc = new jsPDF();
-		doc.text(20, 20, 'Hello world.');
-		doc.output('Test.pdf');
-
-
-	},
-
-
-	
 	//----------------------- Business Partner -------------------//
 	//BP Search Fragment
 	onHandleSearchBP: function (oEvent) {
@@ -213,37 +211,80 @@ sap.ui.define([
 	fPrint:function(){
 
 		if (this.Generate === "1"){
+
+			var today = new Date();
+			var dd = today.getDate();
+	
+			var mm = today.getMonth()+1; 
+			var yyyy = today.getFullYear();
+			if(dd<10) 
+			{
+				dd='0'+dd;
+			} 
+	
+			if(mm<10) 
+			{
+				mm='0'+mm;
+			} 
+			today = mm+'-'+dd+'-'+yyyy;
+			console.log(today);
+
+
 			var doc = new jsPDF('l');
+
+			doc.setFontType("bold");
+			doc.setFontSize(12)
+			doc.text(15,20,'Biotech Farms Inc.');
+			doc.setFontSize(14)
+			doc.text(15,25,'CONTRACT STATUS REPORT');
+			doc.setFontSize(13)
+			doc.text(15,30,'AS OF ' + today);
+
 		
 			doc.autoTable({html:'#tblTransaction'});
 			var columns = ["CONTRACTOR","PROJECT DESCRIPTION","DATE STARTED","DATE COMPLETED","DATE LAST PAYMENT","CONTRACT AMOUNT","PAYMENT","BALANCE","ACCOMPLISHMENT","STATUS"];
 			var data = [];
 			for(var i=0;i<this.RowCount;i++)
 					{
+
 							data[i]=[this.oMdlAllRecords.getData().allData[i].CardName,this.oMdlAllRecords.getData().allData[i].U_APP_ProjCode,this.oMdlAllRecords.getData().allData[i].Date_Started,this.oMdlAllRecords.getData().allData[i].DateCompleted,this.oMdlAllRecords.getData().allData[i].Date_Last_Payment,
 							(this.oMdlAllRecords.getData().allData[i].DocTotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),(this.oMdlAllRecords.getData().allData[i].Payment).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),(this.oMdlAllRecords.getData().allData[i].Balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),this.oMdlAllRecords.getData().allData[i].Accomplishment,this.oMdlAllRecords.getData().allData[i].Status];
 					}
-			doc.autoTable(columns,data);
-			
-			 // doc.autoTable({
-			 // 	head: [['Contractor']],
-			 // 	body: [
-			// 		 ["oke"],
-			// 		 ["oke"]
-			 // 	]
-			 // });
-			 // doc.autoTable({
-			 // 	head: [['Retention No CWIP','Gross Amount','Prorated Retention','Progress Billing Amount','Prorated DP','Witholding Tax']],
-			 // 	body: [
-			 // 		[RetenNCWIP,GrossAmount,ProratedReten,ProgBillAmount,ProratedDP,WTaX],
-			 // 	]
-			 // });
-			 //doc.text(20, 20, 'Hello world.');	
+			doc.autoTable({
+				theme:'plain',
+				columns,
+				body:data,
+				startY:35
+				});
+
+			let finalY = doc.lastAutoTable.finalY + 13;
+			let finalYY = doc.lastAutoTable.finalY + 14;
+			let finalX = doc.lastAutoTable.finalY + 2;
+			let finalXX = doc.lastAutoTable.finalY + 7;
+			let finalXXX = doc.lastAutoTable.finalY + 8;
+			doc.setFontSize(14)
+			doc.text(15, finalX, "_________________________________________________________________________________________________");
+			doc.setFontSize(10)
+			doc.text(15, finalXX,this.CardName);
+
+			doc.text(151, finalXX, this.ContractAmountTotal);
+			doc.text(176, finalXX, this.PaymentTotal);
+			doc.text(201, finalXX, this.BalanceTotal);
+			doc.setFontSize(14)
+			doc.text(15, finalXXX, "_________________________________________________________________________________________________");
+			doc.setFontSize(10)
+			doc.text(15, finalY, "GRAND TOTAL:");	
+			doc.text(151, finalY, this.ContractAmountTotal);
+			doc.text(176, finalY, this.PaymentTotal);
+			doc.text(201, finalY, this.BalanceTotal);
+			doc.setFontSize(14)
+			doc.text(15, finalYY, "_________________________________________________________________________________________________");
+
 			 doc.save('BFI COntract Status Report.pdf');
-			 this.Generate === "0";	
+			 this.Generate = "0";	
 		}else{
 			sap.m.MessageToast.show("Generate First...");
-			this.Generate === "0";
+			this.Generate = "0";
 		}
 
 
@@ -251,7 +292,14 @@ sap.ui.define([
 	},
 	//--Generate Process
 	fGenerate:function (){
-		this.Generate = "1";
+
+		this.ContractAmountTotal = 0;
+		this.PaymentTotal = 0;
+		this.BalanceTotal = 0 ;
+		this.CardName = "";
+
+
+
 		var Contractor = this.VendorCode;
 		var ProjectCode = this.getView().byId("ProjCode").getValue();
 		var StartDate =  this.getView().byId("DateFrom").getValue();
@@ -260,17 +308,49 @@ sap.ui.define([
 		if  (Contractor === "" &&  ProjectCode == "" && StartDate == "" && EndDate == ""  ){
 			sap.m.MessageToast.show("No Data to Generate.");
 		}else{
+			this.Generate = "1";
+			//---Contractor Only
 			if  (Contractor != "" &&  ProjectCode == "" && StartDate == "" && EndDate == ""  ){
 				this.fGetAllRecord("getAllDataContractOnly",Contractor,"","","");
-			}else{
-	
+				this.fGetTotal("getContractOnlyTotal",Contractor,"","","");
+			//-- Contractor and ProjectCode Only
+			}else if (Contractor != "" &&  ProjectCode !== "" && StartDate == "" && EndDate == ""  ){
+				this.fGetAllRecord("getContractANDProjectCode",Contractor,ProjectCode,"","");	
+				this.fGetTotal("getContractANDProjectCodeTOTAL",Contractor,ProjectCode,"","");	
+			//-- Contractor and Project Code and Start Date Only
+			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate == ""  ){
+				this.fGetAllRecord("getContractANDProjectCodeANDStartDate",Contractor,ProjectCode,StartDate,"");	
+				this.fGetTotal("getContractANDProjectCodeANDStartDateTotal",Contractor,ProjectCode,StartDate,"");	
+			//-- Contractor and Project Code and Start Date AND End Date
+			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate !== ""  ){
+				this.fGetAllRecord("getContractANDProjectCodeANDStartDateANDEndDate",Contractor,ProjectCode,StartDate,EndDate);	
+				this.fGetTotal("getContractANDProjectCodeANDStartDateANDEndDateTotal",Contractor,ProjectCode,StartDate,EndDate);	
+			//--Contractor and StartDate Only
+			}else if(Contractor !== "" &&  ProjectCode === "" && StartDate !== "" && EndDate === ""  ){
+				this.fGetAllRecord("getContractANDStartDate",Contractor,StartDate,"","");	
+				this.fGetTotal("getContractANDStartDateTotal",Contractor,StartDate,"","");	
+			//--Project Code and StartDate Only
+			}else if(Contractor === "" &&  ProjectCode !== "" && StartDate !== "" && EndDate === ""  ){
+				this.fGetAllRecord("getContractANDProjectCode",ProjectCode,StartDate,"","");	
+				this.fGetTotal("getProjectCodeANDStartDateTotal",ProjectCode,StartDate,"","");	
+			//--Project Code Only
+			}else if(Contractor === "" &&  ProjectCode !== "" && StartDate === "" && EndDate === ""  ){
+				this.fGetAllRecord("getProjectCodeOnly",ProjectCode,"","","");	
+				this.fGetTotal("getProjectCodeTotal",ProjectCode,"","","");	
+			//--StartDate and EndDate Only
+			}else if(Contractor === "" &&  ProjectCode === "" && StartDate !== "" && EndDate !== ""  ){
+				this.fGetAllRecord("getStartDateANDEndDateOnly",StartDate,EndDate,"","");	
+				this.fGetTotal("getStartDateANDEndDateTotal",StartDate,EndDate,"","");
 			}
 		}
-
-
-
-
-
+	},
+	//--Clear filter
+	fClear: function(){
+		this.VendorCode = "";
+		this.getView().byId("BPCode").setValue("");	
+		this.getView().byId("ProjCode").setValue("");
+		this.getView().byId("DateFrom").setValue("");
+		this.getView().byId("DateEnd").setValue("");
 	},
 	//--Get All Data Report
 	fGetAllRecord:function(QueryTag,value1,value2,value3,value4){
@@ -291,6 +371,32 @@ sap.ui.define([
 			  this.oMdlAllRecords.setJSON("{\"allData\" : " + JSON.stringify(results) + "}");
 			  this.getView().setModel(this.oMdlAllRecords, "oMdlAllRecords");
 			  this.RowCount = results.length;
+			}
+		  });
+
+
+	},
+	fGetTotal:function(QueryTag,value1,value2,value3,value4){
+
+		$.ajax({
+			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention_Report&queryTag=" + QueryTag +"&value1=" + value1 + "&value2=" + value2 + "&value3=" + value3 + "&value4="+ value4 ,
+			type: "GET",
+			beforeSend: function(xhr) {
+			  xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			},
+			error: function(xhr, status, error) {
+			  MessageToast.show(error);
+			},
+			success: function(json) {},
+			context: this
+		  }).done(function(results) {
+			if (results) {
+				  this.oMdlTotal.setJSON("{\"allData\" : " + JSON.stringify(results) + "}");
+				  this.getView().setModel(this.oMdlTotal, "oMdlTotal");
+				  this.ContractAmountTotal = (results[0].Contract_Amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');			   
+				  this.PaymentTotal = (results[0].Payment).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');					  
+				  this.BalanceTotal = (results[0].Balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+				  this.CardName = results[0].CardName;
 			}
 		  });
 
