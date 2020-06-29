@@ -2353,7 +2353,7 @@ sap.ui.define([
 				});
 			}
 		},
-		//Saving First Progress Billing in SAP
+		//Saving First Progress Billing in SAPs
 		onSavingFirstProgressBilling: function () {
 			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
@@ -2598,7 +2598,7 @@ sap.ui.define([
 			}
 			this.fDeleteData();
 		},
-		//Saving Subsequent Billing in SAP
+		//Saving Subsequent Billing in SAPs
 		onSavingSubsequentBilling: function () {
 			this.fShowBusyIndicator(4000, 0);
 			var oDatabase = this.Database;
