@@ -140,7 +140,7 @@ xmlns:t="sap.ui.table">
 											</layoutData> 
 										</Select>
 										<!-- Project Manager -->
-										<Label text="ProjectManager" width="100%">
+										<Label text="Project Manager" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>

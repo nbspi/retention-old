@@ -164,7 +164,7 @@ sap.ui.define([
 		DPAmount = this.getView().byId("DpAmount").getValue();
 		AmntPay = this.getView().byId("AmntPay").getValue();
 		ProjectCode = this.POData.getData().RetenTransaction.ProjectCode;
-		WTaX = this.POData.getData().RetenTransaction.WTX;
+		WTaX = this.getView().byId("WTax").getValue();
 		GrossAmount = this.getView().byId("GRAmount").getValue();
 		ProratedDP = this.getView().byId("ProDP").getValue();
 		ProratedRetention = this.getView().byId("ProReten").getValue();
@@ -194,7 +194,7 @@ sap.ui.define([
 		switch(SelectedKey)
 		{
 			case "1":
-``
+
 				doc.setFontType("bold");
 				doc.text(20,20,'Biotech Farms Inc.(BFI)');
 
@@ -215,19 +215,21 @@ sap.ui.define([
 
 				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
-				doc.text(100,90, "PHP " + ContractAmount);
+				doc.text(100,90, ContractAmount);
 				doc.text(30,100,'Down Payment Rate:');
 				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Down Payment Amount:');
-				doc.text(100,110,"PHP " + DPAmount);
-				doc.text(30,120,"PHP " + 'Withholding Tax:');
-				doc.text(100,120,oTax.concat("PHP " + '(',WTaX,')'));
+				doc.text(100,110, DPAmount);
+				doc.text(30,120, 'Withholding Tax:');
+				doc.text(100,120,oTax.concat('(',WTaX,')'));
 				doc.text(100,121,'________________');
 				doc.text(30,130,'Amount to Pay:');
-				doc.text(100,130,"PHP " + AmntPay);
+				doc.text(89,130,"PHP " + AmntPay);
+				// doc.text(100,130,"PHP " + AmntPay);
 				doc.text(100,131,'________________');
 				doc.text(100,132,'________________');
+				doc.text(20,250,'Prepared By: ' + this.UserName );
 				doc.save('Downpayment.pdf');	
 			break;
 			case "2":
@@ -249,35 +251,37 @@ sap.ui.define([
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
 				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
-				doc.text(100,90,"PHP " + ContractAmount);
+				doc.text(100,90,ContractAmount);
 				doc.text(30,100,'Progress Billing Rate:');
 				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Gross Amount:');
-				doc.text(100,110,"PHP " + GrossAmount);
+				doc.text(100,110,GrossAmount);
 				doc.text(30,120,'Prorated Down Payment:');
 				if (ProratedDP !== '0.00'){
-					doc.text(97,120,oTax.concat('- ',"PHP" + ProratedDP));
+					doc.text(97,120,oTax.concat('( ',ProratedDP,' )'));
 				}else{
-					doc.text(97,120,'-');
+					doc.text(97,120,'');
 				}
 				doc.text(30,130,'Prorated Retention:');
 				if (ProratedRetention !== '0.00'){
-					doc.text(97,130,oTaxx.concat('- ',"PHP " + ProratedRetention));
+					doc.text(97,130,oTaxx.concat('( ', ProratedRetention,' )'));
 				}else{
-					doc.text(97,130,'-');
+					doc.text(97,130,'');
 				}		
 				doc.text(30,140,'Withholding Tax:');
 				if (WTaX !== '0.00'){
-					doc.text(97,140,oTaxxx.concat('- ',"PHP " + WTaX));
+					doc.text(97,140,oTaxxx.concat('( ',WTaX,' )'));
 				}else{
-					doc.text(97,140,'-');
+					doc.text(97,140,'');
 				}	
 				doc.text(100,141,'________________');
 				doc.text(30,150,'Amount to Pay:');
-				doc.text(100,150,"PHP " + AmntPay);
+				doc.text(89,150,"PHP " + AmntPay);
+				// doc.text(100,150,"PHP " + AmntPay);
 				doc.text(100,151,'________________');
 				doc.text(100,152,'________________');
+				doc.text(20,250,'Prepared By: ' + this.UserName );
 				doc.save('FirstBilling.pdf');	
 
 			break;
@@ -299,35 +303,37 @@ sap.ui.define([
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
 				doc.setFontType("normal");
 				doc.text(30,90,'Contract Amount:');
-				doc.text(100,90,"PHP " + ContractAmount);
+				doc.text(100,90,ContractAmount);
 				doc.text(30,100,'Progress Billing Rate:');
 				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Gross Amount:');
-				doc.text(100,110,"PHP " + GrossAmount);
+				doc.text(100,110,GrossAmount);
 				doc.text(30,120,'Prorated Down Payment:');
 				if (ProratedDP !== '0.00'){
-					doc.text(97,120,oTax.concat('- ',"PHP " + ProratedDP));
+					doc.text(97,120,oTax.concat('( ',ProratedDP,' )'));
 				}else{
-					doc.text(97,120,'-');
+					doc.text(97,120,'');
 				}
 				doc.text(30,130,'Prorated Retention:');
 				if (ProratedRetention !== '0.00'){
-					doc.text(97,130,oTaxx.concat('- ',"PHP " + ProratedRetention));
+					doc.text(97,130,oTaxx.concat('( ', ProratedRetention,' )'));
 				}else{
-					doc.text(97,130,'-');
+					doc.text(97,130,'');
 				}		
 				doc.text(30,140,'Withholding Tax:');
 				if (WTaX !== '0.00'){
-					doc.text(97,140,oTaxxx.concat('- ',"PHP " + WTaX));
+					doc.text(97,140,oTaxxx.concat('( ',WTaX,' )'));
 				}else{
-					doc.text(97,140,'-');
+					doc.text(97,140,'');
 				}	
 				doc.text(100,141,'________________');
 				doc.text(30,150,'Amount to Pay:');
-				doc.text(100,150,"PHP " + AmntPay);
+				doc.text(89,150,"PHP " + AmntPay);
+				// doc.text(100,150,"PHP " + AmntPay);
 				doc.text(100,151,'________________');
 				doc.text(100,152,'________________');
+				doc.text(20,250,'Prepared By: ' + this.UserName );
 				doc.save('Subsequent.pdf');	
 
 			break;
@@ -343,6 +349,7 @@ sap.ui.define([
 				doc.setFontType("normal");
 				doc.text(160,54,today);
 				doc.text(145,55,'Date:____________');
+				
 				doc.setFontType("bold");
 				doc.text(20,70,ConName.concat('Contractor Name:','',Contractor));
 				doc.text(20,78,ConName.concat('Project Code:','',ProjectCode));
@@ -350,33 +357,35 @@ sap.ui.define([
 				doc.text(30,90,'Contract Amount:');
 				doc.text(100,90,ContractAmount);
 				doc.text(30,100,'Progress Billing Rate:');
-				doc.text(100,101,'__________');
+				doc.text(100,101,'________________');
 				doc.text(100,100,ProgressBIll.concat('%'));
 				doc.text(30,110,'Gross Amount:');
 				doc.text(100,110,GrossAmount);
 				doc.text(30,120,'Prorated Down Payment:');
 				if (ProratedDP !== '0.00'){
-					doc.text(97,120,oTax.concat('- ',ProratedDP));
+					doc.text(97,120,oTax.concat('( ',ProratedDP,' )'));
 				}else{
-					doc.text(97,120,'-');
+					doc.text(97,120,'');
 				}
 				doc.text(30,130,'Prorated Retention:');
 				if (ProratedRetention !== '0.00'){
-					doc.text(97,130,oTaxx.concat('- ',ProratedRetention));
+					doc.text(97,130,oTaxx.concat('( ', ProratedRetention,' )'));
 				}else{
-					doc.text(97,130,'-');
+					doc.text(97,130,'');
 				}		
 				doc.text(30,140,'Withholding Tax:');
 				if (WTaX !== '0.00'){
-					doc.text(97,140,oTaxxx.concat('- ',WTaX));
+					doc.text(97,140,oTaxxx.concat('( ',WTaX,' )'));
 				}else{
-					doc.text(97,140,'-');
+					doc.text(97,140,'');
 				}	
-				doc.text(100,141,'__________');
+				doc.text(100,141,'________________');
 				doc.text(30,150,'Amount to Pay:');
-				doc.text(100,150,AmntPay);
-				doc.text(100,151,'__________');
-				doc.text(100,152,'__________');
+				doc.text(89,150,"PHP " + AmntPay);
+				// doc.text(100,150,"PHP " + AmntPay);
+				doc.text(100,151,'________________');
+				doc.text(100,152,'________________');
+				doc.text(20,250,'Prepared By: ' + this.UserName );
 				doc.save('Final.pdf');	
 
 			break;

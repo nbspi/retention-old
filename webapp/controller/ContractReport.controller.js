@@ -233,8 +233,6 @@ sap.ui.define([
 			var doc = new jsPDF('l');
 
 			doc.setFontType("bold");
-			doc.setFontSize(12)
-			doc.text(15,20,'Biotech Farms Inc.');
 			doc.setFontSize(14)
 			doc.text(15,25,'CONTRACT STATUS REPORT');
 			doc.setFontSize(13)
@@ -242,19 +240,23 @@ sap.ui.define([
 
 		
 			doc.autoTable({html:'#tblTransaction'});
-			var columns = ["CONTRACTOR","PROJECT DESCRIPTION","DATE STARTED","DATE COMPLETED","DATE LAST PAYMENT","CONTRACT AMOUNT","PAYMENT","BALANCE","ACCOMPLISHMENT","STATUS"];
+			var columns = ["CONTRACTOR","CONTRACT NO","PROJECT DESCRIPTION","DATE STARTED","DATE COMPLETED","DATE LAST PAYMENT","CONTRACT AMOUNT","PAYMENT","BALANCE","ACCOMPLISHMENT","STATUS"];
 			var data = [];
 			for(var i=0;i<this.RowCount;i++)
 					{
 
-							data[i]=[this.oMdlAllRecords.getData().allData[i].CardName,this.oMdlAllRecords.getData().allData[i].U_APP_ProjCode,this.oMdlAllRecords.getData().allData[i].Date_Started,this.oMdlAllRecords.getData().allData[i].DateCompleted,this.oMdlAllRecords.getData().allData[i].Date_Last_Payment,
+							data[i]=[this.oMdlAllRecords.getData().allData[i].CardName,this.oMdlAllRecords.getData().allData[i].DocNum,this.oMdlAllRecords.getData().allData[i].U_APP_ProjCode,this.oMdlAllRecords.getData().allData[i].Date_Started,this.oMdlAllRecords.getData().allData[i].DateCompleted,this.oMdlAllRecords.getData().allData[i].Date_Last_Payment,
 							(this.oMdlAllRecords.getData().allData[i].DocTotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),(this.oMdlAllRecords.getData().allData[i].Payment).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),(this.oMdlAllRecords.getData().allData[i].Balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),this.oMdlAllRecords.getData().allData[i].Accomplishment,this.oMdlAllRecords.getData().allData[i].Status];
 					}
 			doc.autoTable({
 				theme:'plain',
 				columns,
 				body:data,
-				startY:35
+				startY:35,
+				styles:{
+						fontSize: 6,
+						halign:'center'
+					   }
 				});
 
 			let finalY = doc.lastAutoTable.finalY + 13;
@@ -264,21 +266,21 @@ sap.ui.define([
 			let finalXXX = doc.lastAutoTable.finalY + 8;
 			doc.setFontSize(14)
 			doc.text(15, finalX, "_________________________________________________________________________________________________");
-			doc.setFontSize(10)
+			doc.setFontSize(7)
 			doc.text(15, finalXX,this.CardName);
 
-			doc.text(151, finalXX, this.ContractAmountTotal);
-			doc.text(176, finalXX, this.PaymentTotal);
-			doc.text(201, finalXX, this.BalanceTotal);
+			doc.text(175, finalXX, this.ContractAmountTotal);
+			doc.text(196, finalXX, this.PaymentTotal);
+			doc.text(213, finalXX, this.BalanceTotal);
 			doc.setFontSize(14)
 			doc.text(15, finalXXX, "_________________________________________________________________________________________________");
-			doc.setFontSize(10)
-			doc.text(15, finalY, "GRAND TOTAL:");	
-			doc.text(151, finalY, this.ContractAmountTotal);
-			doc.text(176, finalY, this.PaymentTotal);
-			doc.text(201, finalY, this.BalanceTotal);
-			doc.setFontSize(14)
-			doc.text(15, finalYY, "_________________________________________________________________________________________________");
+			// doc.setFontSize(10)
+			// doc.text(15, finalY, "GRAND TOTAL:");	
+			// doc.text(151, finalY, this.ContractAmountTotal);
+			// doc.text(176, finalY, this.PaymentTotal);
+			// doc.text(201, finalY, this.BalanceTotal);
+			// doc.setFontSize(14)
+			// doc.text(15, finalYY, "_________________________________________________________________________________________________");
 
 			 doc.save('BFI COntract Status Report.pdf');
 			 this.Generate = "0";	

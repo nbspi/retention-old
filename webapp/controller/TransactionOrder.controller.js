@@ -480,7 +480,9 @@ sap.ui.define([
 				oPO.DocType = "dDocument_Service";
 				oPO.U_APP_IsForRetention = "Y";
 				oPO.U_APP_Retention = "Y";
-				oPO.AttachmentEntry = this.FileKey;
+				if (this.FileKey !== 0){
+					oPO.AttachmentEntry = this.FileKey;
+				}
 				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
 
 				if (this.POData.getData().POCreation.Progressive === "0" ){
@@ -559,7 +561,9 @@ sap.ui.define([
 				oPO.DocumentLines = [];
 				oPO.DocType = "dDocument_Service";
 				oPO.U_APP_Retention = "N";
-				oPO.AttachmentEntry = this.FileKey;
+				if (this.FileKey !== 0){
+					oPO.AttachmentEntry = this.FileKey;
+				}
 				oPO.U_APP_ProjCode = this.POData.getData().POCreation.ProjectCode;
 				
 				if (this.POData.getData().POCreation.Progressive === "0" ){

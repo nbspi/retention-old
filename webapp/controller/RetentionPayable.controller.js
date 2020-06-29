@@ -2272,9 +2272,13 @@ sap.ui.define([
 			var Transcode = this.getView().byId("TransNo").getValue();
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
+			var DPPercent = this.getView().byId("DPayment").getValue();
 
 			if (SupplierCode === "") {
 				sap.m.MessageToast.show("No Data to Post in SAP");
+				this.fHideBusyIndicator();
+			} else if ( DPPercent === "" || DPPercent === 0 || DPPercent === "0" ){
+				sap.m.MessageToast.show("Input DownPayment Percent");
 				this.fHideBusyIndicator();
 			} else {
 
@@ -2356,9 +2360,13 @@ sap.ui.define([
 			var Transcode = this.getView().byId("TransNo").getValue();
 
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
+			var ProgBillPercent = this.getView().byId("ProgBill").getValue();
 
 			if (SupplierCode === "") {
 				sap.m.MessageToast.show("No Data to Post in SAP");
+				this.fHideBusyIndicator();
+			} else if (ProgBillPercent ===  "" || ProgBillPercent === 0 || ProgBillPercent ==="0"  ){
+				sap.m.MessageToast.show("Input ProgressBilling Rate Correctly");
 				this.fHideBusyIndicator();
 			} else {
 
@@ -2596,9 +2604,13 @@ sap.ui.define([
 			var oDatabase = this.Database;
 			var SupplierCode = this.getView().byId("VenSupCode").getValue();
 			var Transcode = this.getView().byId("TransNo").getValue();
+			var ProgBillPercent = this.getView().byId("ProgBill").getValue();
 
 			if (SupplierCode === "") {
 				sap.m.MessageToast.show("No Data to Post in SAP");
+				this.fHideBusyIndicator();
+			} else if (ProgBillPercent ===  "" || ProgBillPercent === 0 || ProgBillPercent ==="0"  ){
+				sap.m.MessageToast.show("Input ProgressBilling Rate Correctly");
 				this.fHideBusyIndicator();
 			} else {
 
