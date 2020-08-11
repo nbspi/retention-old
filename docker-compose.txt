@@ -1,0 +1,21 @@
+This is a text file!!
+
+
+
+version: "3"
+
+services:
+  app-retention:
+    build:
+      context: ./app-retention
+      dockerfile: Dockerfile
+    container_name: app-retention
+    restart: unless-stopped
+    volumes:
+      - ./app-retention:/usr/scr/app
+      - app-retention_node_modules:/usr/src/app/node_modules
+    ports:
+      - 8082:80
+
+volumes:
+  app-retention_node_modules:
