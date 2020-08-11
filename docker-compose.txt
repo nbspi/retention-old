@@ -9,7 +9,7 @@ services:
     build:
       context: ./app-retention
       dockerfile: Dockerfile
-    container_name: app-retention
+    container_name: app-retention-dev
     restart: unless-stopped
     volumes:
       - ./app-retention:/usr/scr/app
