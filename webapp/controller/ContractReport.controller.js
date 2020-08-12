@@ -269,6 +269,7 @@ sap.ui.define([
 			doc.setFontSize(7)
 			doc.text(15, finalXX,this.CardName);
 
+
 			doc.text(175, finalXX, this.ContractAmountTotal);
 			doc.text(196, finalXX, this.PaymentTotal);
 			doc.text(213, finalXX, this.BalanceTotal);
@@ -313,20 +314,20 @@ sap.ui.define([
 			this.Generate = "1";
 			//---Contractor Only
 			if  (Contractor != "" &&  ProjectCode == "" && StartDate == "" && EndDate == ""  ){
-				this.fGetAllRecord("getAllDataContractOnly",Contractor,"","","");
+				this.fGetAllRecord("gtAllDtaCntrctOnly",Contractor,"","","");
 				this.fGetTotal("getContractOnlyTotal",Contractor,"","","");
 			//-- Contractor and ProjectCode Only
 			}else if (Contractor != "" &&  ProjectCode !== "" && StartDate == "" && EndDate == ""  ){
-				this.fGetAllRecord("getContractANDProjectCode",Contractor,ProjectCode,"","");	
-				this.fGetTotal("getContractANDProjectCodeTOTAL",Contractor,ProjectCode,"","");	
+				this.fGetAllRecord("gtCntrctANDPrjCode",Contractor,ProjectCode,"","");	
+				this.fGetTotal("gtCntrtANDPrjCdeTTL",Contractor,ProjectCode,"","");	
 			//-- Contractor and Project Code and Start Date Only
 			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate == ""  ){
-				this.fGetAllRecord("getContractANDProjectCodeANDStartDate",Contractor,ProjectCode,StartDate,"");	
-				this.fGetTotal("getContractANDProjectCodeANDStartDateTotal",Contractor,ProjectCode,StartDate,"");	
+				this.fGetAllRecord("gtCntrtANDPrjCdANDStDte",Contractor,ProjectCode,StartDate,"");	
+				this.fGetTotal("gtCnttANDPrjCdANDStDteTtl",Contractor,ProjectCode,StartDate,"");	
 			//-- Contractor and Project Code and Start Date AND End Date
 			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate !== ""  ){
-				this.fGetAllRecord("getContractANDProjectCodeANDStartDateANDEndDate",Contractor,ProjectCode,StartDate,EndDate);	
-				this.fGetTotal("getContractANDProjectCodeANDStartDateANDEndDateTotal",Contractor,ProjectCode,StartDate,EndDate);	
+				this.fGetAllRecord("gtCntANDPrjCdANDStANDEdDt",Contractor,ProjectCode,StartDate,EndDate);	
+				this.fGetTotal("gtCntANDPrjANDStrtdANDendDtTtl",Contractor,ProjectCode,StartDate,EndDate);	
 			//--Contractor and StartDate Only
 			}else if(Contractor !== "" &&  ProjectCode === "" && StartDate !== "" && EndDate === ""  ){
 				this.fGetAllRecord("getContractANDStartDate",Contractor,StartDate,"","");	
@@ -395,10 +396,32 @@ sap.ui.define([
 			if (results) {
 				  this.oMdlTotal.setJSON("{\"allData\" : " + JSON.stringify(results) + "}");
 				  this.getView().setModel(this.oMdlTotal, "oMdlTotal");
-				  this.ContractAmountTotal = (results[0].Contract_Amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');			   
-				  this.PaymentTotal = (results[0].Payment).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');					  
-				  this.BalanceTotal = (results[0].Balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-				  this.CardName = results[0].CardName;
+
+				  if(results[0].Contract_Amount === null)  {
+					this.ContractAmountTotal = "0";
+				  }else{
+					this.ContractAmountTotal = (results[0].Contract_Amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+				  }
+
+				  if(results[0].Payment === null){
+					this.PaymentTotal = "0";
+				  }else{
+					this.PaymentTotal = (results[0].Payment).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+				  }
+
+				  if(results[0].Balance === null){
+					this.BalanceTotal = "0";
+				  }else{
+					this.BalanceTotal = (results[0].Balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+				  }
+				  
+				if(results[0].CardName === null){
+					this.CardName = "" ;
+				}else{
+					this.CardName = results[0].CardName ;
+				}
+
+				 
 			}
 		  });
 

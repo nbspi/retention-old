@@ -52,7 +52,8 @@ sap.ui.define([
 
       // fieldName = "APP_RETTranstype" Description = "Retention Transaction Type"
       // values
-      // 1 - DownPayment
+	  // 1 - DownPayment
+	  
       // 2 - First Progess Billing
       // 3 - Subsequent Progress Billing
       // 4 - Final Progress Billing
@@ -75,6 +76,7 @@ sap.ui.define([
 	  this.createField("APP_Progressive", "Progressive", "OPOR", "db_Alpha", "",5);
 	  this.createField("APP_DocEntry", "DocEntry", "OPCH", "db_Alpha", "", 20);
 	  this.createField("APP_Processed", "Processed", "OPCH", "db_Alpha", "", 20);
+
 	  this.createField("APP_ProjectManager", "Project Manager", "OPRJ", "db_Alpha", "", 20);
 
       // -- Retention Payable Header --
