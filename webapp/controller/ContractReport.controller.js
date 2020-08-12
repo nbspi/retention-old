@@ -323,7 +323,7 @@ sap.ui.define([
 			//-- Contractor and Project Code and Start Date Only
 			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate == ""  ){
 				this.fGetAllRecord("gtCntrtANDPrjCdANDStDte",Contractor,ProjectCode,StartDate,"");	
-				this.fGetTotal("gtCnttANDPrjCdANDStDteTtl",Contractor,ProjectCode,StartDate,"");	
+				this.fGetTotal("gtCnttANDPrjCdANDStDteTtl",Contractor,ProjectCode,StartDate,"" );	
 			//-- Contractor and Project Code and Start Date AND End Date
 			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate !== ""  ){
 				this.fGetAllRecord("gtCntANDPrjCdANDStANDEdDt",Contractor,ProjectCode,StartDate,EndDate);	
