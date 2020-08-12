@@ -1,6 +1,6 @@
 This is a text file!!
 
-
+# dev
 
 version: "3"
 
@@ -13,9 +13,49 @@ services:
     restart: unless-stopped
     volumes:
       - ./app-retention:/usr/scr/app
-      - app-retention_node_modules:/usr/src/app/node_modules
+      - app-retention_dev_node_modules:/usr/src/app/node_modules
     ports:
       - 8082:80
 
 volumes:
-  app-retention_node_modules:
+  app-retention_dev_node_modules:
+
+# sqa
+
+version: "3"
+
+services:
+  app-retention:
+    build:
+      context: ./app-retention
+      dockerfile: Dockerfile
+    container_name: app-retention-sqa
+    restart: unless-stopped
+    volumes:
+      - ./app-retention:/usr/scr/app
+      - app-retention_sqa_node_modules:/usr/src/app/node_modules
+    ports:
+      - 8082:80
+
+volumes:
+  app-retention_sqa_node_modules:
+
+# uat
+
+version: "3"
+
+services:
+  app-retention:
+    build:
+      context: ./app-retention
+      dockerfile: Dockerfile
+    container_name: app-retention-uat
+    restart: unless-stopped
+    volumes:
+      - ./app-retention:/usr/scr/app
+      - app-retention_uat_node_modules:/usr/src/app/node_modules
+    ports:
+      - 8082:80
+
+volumes:
+  app-retention_uat_node_modules:
