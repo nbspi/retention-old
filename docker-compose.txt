@@ -35,7 +35,7 @@ services:
       - ./app-retention:/usr/scr/app
       - app-retention_sqa_node_modules:/usr/src/app/node_modules
     ports:
-      - 8082:80
+      - 8092:80
 
 volumes:
   app-retention_sqa_node_modules:
@@ -55,7 +55,7 @@ services:
       - ./app-retention:/usr/scr/app
       - app-retention_uat_node_modules:/usr/src/app/node_modules
     ports:
-      - 8082:80
+      - 9002:80
 
 volumes:
   app-retention_uat_node_modules:
