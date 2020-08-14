@@ -274,7 +274,7 @@ sap.ui.define([
 			doc.text(196, finalXX, this.PaymentTotal);
 			doc.text(213, finalXX, this.BalanceTotal);
 			doc.setFontSize(14)
-			doc.text(15, finalXXX,  "_________________________________________________________________________________________________");
+			doc.text(15, finalXXX,  "_________________________________________________________________________________________________") ;
 			// doc.setFontSize(10)
 			// doc.text(15, finalY, "GRAND TOTAL:");	
 			// doc.text(151, finalY, this.ContractAmountTotal);
