@@ -413,7 +413,8 @@ sap.ui.define([
 					this.CardName = results[0].CardName ;
 				}
 
-				 
+				this.fPrint(); 
+
 			}
 		  });
 
