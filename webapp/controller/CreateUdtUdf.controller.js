@@ -57,7 +57,7 @@ sap.ui.define([
       // 2 - First Progess Billing
       // 3 - Subsequent Progress Billing
       // 4 - Final Progress Billing
-      // 5 - Retention Payment
+      // 5 - Retention Payments
 	  this.createField("APP_IsForRetention", "For Retention Process", "OPOR", "db_Alpha", "", 1);
 	  this.createField("APP_ProgBillRate", "Progress Billing Rate", "OPOR", "db_Numeric", "st_Sum", 30)	  
 	  this.createField("APP_CWIP", "Retention N CWIP", "OPOR", "db_Float", "st_Sum", 30);
