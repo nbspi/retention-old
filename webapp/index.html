@@ -6,7 +6,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<title>app-retention</title>
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.3/jspdf.plugin.autotable.min.js"></script>
+		
 		<script id="sap-ui-bootstrap"
 			src="resources/sap-ui-core.js"
 			data-sap-ui-theme="sap_fiori_3"
@@ -18,10 +20,13 @@
 			data-sap-ui-async="true"
 			data-sap-ui-frameOptions="trusted">
 		</script>
+
+
 	</head>
 
 	<body class="sapUiBody">
 		<div data-sap-ui-component data-name="com.apptech.app-retention" data-id="container" data-settings='{"id" : "app-retention"}'></div>
+		<table id="my-table"></table>
 	</body>
 
 </html>

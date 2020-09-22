@@ -274,9 +274,8 @@ sap.ui.define([
 			doc.text(196, finalXX, this.PaymentTotal);
 			doc.text(213, finalXX, this.BalanceTotal);
 			doc.setFontSize(14)
-			doc.text(15, finalXXX, "_________________________________________________________________________________________________");
-			
-			 doc.save('BFI Contract Status Report.pdf');
+			doc.text(15, finalXXX,  "_________________________________________________________________________________________________")  ;
+			 doc.save ('BFI COntract Status Report.pdf');
 			 this.Generate = "0";	
 		}else{
 			sap.m.MessageToast.show("Generate First...");
@@ -414,7 +413,8 @@ sap.ui.define([
 					this.CardName = results[0].CardName ;
 				}
 
-				 
+				this.fPrint(); 
+
 			}
 		  });
 

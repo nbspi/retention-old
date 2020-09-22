@@ -6,14 +6,51 @@
 		"PostingDate": "",
 		"Attachment": "",
 		"ContractAmount": 0,
-		"Remarks": ""
+		"Remarks": "",
+		"ProjectCode":""
 	},
 	"POSelection": [{
 		"CODE": "0",
-		"NAME": "1 - PO Draft"
+		"NAME": "1 - Draft Contracts"
 	}, {
 		"CODE": "1",
-		"NAME": "2 - PO Added"
-	}]
+		"NAME": "2 - Added Contracts"
+	},
+	{
+		"CODE":"2",
+		"NAME": "3 - Posted Contracts with Down Payment and  Progress Billing "
+	}],
+	"RetentionSelection":[{
+		"CODE": "1",
+		"NAME": "1 - Down Payment"	
+	},{
+		"CODE": "2",
+		"NAME": "2 - First Billing"	
+	},{
+		"CODE": "3",
+		"NAME": "3 - Subsequent Billing"
+	},{
+		"CODE":"4",
+		"NAME":"4 - Final Billing"
+	}
+
+	],
+	"RetenTransaction":{
+		"Contractor":"",
+		"TransactionNumber":"",
+		"ContractAmount":"",
+		"PostingDate":"",
+		"ProjectCode":"",
+		"ProgressBIll":"",
+		"RetenYCWIP":"",
+		"RetenNCWIP":"",
+		"GrossAmount":"",
+		"ProratedReten":"",
+		"ProgBillAmount":"",
+		"ProratedDP":"",
+		"WTX":"",
+		"LineTotal":"",
+		"DPAmount":""
+	}
 
 }

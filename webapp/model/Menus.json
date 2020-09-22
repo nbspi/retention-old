@@ -1,20 +1,35 @@
 {
 	"navigation": [
-		{
-			"title": "Purchase Order",
-			"icon": "sap-icon://manager-insight",
-			"key": "purchaseorder"
-		},
-		{
-			"title": "Retention Payable",
-			"icon": "sap-icon://manager-insight",
-			"key": "paymentprocessing"
-		},
-		{
-			"title":"Configuration",
-			"icon":"sap-icon://manager-insight",
-			"key": "configuration"
-		}
-	]	
-
+	{
+		"title": "Contracts",
+		"icon":"sap-icon://contacts",
+        "key": "contracts",
+        "items":[{
+            "title":"Create Transaction",
+            "key":"purchaseorder"
+        } , {
+            "title":"Transaction Records",
+            "key":"transactionrecords"
+        } , {
+            "title":"Project Code",
+            "key":"projectCode"
+        }]  
+	}, 
+	{
+		"title": "Contract Billing and Retention",
+		"icon": "sap-icon://employee",
+		"key": "paymentprocess"
+	}, 
+	{
+		"title": "Configuration",
+		"icon": "sap-icon://developer-settings",
+		"key": "configuration"
+	}],
+    "fixedNavigation":[
+        {
+            "title":"Contract Status Report",
+            "icon":"sap-icon://travel-expense-report",
+            "key":"contractreport"
+        }
+    ]
 }

@@ -11,29 +11,37 @@ xmlns:html="http://www.w3.org/1999/xhtml"
 xmlns:t="sap.ui.table">
 	<App>
 		<pages>
-			<Page title="PO Transaction">
+			<Page title="Contract Transaction">
 				<content>
-					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
+					<IconTabBar id="idIconTabBarInlineMode" select="fIconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
 						class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter id="tab1" text="Records" key="tab1">
-								<Select id="selectRecordGroup" items="{POData>/POSelection}" width="40%" enabled="true" change="onSelectPurchaseTransaction">
+								<Select id="selectRecordGroup" items="{POData>/POSelection}" width="40%" enabled="true" change="fSelectPurchaseTransaction">
 									<core:ListItem key="{POData>CODE}" text="{POData>NAME}"/>
 								</Select>
-								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="oFilterValue"
+								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="fFilterValue"
 									rowSelectionChange="onSelectionChange" rows="{oModelOpenPO>/allbp}">
 									<t:extension>
 										<Toolbar>
-											<Button text="{oFilter>/Process/ProcName}" tooltip="Add" press="onProcess" icon="sap-icon://add"/>
+											<Button id="TranProcess" text="{oFilter>/Process/ProcName}" tooltip="Add" press="fProcess" icon="sap-icon://add" visible="{buttons>/buttons/TranProcess}" />
 											<ToolbarSpacer/>
 										</Toolbar>
 									</t:extension>
 									<!--DocNum-->
 									<t:Column id="colDoc" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
 										filterProperty="DocNum">
-										<Label text="DocNum"/>
+										<Label text="Document Number"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocNum}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Project Code-->
+									<t:Column id="colProjCode" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
+										filterProperty="DocNum">
+										<Label text="Project Code"/>
+										<t:template>
+											<Text text="{oModelOpenPO>ProjectCode}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 									<!--VendorName-->
@@ -44,7 +52,7 @@ xmlns:t="sap.ui.table">
 										</t:template>
 									</t:Column>
 									<!--Posting Date-->
-									<t:Column width="12rem">
+									<t:Column width="12rem" filtered="true" filterProperty="DocDate" >
 										<Label text="Posting Date"/>
 										<t:template>
 											<Text text="{oModelOpenPO>DocDate}" wrapping="false"/>
@@ -52,38 +60,56 @@ xmlns:t="sap.ui.table">
 									</t:Column>
 									<!--Doctotal-->
 									<t:Column width="12rem">
-										<Label text="DocTotal"/>
+										<Label text="Total Amount"/>
 										<t:template>
-											<Text text="{oModelOpenPO>DocTotal}" wrapping="false"/>
+											<Text text="
+											{ path:'oModelOpenPO>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
+											"
+											wrapping="false"/>
 										</t:template>
 									</t:Column>
-									<!--Document Status-->
+									<!--Document Statuses-->
 									<t:Column width="12rem">
 										<Label text="Document Status"/>
 										<t:template>
-											<Text id="DocStat" text="{oModelOpenPO>DocStatus}" wrapping="false"/>
+											<Text id="DocStat" text="{oModelOpenPO>oDocStatus}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!-- Updated Date-->
+									<t:Column width="12rem">
+										<Label text="Date Updated"/>
+										<t:template>
+											<Text id="Update" text="{oModelOpenPO>Update}"
+											wrapping="false"/>
 										</t:template>
 									</t:Column>
 								</t:Table>
 							</IconTabFilter>
-							<IconTabFilter id="tab2" text="PO No:" count="{Retention>/POCount/PONum}" key="tab2">
-								<Button id="btn1" text="Update" tooltip="Add" enabled="false" press="onDraft" icon="sap-icon://add"/>
-								<Button id="btn2" text="Add" tooltip="Add" press="onSave" icon="sap-icon://save"/>
+							<IconTabFilter id="tab2" text="Contract No:" count="{Retention>/POCount/PONum}" key="tab2">
+							<Toolbar>
+								<content>
+								<Button id="btnTransUpdate" text="Update" tooltip="Add" press="fDraftUpdate" icon="sap-icon://save" visible="{buttons>/buttons/btnTransUpdate}" />
+								<Button id="btnTransAdd" text="Add" tooltip="Add" press="fSave" icon="sap-icon://add" visible="{buttons>/buttons/btnTransAdd}" />
+								<!-- <Button id="btnTransCancel" text="Cancel" tooltip="Cancel" press="onCancel" icon="sap-icon://cancel" visible="{buttons>/buttons/btnTransCancel}" />
+								<Button id="btnTransPrint" text="Print" tooltip="Print" press="onPrint" icon="sap-icon://print"
+								visible="{buttons>/buttons/btnTransPrint}" /> -->
+								</content>
+							</Toolbar>
 								<VBox class="sapUiTinyMargin">
 									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
-										<!---Vendor Name-->
-										<Label text="Vendor" width="100%">
+										<!---Contractor-->
+										<Label text="Contractor" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
 										<Input id="BPCode" type="Text" value="{oMdlAllBP>/allbp/Vendor}" showValueHelp="true" valueHelpOnly="true"
-											valueHelpRequest="handleValueBPMaster" width="100%">
+											valueHelpRequest="onHandleValueBPMaster" required="true" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
-										<!--Document Number-->
+										<!--Transaction Number-->
 										<Label text="Transaction Number" width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
@@ -101,13 +127,12 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<ComboBox id="Retention" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Retention}"
-											selectionChange="onSelectRetention" loadItems="TransCode">
-											<core:Item key="{Retention>CODE}" text="{Retention>NAME}"/>
+										<Select id="Retention" items="{Retention>/Retention}" forceSelection="false" selectedKey="{POData>/POCreation/Retention}" required="true" change="fSelectRetention">
+											<core:ListItem key="{Retention>CODE}" text="{Retention>NAME}"/>
 											<layoutData>
-												<l:GridData span="L3 M4 S12"/>
+													<l:GridData span="L3 M4 S12"/>
 											</layoutData>
-										</ComboBox>
+										</Select>
 										<!--Posting Date-->
 										<Label text="Posting Date" width="100%">
 											<layoutData>
@@ -128,21 +153,43 @@ xmlns:t="sap.ui.table">
 										</Label>
 										<Input width="100%" id="CntAmount" required="true" textAlign="Right" value="{path:'/number', type:'sap.ui.model.type.Currency'}"
 											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
-											liveChange="ContractAmount" >
+											liveChange="fContractAmount" >
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
 											</layoutData>
 										</Input>
+										<!---Project Code-->
+										<Label text="Project Code" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input  width="100%" id="ProjCode" required="true" valueHelpRequest="onHandleValueProjCode" showValueHelp="true" valueHelpOnly="true" value="{POData>/POCreation/ProjectCode}" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Progressive-->
+										<Label text="Progressive" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Select id="Progressive" width="100%" items="{Retention>/Retention}" selectedKey="{POData>/POCreation/Progressive}" forceSelection="false">
+											<core:ListItem  key="{Retention>CODE}" text="{Retention>NAME}"/>
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData> 
+										</Select>
 										<!--FileUploader-->
-										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server"
-											uploadComplete="handleUploadComplete" width="100%" placeholder="Attachment"></u:FileUploader>
+										<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="upload/" tooltip="Upload your file to the local server" change="handleValueChange" uploadComplete="handleUploadComplete" width="100%"/>
 										<!--Remarks-->
 										<Label text="Remarks." width="100%">
 											<layoutData>
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<TextArea id="TextArea" cols="200" width="100%" height="100px">
+										<TextArea id="TextArea" required="true" cols="200" width="100%" height="100px">
 											<layoutData>
 												<l:GridData span="L9 M10 S12"/>
 											</layoutData>

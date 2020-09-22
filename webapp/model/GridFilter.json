@@ -16,5 +16,13 @@
 	"NetAmount":
 	{
 		"NAME":"Net Down Payment Amount"
+	},
+	"Button":
+	{
+		"Tag":"false"
+	},
+	"UserAccount":
+	{
+		"User":"12"
 	}
 }

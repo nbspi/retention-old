@@ -1,0 +1,233 @@
+ <mvc:View controllerName="com.apptech.app-retention.controller.RetentionRecords"
+	xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" 
+	xmlns:uxap="sap.uxap" 
+	xmlns:f="sap.ui.layout.form" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:u="sap.ui.unified" 
+	xmlns:tnt="sap.tnt"
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:t="sap.ui.table">
+	<App>
+		<pages>
+			<Page title="Contract Billing and Retention Payable - Transaction Records">
+				<content>
+					<IconTabBar id="idIconTabBarInlineMode" select="fIconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter id="tab1" text="Records" key="tab1">
+								<Select id="selectRecordGroup" items="{POData>/RetentionSelection}" width="40%" enabled="true" change="fSelectRetentionTransaction">
+									<core:ListItem key="{POData>CODE}" text="{POData>NAME}"/>
+								</Select>
+								<t:Table id="tblTransaction" selectionMode="Single" visibleRowCount="8" ariaLabelledBy="title" enableCellFilter="true" filter="fFilterValue"
+									rowSelectionChange="onSelectionChange" rows="{oMdlAllRecords>/allbp}">
+									<t:extension>
+										<Toolbar>
+											<Button id="btnContractView" text="View" tooltip="Add" press="fProcess" icon="sap-icon://add" visible="{buttons>/buttons/btnContractView}" />
+											<ToolbarSpacer/>
+										</Toolbar>
+									</t:extension>
+									<!--DocNum-->
+									<t:Column id="colDoc" width="12rem" filterOperator="DocNumFilter" filtered="true"
+										filterProperty="DocNum">
+										<Label text="Document Number"/>
+										<t:template>
+											<Text text="{oMdlAllRecords>DocNum}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Project Code-->
+									<t:Column id="colProjCode" width="12rem" filterValue="{oFilter>/GridFilter/DocNum}" filterOperator="DocNumFilter" filtered="true"
+										filterProperty="DocNum">
+										<Label text="Project Code"/>
+										<t:template>
+											<Text text="{oMdlAllRecords>U_APP_ProjCode}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--VendorName-->
+									<t:Column id="colVendor" width="12rem" filterValue="" filtered="true" filterOperator="" filterProperty="Vendor">
+										<Label text="VendorName"/>
+										<t:template>
+											<Text text="{oMdlAllRecords>CardName}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Posting Date-->
+									<t:Column width="12rem" filtered="true" filterProperty="DocDate" >
+										<Label text="Posting Date"/>
+										<t:template>
+											<Text text="{oMdlAllRecords>DocDate}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!--Doctotal-->
+									<t:Column width="12rem">
+										<Label text="Total Amount"/>
+										<t:template>
+											<Text text="
+											{ path:'oMdlAllRecords>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
+											"
+											wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<!-- Document Status -->
+									<t:Column width="12rem">
+										<Label text="Progressive"/>
+										<t:template>
+											<Text id="DocStat" text="{oMdlAllRecords>U_APP_Progressive}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:Table>
+							</IconTabFilter>
+							<IconTabFilter id="tab2" text="Contract No:" count="{Retention>/POCount/PONum}" key="tab2">
+							<Toolbar>
+								<content>
+								<Button id="btnContractPrint" text="Print" tooltip="Add" press="fPrint" icon="sap-icon://print" visible="{buttons>/buttons/btnContractPrint}" />
+								</content>
+							</Toolbar>
+								<VBox class="sapUiTinyMargin">
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
+										<!---Contractor-->
+										<Label text="Contractor" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input id="BPCode" type="Text" value="{POData>/RetenTransaction/Contractor}"
+										required="true" width="100%" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Transaction Number-->
+										<Label text="Transaction Number" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="Docnum" required="true" value="{POData>/RetenTransaction/TransactionNumber}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>		
+										<!---Contract Amount-->
+										<Label text="Contract Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="ContractAmount" required="true" value="{ path:'POData>/RetenTransaction/ContractAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
+											liveChange="fContractAmount" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>	
+										<!--DP Rate-->
+										<Label text="DP Rate" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="DPRate" required="true" value="{POData>/RetenTransaction/ProgressBIll}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Progress Rate-->
+										<Label text="Progress Rate" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="PrRate" required="true" value="{POData>/RetenTransaction/ProgressBIll}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Gross Amount-->
+										<Label text="Gross Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="GRAmount" required="true" value="{ path:'POData>/RetenTransaction/GrossAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>	
+										<!--Prorated DP-->
+										<Label text="Prorated DP" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="ProDP" required="true" value="{ path:'POData>/RetenTransaction/ProratedDP', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>	
+										<!--Prorated Retention-->
+										<Label text="Prorated Retention" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="ProReten" required="true" value="{ path:'POData>/RetenTransaction/ProratedReten', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}" editable="false" valueHelpOnly="true"
+											valueHelpRequest="handleValueHelpSupplier">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>	
+										<!---DP Amount-->
+										<Label text="DP Amount" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="DpAmount" required="true" value="{ path:'POData>/RetenTransaction/GrossAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
+											liveChange="fContractAmount" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>	
+										<!---DP Witholding Tax-->
+										<Label text="Witholding Tax:" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="WTax" required="true" value="{ path:'POData>/RetenTransaction/WTX', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
+											liveChange="fContractAmount" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>	
+										<!---Amount to Pay-->
+										<Label text="Amount To Pay:" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="AmntPay" required="true" value="{ path:'POData>/RetenTransaction/DPAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}"
+											valueHelpOnly="true" valueHelpRequest="handleValueHelpSupplier"
+											liveChange="fContractAmount" editable="false" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>					
+									</f:SimpleForm>
+								</VBox>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View> 

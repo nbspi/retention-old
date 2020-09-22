@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="No BP Found"
+		title="Select Account"
+		search="onHandleSearchProjCode"
+		confirm="onHandleValueHelpProjCloseBatch"
+		cancel="onHandleValueHelpProjCloseBatch"
+		showClearButton="true"
+		items="{oMdlAllProject>/allbp}">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{oMdlAllProject>ProjectCode}"
+			description="Name : {oMdlAllProject>ProjectCode} - {oMdlAllProject>ProjectName}" />
+	</SelectDialog>
+</core:FragmentDefinition>

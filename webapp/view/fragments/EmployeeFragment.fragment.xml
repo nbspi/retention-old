@@ -4,15 +4,16 @@
 	<SelectDialog
 		noDataText="No BP Found"
 		title="Select Account"
-		search="onHandleSearchBP"
+		search="onHandleSearchEmployee"
 		confirm="onHandleValueHelpCloseBatch"
 		cancel="onHandleValueHelpCloseBatch"
 		showClearButton="true"
-		items="{oMdlAllBP>/allbp}">
+		items="{oMdlAllEmp>/allbp}">
 		<StandardListItem
 			iconDensityAware="false"
 			iconInset="false"
-			title="{oMdlAllBP>CardCode}"
-			description="Name : {oMdlAllBP>CardCode} - {oMdlAllBP>CardName}" />
+			title="{oMdlAllEmp>empID}"
+			description="Name : {oMdlAllEmp>firstName} {oMdlAllEmp>lastName}" />
 	</SelectDialog>
 </core:FragmentDefinition>
+

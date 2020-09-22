@@ -1,0 +1,87 @@
+ <mvc:View controllerName="com.apptech.app-retention.controller.ContractReport"
+	xmlns:core="sap.ui.core" 
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m" 
+    xmlns:uxap="sap.uxap" 
+    xmlns:f="sap.ui.layout.form" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:u="sap.ui.unified" 
+    xmlns:tnt="sap.tnt"
+    xmlns:html="http://www.w3.org/1999/xhtml" 
+    xmlns:t="sap.ui.table">
+	<App>
+		<pages>
+			<Page title="Contract Status Report">
+				<content>
+					<IconTabBar id="idIconTabBarInlineMode" select="IconTabSelect" headerMode="Inline" upperCase="true" expandable="false"
+						class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter id="tab1" text="Report">
+							<Toolbar>
+								<content>
+									<!-- <Button id="btnRptExport" text="Export" press="Export" icon="sap-icon://pdf-attachment" visible="{buttons>/buttons/btnRptExport}" /> -->
+									<Button id="btnRptGenerate" text="Generate" tooltip="Add" press="fGenerate" icon="sap-icon://process" visible="{buttons>/buttons/btnRptGenerate}" />
+									<!-- <Button id="btnRptPrint" text="Print" tooltip="Print" press="fPrint" icon="sap-icon://print" visible="{buttons>/buttons/btnRptPrint}" /> -->
+									<Button id="btnRptClear" text="Clear" tooltip="clear" press="fClear" icon="sap-icon://clear-filter" />
+								</content>
+							</Toolbar>
+								<VBox class="sapUiResponsiveMargin">
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
+										<!--- Contractor-->
+										<Label text="Contractor" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input id="BPCode" type="Text" valueHelpRequest="onHandleValueBPMaster" valueHelpOnly="true" showValueHelp="true"  value="{oMdlAllBP>/allbp/Vendor}" required="true">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>															
+										<!---Project Code-->
+										<Label text="Project Code" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<Input width="100%" id="ProjCode" required="true" valueHelpRequest="onHandleValueProjCode" valueHelpOnly="true" showValueHelp="true" value="{POData>/POCreation/ProjectCode}" >
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</Input>
+										<!--Start Date-->
+										<Label text="Start Date" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="DateFrom" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
+											value="{Contract>/Contract/StartDate}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>		
+										<!--End Date-->
+										<Label text="End Date" width="100%">
+											<layoutData>
+												<l:GridData span="L3 M2 S12"/>
+											</layoutData>
+										</Label>
+										<DatePicker id="DateEnd" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" change="handleChange" required="true"
+											value="{Contract>/Contract/EndDate}">
+											<layoutData>
+												<l:GridData span="L3 M4 S12"/>
+											</layoutData>
+										</DatePicker>	
+									</f:SimpleForm>
+								</VBox>
+
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View> 

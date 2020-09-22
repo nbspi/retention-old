@@ -38,6 +38,7 @@
 		"dependencies": {
 			"minUI5Version": "1.60.0",
 			"libs": {
+				"sap.ui.unified": {},
 				"sap.ui.core": {},
 				"sap.m": {},
 				"sap.ui.layout": {}
@@ -68,7 +69,7 @@
 				"viewPath": "com.apptech.app-retention.view",
 				"controlAggregation": "pages",
 				"controlId": "app",
-				"clearControlAggregation": false 
+				"clearControlAggregation": false
 			},
 			"routes": [
 				{
@@ -104,6 +105,34 @@
 					"pattern": "TransactionOrder",
 					"target": [
 						"TransactionOrder"
+					]
+				},
+				{
+					"name": "CreateUdtUdf",
+					"pattern": "CreateUdtUdf",
+					"target": [
+						"CreateUdtUdf"
+					]
+				},
+				{
+					"name": "ProjectCode",
+					"pattern": "ProjectCode",
+					"target": [
+						"ProjectCode"
+					]
+				},
+				{
+					"name": "ContractReport",
+					"pattern": "ContractReport",
+					"target": [
+						"ContractReport"
+					]
+				},
+				{
+					"name": "RetentionRecords",
+					"pattern": "RetentionRecords",
+					"target": [
+						"RetentionRecords"
 					]
 				}
 			],
@@ -143,12 +172,53 @@
 					"transition": "null",
 					"viewLevel": 3
 				},
+				"CreateUdtUdf": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "CreateUdtUdf",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"ProjectCode": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "ProjectCode",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"ContractReport": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "ContractReport",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
+				"RetentionRecords": {
+					"viewPath": "com.apptech.app-retention.view",
+					"viewType": "XML",
+					"viewName": "RetentionRecords",
+					"parent": "Main",
+					"controlId": "pageContainer",
+					"controlAggregation": "pages",
+					"transition": "null",
+					"viewLevel": 3
+				},
 				"Login": {
 					"viewPath": "com.apptech.app-retention.view",
 					"viewType": "XML",
 					"viewName": "Login"
 				}
 			}
+
 		}
 	}
 }

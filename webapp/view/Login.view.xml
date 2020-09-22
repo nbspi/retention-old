@@ -1,6 +1,12 @@
- <mvc:View id="Login" controllerName="com.apptech.app-retention.controller.Login"
-xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-	xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+ <mvc:View id="Login" 
+controllerName="com.apptech.app-retention.controller.Login"
+xmlns:mvc="sap.ui.core.mvc" 
+displayBlock="true"
+xmlns="sap.m" 
+xmlns:f="sap.ui.layout.form" 
+xmlns:core="sap.ui.core" 
+xmlns:l="sap.ui.layout"
+>
 	<Shell id="shell">
 		<App id="app">
 			<pages>
@@ -16,7 +22,7 @@ xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
 							</headerToolbar>
 							<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 								<f:content>
-									<Label text="Database" width="100%" id="label00">
+									<Label text="Company" width="100%" id="label00">
 										<layoutData>
 											<l:GridData span="L2 M4 S12"/>
 										</layoutData>
@@ -42,7 +48,8 @@ xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
 											<l:GridData span="L2 M4 S12"/>
 										</layoutData>
 									</Label>
-									<Input width="100%" id="Password" type="Password" required="true" value="{oLogin>/Login/Pass}" >
+									<Input width="100%" id="Password" type="Password" required="true" value="{oLogin>/Login/Pass}" 
+									submit="onEnter">
 										<layoutData>
 											<l:GridData span="L10 M8 S12"/>
 										</layoutData>
