@@ -117,7 +117,7 @@ sap.ui.define([
         fLogout: function() {
 
             $.ajax({
-                url: "https://18.141.110.57:50000/b1s/v1/Logout",
+                url: "https://sl.biotechfarms.net/b1s/v1/Logout",
                 type: "POST",
                 xhrFields: {
 					withCredentials: true
@@ -141,7 +141,7 @@ sap.ui.define([
         },
         fGetAllMenu: function(){
 			$.ajax({
-				url: "https://18.141.110.57:4300/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
 				"&VALUE1="+ this.UserName +"&VALUE2=&VALUE3=&VALUE4=",
 				type: "GET",
 				async: false,

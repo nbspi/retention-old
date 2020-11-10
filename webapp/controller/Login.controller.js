@@ -32,7 +32,7 @@ sap.ui.define([
 			oLoginCredentials.UserName = this.oLogin.getData().Login.User;
 			oLoginCredentials.Password = this.oLogin.getData().Login.Pass;
 			$.ajax({
-				url: "https://18.141.110.57:50000/b1s/v1/Login",
+				url: "https://sl.biotechfarms.net/b1s/v1/Login",
 				data: JSON.stringify(oLoginCredentials),
 				type: "POST",
 				crossDomain: true,
@@ -118,7 +118,7 @@ sap.ui.define([
 			
 			// var aReturnResult = [];
 			$.ajax({
-				url: "https://18.141.110.57:4300/app_xsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&QUERYTAG="+ queryTag +"&value1=&value2=&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=SBODEMOAU_SL&procName=spAppRetention&QUERYTAG="+ queryTag +"&value1=&value2=&value3=&value4=",
 				type: "GET",
 				dataType: "json",
 				  beforeSend: function (xhr) {
