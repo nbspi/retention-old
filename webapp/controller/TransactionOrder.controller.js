@@ -221,8 +221,8 @@ sap.ui.define([
 			this.fDisableFields("1");
 			this.oFilter.getData().Process.ProcName = "Process";
 			this.oFilter.refresh();
-			this.getView().byId("btnTransCancel").setVisible(false);
-			this.getView().byId("btnTransPrint").setVisible(false);
+			// this.getView().byId("btnTransCancel").setVisible(false);
+			// this.getView().byId("btnTransPrint").setVisible(false);
 		} else if (PoStatus === "1"){
 			this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 			this.getView().byId("btnTransUpdate").setEnabled(false);
@@ -230,8 +230,8 @@ sap.ui.define([
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
-			this.getView().byId("btnTransCancel").setVisible(true);
-			this.getView().byId("btnTransPrint").setVisible(true);
+			// this.getView().byId("btnTransCancel").setVisible(true);
+			// this.getView().byId("btnTransPrint").setVisible(true);
 		} else {
 			this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 			this.getView().byId("btnTransUpdate").setEnabled(false);
@@ -239,8 +239,8 @@ sap.ui.define([
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
-			this.getView().byId("btnTransCancel").setVisible(false);
-			this.getView().byId("btnTransPrint").setVisible(false);
+			// this.getView().byId("btnTransCancel").setVisible(false);
+			// this.getView().byId("btnTransPrint").setVisible(false);
 		}
 	
 	},
