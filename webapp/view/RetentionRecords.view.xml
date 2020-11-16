@@ -58,9 +58,18 @@
 											<Text text="{oMdlAllRecords>DocDate}" wrapping="false"/>
 										</t:template>
 									</t:Column>
+									<t:Column width="12rem">
+										<Label text="Transaction Amount"/>
+										<t:template>
+											<Text text="
+											{ path:'oMdlAllRecords>GrossAmount', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
+											"
+											wrapping="false"/>
+										</t:template>
+									</t:Column>
 									<!--Doctotal-->
 									<t:Column width="12rem">
-										<Label text="Total Amount"/>
+										<Label text="Contract Amount"/>
 										<t:template>
 											<Text text="
 											{ path:'oMdlAllRecords>DocTotal', type: 'sap.ui.model.type.Float', formatOptions: {maxFractionDigits: 2, minFractionDigits: 2}}				
@@ -73,6 +82,12 @@
 										<Label text="Progressive"/>
 										<t:template>
 											<Text id="DocStat" text="{oMdlAllRecords>U_APP_Progressive}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column width="12rem">
+										<Label text="Remarks"/>
+										<t:template>
+											<Text id="Remarks" text="{oMdlAllRecords>Comments}" wrapping="false"/>
 										</t:template>
 									</t:Column>
 								</t:Table>

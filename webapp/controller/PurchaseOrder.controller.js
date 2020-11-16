@@ -253,6 +253,12 @@ sap.ui.define([
 				sap.m.MessageToast.show("Input Contract Amount");
 				this.fHideBusyIndicator();
 				// this.fDeleteData();
+			} else if (PostingDate === 0 || PostingDate === "" ){
+				sap.m.MessageToast.show("Select Posting Date");
+				this.fHideBusyIndicator();
+			} else if (Remarks === 0 || Remarks === "" ){
+				sap.m.MessageToast.show("Input Remarks");
+				this.fHideBusyIndicator();
 			} else if (ProjectCode === ""){
 				sap.m.MessageToast.show("Input Project Code");
 				this.fHideBusyIndicator();

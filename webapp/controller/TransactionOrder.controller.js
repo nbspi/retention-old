@@ -300,7 +300,8 @@ sap.ui.define([
 			this.byId("Docnum").setValue(results[0].DocNum);
 			this.byId("DateFrom").setValue(results[0].DocDate);
 			var DocTototal = results[0].DocTotal;
-			var oDocTotal = Number([DocTototal]);
+			var oDocTotal1 = DocTototal.replace(/,/g, '')
+			var oDocTotal = Number([oDocTotal1]);
 			var ooDocTotal = oDocTotal.toFixed(2);
 			this.byId("CntAmount").setValue(ooDocTotal);
 			this.getView().byId("TextArea").setValue(results[0].Remarks);

@@ -176,6 +176,10 @@ sap.ui.define([
 			var RentTotal = "";
 
 			var oRowSelected = that.oTable.getBinding().getModel().getData().allbp[that.oTable.getBinding().aIndices[iIndex]];
+			if (oRowSelected === undefined ) {
+				sap.m.MessageToast.show("No Item selected");
+				return;
+			}
 			this.STatus = oRowSelected.DocStatus;
 			this.oSCode = oRowSelected.DocEntry;
 			this.POCount = oRowSelected.POCount; 
@@ -199,7 +203,7 @@ sap.ui.define([
 
 			//  Get Data From UDT
 			if (this.STatus === "Draft" || this.STatus === "Paid" || this.STatus === "Not yet Paid." || this.STatus === "Done") {
-
+				
 			//Progressive YES
 			if (this.Progressive === "Yes"){
 
@@ -233,6 +237,8 @@ sap.ui.define([
 						this.fDeleteData();
 						this.oGetDatafromHeaderUDT("DP");
 						this.fSetTransacationType("2");
+						this.getView().byId("btnRetCancel").setVisible(false);
+						this.getView().byId("btnRetUpdate").setVisible(false);
 						this.oFilter.getData().SaveDraft.oDraft = "Update";
 						this.oFilter.refresh();
 					} else if (oPoStatus === "3") {
