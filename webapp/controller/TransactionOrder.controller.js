@@ -157,7 +157,7 @@ sap.ui.define([
 		var sInputValue = this.byId("BPCode").getValue();
 
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 					"&procName=spAppRetention&queryTag=getBPMaster&value1=&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
@@ -193,7 +193,7 @@ sap.ui.define([
 		// Viewing Transaction Number
 		this.oTransIDs = new JSONModel();
 		$.ajax({
-		    url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
+		    url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 		    "&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
@@ -221,8 +221,8 @@ sap.ui.define([
 			this.fDisableFields("1");
 			this.oFilter.getData().Process.ProcName = "Process";
 			this.oFilter.refresh();
-			this.getView().byId("btnTransCancel").setVisible(false);
-			this.getView().byId("btnTransPrint").setVisible(false);
+			// this.getView().byId("btnTransCancel").setVisible(false);
+			// this.getView().byId("btnTransPrint").setVisible(false);
 		} else if (PoStatus === "1"){
 			this.fFilterPurchaseOrderTransaction("getAllUnprocessedPO");
 			this.getView().byId("btnTransUpdate").setEnabled(false);
@@ -230,8 +230,8 @@ sap.ui.define([
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
-			this.getView().byId("btnTransCancel").setVisible(true);
-			this.getView().byId("btnTransPrint").setVisible(true);
+			// this.getView().byId("btnTransCancel").setVisible(true);
+			// this.getView().byId("btnTransPrint").setVisible(true);
 		} else {
 			this.fFilterPurchaseOrderTransaction("getSubsequentBilling");
 			this.getView().byId("btnTransUpdate").setEnabled(false);
@@ -239,8 +239,8 @@ sap.ui.define([
 			this.fDisableFields("0");
 			this.oFilter.getData().Process.ProcName = "View";
 			this.oFilter.refresh();
-			this.getView().byId("btnTransCancel").setVisible(false);
-			this.getView().byId("btnTransPrint").setVisible(false);
+			// this.getView().byId("btnTransCancel").setVisible(false);
+			// this.getView().byId("btnTransPrint").setVisible(false);
 		}
 	
 	},
@@ -280,7 +280,7 @@ sap.ui.define([
 	// Get Header Data In UDT
 	fGetDatafromHeaderUDT: function (sCode) {
 		$.ajax({
-			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDataUDTCPOR&value1=" +
 				sCode + "&value2=&value3=&value4=",
 			type: "GET",
@@ -300,7 +300,8 @@ sap.ui.define([
 			this.byId("Docnum").setValue(results[0].DocNum);
 			this.byId("DateFrom").setValue(results[0].DocDate);
 			var DocTototal = results[0].DocTotal;
-			var oDocTotal = Number([DocTototal]);
+			var oDocTotal1 = DocTototal.replace(/,/g, '')
+			var oDocTotal = Number([oDocTotal1]);
 			var ooDocTotal = oDocTotal.toFixed(2);
 			this.byId("CntAmount").setValue(ooDocTotal);
 			this.getView().byId("TextArea").setValue(results[0].Remarks);
@@ -322,7 +323,7 @@ sap.ui.define([
 	// To get PO Datas
 	fGetDatafromPO: function (sCode) {
 		$.ajax({
-			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDataPOTransactions&value1=" +
 			sCode + "&value2=&value3=&value4=",
 			type: "GET",
@@ -415,7 +416,7 @@ sap.ui.define([
 
 		this.oModelOpenPO = new JSONModel();
 		$.ajax({
-			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
@@ -511,7 +512,7 @@ sap.ui.define([
 
 				$.ajax({
 					//Posting PO in SAP
-					url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+					url: "https://sl.biotechfarms.net/b1s/v1/PurchaseOrders",
 					data: JSON.stringify(oPO),
 					type: "POST",
 					xhrFields: {
@@ -585,7 +586,7 @@ sap.ui.define([
 
 				$.ajax({
 					// Posting PO in SAP
-					url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders",
+					url: "https://sl.biotechfarms.net/b1s/v1/PurchaseOrders",
 					data: JSON.stringify(oPO),
 					type: "POST",
 					xhrFields: {
@@ -637,7 +638,7 @@ sap.ui.define([
 
 		//To Update Data in UDT
 		$.ajax({
-			url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
+			url: "https://sl.biotechfarms.net/b1s/v1/U_APP_CPOR('" + oCode + "')",
 			data: JSON.stringify(oPo),
 			type: "PATCH",
 			xhrFields: {
@@ -696,7 +697,7 @@ sap.ui.define([
 			oPo.U_App_UpdatedBy = this.UserName;
 	
 			$.ajax({
-				url: "https://18.136.35.41:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
+				url: "https://sl.biotechfarms.net/b1s/v1/U_APP_CPOR('" + oCode + "')",
 				data: JSON.stringify(oPo),
 				type: "PATCH",
 				xhrFields: {
@@ -790,7 +791,7 @@ sap.ui.define([
 
 		this.oModelOpenPO = new JSONModel();
 		$.ajax({
-			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=" + oValue + "&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
@@ -840,7 +841,7 @@ sap.ui.define([
 		var DocEntry  = "";
 
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
 					"&value1=" + oDocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -864,7 +865,7 @@ sap.ui.define([
 		
 		$.ajax({
 			//Posting PO in SAP
-			url: "https://18.136.35.41:50000/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
+			url: "https://sl.biotechfarms.net/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
 			type: "POST",
 			xhrFields: {
 				withCredentials: true
@@ -915,7 +916,7 @@ sap.ui.define([
 			var sInputValue = this.byId("BPCode").getValue();
 
 				$.ajax({
-					url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+					url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 						"&procName=spAppRetention&queryTag=getAllActiveProjectCode&value1=&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -988,7 +989,7 @@ sap.ui.define([
 
 		//Postinf Attachment in SAP
 		$.ajax({
-			url: "https://18.136.35.41:50000/b1s/v1/Attachments2",
+			url: "https://sl.biotechfarms.net/b1s/v1/Attachments2",
 			data: form,
 			type: "POST",
 			processData:false,
@@ -1020,7 +1021,7 @@ sap.ui.define([
 
 		//To Get Code for UDT
 		$.ajax({
-			url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 			"&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" +
 			Active + "&value2=&value3=&value4=",
 			type: "GET",

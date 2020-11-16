@@ -23,7 +23,7 @@ sap.ui.define([
 			var generatedCode = "";
 
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName="+ Database +"&procName=SPAPP_GENERATENUMBER&DocType="+ docType,
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ Database +"&procName=SPAPP_GENERATENUMBER&DocType="+ docType,
 				type: "GET",
 				async: false,
 				beforeSend: function (xhr) {
@@ -70,7 +70,7 @@ sap.ui.define([
 			sBodyRequest.U_INPUTBODY = BatchLogs
 
 			$.ajax({
-				url: "https://18.136.35.41:50000/b1s/v1/U_APP_ERRORLOGS",
+				url: "https://sl.biotechfarms.net/b1s/v1/U_APP_ERRORLOGS",
 				type: "POST",
 				contentType: "multipart/mixed;boundary=a",
 				data: JSON.stringify(sBodyRequest),
@@ -95,7 +95,7 @@ sap.ui.define([
         fGetButtons: function(sDatabase,sUserCode,sModule){
 			var aReturnResult = [];
 			$.ajax({
-				url: "https://18.136.35.41:4300/app_xsjs/ExecQuery.xsjs?dbName="+ sDatabase +"&procName=spAppRetention&QUERYTAG=getButtons" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ sDatabase +"&procName=spAppRetention&QUERYTAG=getButtons" +
 				"&VALUE1="+ sUserCode +"&VALUE2="+ sModule +"&VALUE3=&VALUE4=",
 				type: "GET",
 				async: false,

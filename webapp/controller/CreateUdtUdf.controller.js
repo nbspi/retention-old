@@ -127,7 +127,7 @@ sap.ui.define([
 	  this.createField("App_Remarks", "Remarkss", "@APP_CPOR", "db_Alpha", "", 250);
       this.createField("App_Status", "PO Status", "@APP_CPOR", "db_Alpha", "", 250);
 	  this.createField("App_ConAmount", "Contract Amount", "@APP_CPOR", "db_Alpha", "", 30);
-	  this.createField("App_VendorName", "Vendor Name", "@APP_CPOR", "db_Alpha", "", 30);
+	  this.createField("App_VendorName", "Vendor Name", "@APP_CPOR", "db_Alpha", "", 50);
 	  this.createField("App_Progressive", "Progressive", "@APP_CPOR", "db_Alpha", "", 5);
 	  this.createField("App_ProjectCode", "Project Code", "@APP_CPOR", "db_Alpha", "", 20);
 	  this.createField("App_FileKey", "File Key", "@APP_CPOR", "db_Alpha", "", 250);
@@ -145,7 +145,7 @@ sap.ui.define([
 
 			var stringTableInfo = JSON.stringify(tableInfo);
 			$.ajax({
-				url: "https://18.136.35.41:50000/b1s/v1/UserTablesMD",
+				url: "https://sl.biotechfarms.net/b1s/v1/UserTablesMD",
 				data: stringTableInfo,
 				type: "POST",
 				async: false,
@@ -189,7 +189,7 @@ sap.ui.define([
 			var dataString = JSON.stringify(oFieldInfo);
 
 			$.ajax({
-				url: "https://18.136.35.41:50000/b1s/v1/UserFieldsMD",
+				url: "https://sl.biotechfarms.net/b1s/v1/UserFieldsMD",
 				data: dataString,
 				type: "POST",
 				async: false,
