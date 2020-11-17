@@ -215,7 +215,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="ProgBill" textAlign="Left" liveChange="onProgressBIll"
+										<Input width="100%" id="ProgBill" textAlign="Left" change="onProgressBIll"
 											value="{InputHeader>/InputHeader/ProgressBilling}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
@@ -227,7 +227,7 @@ xmlns:t="sap.ui.table">
 												<l:GridData span="L3 M2 S12"/>
 											</layoutData>
 										</Label>
-										<Input width="100%" id="DPayment" enabled="true" textAlign="Left" liveChange="onRetentionAmount"
+										<Input width="100%" id="DPayment" enabled="true" textAlign="Left" liveChange="onRetentionAmount" 
 											value="{InputHeader>/InputHeader/DP}">
 											<layoutData>
 												<l:GridData span="L3 M4 S12"/>
