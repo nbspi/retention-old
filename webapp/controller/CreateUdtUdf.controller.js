@@ -82,7 +82,7 @@ sap.ui.define([
       // -- Retention Payable Header --
 
       this.createField("App_Vendor", "Vendor", "@APP_ORPT", "db_Alpha", "", 30);
-      this.createField("App_Name", "Name", "@APP_ORPT", "db_Alpha", "", 30);
+      this.createField("App_Name", "Name", "@APP_ORPT", "db_Alpha", "", 250);
       this.createField("App_DocNum", "Document Number", "@APP_ORPT", "db_Alpha", "", 30);
       this.createField("App_TransDate", "Transaction Date", "@APP_ORPT", "db_Date", "", "");
       this.createField("App_TransType", "Transaction Type", "@APP_ORPT", "db_Alpha", "", 30);
@@ -127,7 +127,7 @@ sap.ui.define([
 	  this.createField("App_Remarks", "Remarkss", "@APP_CPOR", "db_Alpha", "", 250);
       this.createField("App_Status", "PO Status", "@APP_CPOR", "db_Alpha", "", 250);
 	  this.createField("App_ConAmount", "Contract Amount", "@APP_CPOR", "db_Alpha", "", 30);
-	  this.createField("App_VendorName", "Vendor Name", "@APP_CPOR", "db_Alpha", "", 50);
+	  this.createField("App_VendorName", "Vendor Name", "@APP_CPOR", "db_Alpha", "", 250);
 	  this.createField("App_Progressive", "Progressive", "@APP_CPOR", "db_Alpha", "", 5);
 	  this.createField("App_ProjectCode", "Project Code", "@APP_CPOR", "db_Alpha", "", 20);
 	  this.createField("App_FileKey", "File Key", "@APP_CPOR", "db_Alpha", "", 250);
