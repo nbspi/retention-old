@@ -442,6 +442,7 @@ sap.ui.define([
 				oDraft.U_App_ProjectCode = this.POData.getData().POCreation.ProjectCode;
 				oDraft.U_App_File = this.getView().byId("fileUploader").getValue();
 				oDraft.U_App_FileKey = this.FileKey;
+				oDraft.U_App_UpdatedDate = this.fGetTodaysDate();
 
 	
 				

@@ -1861,6 +1861,7 @@ sap.ui.define([
 					oPurchase_Order.U_App_WithTax = this.InputHeader.getData().InputHeader.WTax;
 					oPurchase_Order.U_App_File = this.getView().byId("fileUploader").getValue();
 					oPurchase_Order.U_App_FileKey = this.FileKey;
+					oPurchase_Order.U_App_UpdatedDate = this.fGetTodaysDate();
 
 					if (oPoStatus === "0") {
 						oPurchase_Order.U_App_DocStatus = "DP";
