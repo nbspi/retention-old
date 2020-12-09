@@ -269,7 +269,7 @@ sap.ui.define([
 			doc.setFontSize(7)
 			doc.text(15, finalXX,this.CardName);
 
-
+//
 			doc.text(175, finalXX, this.ContractAmountTotal);
 			doc.text(196, finalXX, this.PaymentTotal);
 			doc.text(213, finalXX, this.BalanceTotal);
