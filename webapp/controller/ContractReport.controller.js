@@ -311,15 +311,15 @@ sap.ui.define([
 			//-- Contractor and ProjectCode Only
 			}else if (Contractor != "" &&  ProjectCode !== "" && StartDate == "" && EndDate == ""  ){
 				this.fGetAllRecord("gtCntrctANDPrjCode",Contractor,ProjectCode,"","");	
-				this.fGetTotal("gtCntrtANDPrjCdeTTL",Contractor,ProjectCode,"","");	
+				this.fGetTotal("getContractANDProjectCodeTOTAL",Contractor,ProjectCode,"","");	
 			//-- Contractor and Project Code and Start Date Only
 			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate == ""  ){
-				this.fGetAllRecord("gtCntrtANDPrjCdANDStDte",Contractor,ProjectCode,StartDate,"");	
-				this.fGetTotal("gtCnttANDPrjCdANDStDteTtl",Contractor,ProjectCode,StartDate,"" );	
+				this.fGetAllRecord("getContractANDProjectCodeANDStartDate",Contractor,ProjectCode,StartDate,"");	
+				this.fGetTotal("getContractANDProjectCodeANDStartDateTotal",Contractor,ProjectCode,StartDate,"" );	
 			//-- Contractor and Project Code and Start Date AND End Date
 			}else if(Contractor !== "" &&  ProjectCode !== "" && StartDate !== "" && EndDate !== ""  ){
-				this.fGetAllRecord("gtCntANDPrjCdANDStANDEdDt",Contractor,ProjectCode,StartDate,EndDate);	
-				this.fGetTotal("gtCntANDPrjANDStrtdANDendDtTtl",Contractor,ProjectCode,StartDate,EndDate);	
+				this.fGetAllRecord("getContractANDProjectCodeANDStartDateTotal",Contractor,ProjectCode,StartDate,EndDate);	
+				this.fGetTotal("getWithAllParams",Contractor,ProjectCode,StartDate,EndDate);	
 			//--Contractor and StartDate Only
 			}else if(Contractor !== "" &&  ProjectCode === "" && StartDate !== "" && EndDate === ""  ){
 				this.fGetAllRecord("getContractANDStartDate",Contractor,StartDate,"","");	
