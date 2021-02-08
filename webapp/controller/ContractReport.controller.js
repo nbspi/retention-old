@@ -50,6 +50,9 @@ sap.ui.define([
 
 		//Get All Contract and Retention Records
 			this.oMdlAllRecords = new JSONModel();
+			// this.oMdlAllRecords = new JSONModel("model/ContractReport.json");
+		  	// this.getView().setModel(this.oMdlAllRecords, "oMdlAllRecords");	
+
 		//Get All Contract and Retention Records
 			this.oMdlTotal = new JSONModel();
 		//Row Count
@@ -267,15 +270,14 @@ sap.ui.define([
 			doc.setFontSize(14)
 			doc.text(15, finalX, "_________________________________________________________________________________________________");
 			doc.setFontSize(7)
-			doc.text(15, finalXX,this.CardName);
+			// doc.text(15, finalXX,this.CardName);
 
-//
-			doc.text(175, finalXX, this.ContractAmountTotal);
-			doc.text(196, finalXX, this.PaymentTotal);
-			doc.text(213, finalXX, this.BalanceTotal);
+			doc.text(179, finalXX, this.ContractAmountTotal);
+			doc.text(204, finalXX, this.PaymentTotal);
+			doc.text(219, finalXX, this.BalanceTotal);
 			doc.setFontSize(14)
 			doc.text(15, finalXXX,  "_________________________________________________________________________________________________")  ;
-			 doc.save ('BFI COntract Status Report.pdf');
+			 doc.save ('BFI Contract Status Report.pdf');
 			 this.Generate = "0";	
 		}else{
 			sap.m.MessageToast.show("Generate First...");
@@ -353,6 +355,7 @@ sap.ui.define([
 		$.ajax({
 			url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention_Report&queryTag=" + QueryTag +"&value1=" + value1 + "&value2=" + value2 + "&value3=" + value3 + "&value4="+ value4 ,
 			type: "GET",
+			async: false,
 			beforeSend: function(xhr) {
 			  xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
 			},
@@ -361,7 +364,7 @@ sap.ui.define([
 			},
 			success: function(json) {},
 			context: this
-		  }).done(function(results) {
+		  }).done(function(results) {	
 			if (results) {
 			  this.oMdlAllRecords.setJSON("{\"allData\" : " + JSON.stringify(results) + "}");
 			  this.getView().setModel(this.oMdlAllRecords, "oMdlAllRecords");
@@ -376,6 +379,7 @@ sap.ui.define([
 		$.ajax({
 			url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention_Report&queryTag=" + QueryTag +"&value1=" + value1 + "&value2=" + value2 + "&value3=" + value3 + "&value4="+ value4 ,
 			type: "GET",
+			async: false,
 			beforeSend: function(xhr) {
 			  xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
 			},

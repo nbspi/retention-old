@@ -4,5 +4,23 @@
         "ProjectCode":"",
         "StartDate":"",
         "EndDate":""
-    }
+    },
+    "alldata":[
+        {
+            "Accomplishment": "",
+            "Balance": 0,
+            "CardName": "",
+            "DateCompleted": "",
+            "Date_Last_Payment": "",
+            "Date_Started": "",
+            "DocEntry": 0,
+            "DocNum": 0,
+            "DocTotal": 0,
+            "Payment": 0,
+            "Status": "",
+            "U_APP_ProjCode": ""
+        }
+    ]
+
+    
 }
