@@ -57,7 +57,7 @@ sap.ui.define([
 			this.PurchaseAdd = "";
 			this.CardName = "";
 			this.CardCode = "";
-			this.fGetTransactionNumber();
+			// this.fGetTransactionNumber();
 
 			//CPA
 			this.currentFile = {}; //File Object	
@@ -106,7 +106,7 @@ sap.ui.define([
 			oEvent.getSource().getBinding("items").filter([]);
 			this.CardName = CardDetails[0].CardName;
 			this.CardCode = CardDetails[0].CardCode;
-			this.fGetTransactionNumber();
+			// this.fGetTransactionNumber();
 			this.getView().byId("BPCode").setValue(CardDetails[0].CardName);
 	},
 	///BP LIST FROM FRAGMENT
@@ -224,7 +224,7 @@ sap.ui.define([
 			});
 		}
 		oEvent.getSource().getBinding("items").filter([]);
-		this.fGetTransactionNumber();
+		// this.fGetTransactionNumber();
 		this.fConfigValueHelpProjDialogs();
 		this.getView().byId("ProjCode").setValue(CardDetails[0].ProjectCode);
 	},
@@ -430,7 +430,7 @@ sap.ui.define([
 				oDraft.Name = Code;
 				oDraft.U_App_Vendor = this.CardCode;
 				oDraft.U_App_VendorName = this.oMdlAllBP.getData().allbp.Vendor;
-				oDraft.U_App_TranNum = this.byId("Docnum").getValue();
+				oDraft.U_App_TranNum = this.fGetRecord();//this.byId("Docnum").getValue();
 				oDraft.U_App_Retention = this.POData.getData().POCreation.Retention;
 				oDraft.U_App_PostDate = this.POData.getData().POCreation.PostingDate;
 				oDraft.U_App_ConAmount = this.POData.getData().POCreation.ContractAmount;
@@ -473,7 +473,7 @@ sap.ui.define([
 							sap.m.MessageToast.show("Draft Added Successfully");
 							this.fHideBusyIndicator();
 						}
-						this.fGetTransactionNumber();
+						// this.fGetTransactionNumber();
 						this.fHideBusyIndicator();
 						this.PurchaseAdd = "";
 						this.CardName = "";
@@ -553,6 +553,31 @@ sap.ui.define([
 					this.POData.refresh();
 				}
 			});
+	},
+	fGetRecord: function () {
+		var TranId = 0;
+		// Viewing Transaction Number
+		this.oTransIDs = new JSONModel();
+		$.ajax({
+			url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				"&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
+			type: "GET",
+			async: false,
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+			  },
+			error: function (xhr, status, error) {
+				MessageToast.show(error);
+			},
+			success: function (json) {},
+			context: this
+		}).done(function (results) {
+			if (results) {
+				TranId = results[0].DocNum;
+				// this.POData.refresh();
+			}
+		});
+		return TranId;
 	},
 	//To get Date Today
 	fGetTodaysDate: function () {

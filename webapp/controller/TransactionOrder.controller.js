@@ -59,7 +59,7 @@ sap.ui.define([
 
 			this.tableId = "tblTransaction";
 			this.fFilterPurchaseOrderTransaction("getUDTCPOR");
-			this.fGetTransactionNumber();
+			// this.fGetTransactionNumber();
 			this.DraftCode = "";
 			this.oPOStatus = "";
 			this.VendorCode = "";
@@ -210,6 +210,30 @@ sap.ui.define([
 		        this.POData.refresh();
 		    }
 		});
+	},
+	fGetRecord: function () {
+		var TranNum = 0;
+		// Viewing Transaction Number
+		this.oTransIDs = new JSONModel();
+		$.ajax({
+		    url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+		    "&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
+			type: "GET",
+			async:false,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+			},
+			error: function(xhr, status, error) {
+				MessageToast.show(error);
+			},
+			success: function(json) {},
+			context: this
+		}).done(function(results) {
+		    if (results) {
+		        TranNum = results[0].DocNum;
+		    }
+		});
+		return TranNum;
 	},
 	// Selection of PO Transaction
     fSelectPurchaseTransaction: function() {
@@ -440,7 +464,7 @@ sap.ui.define([
 		this.fShowBusyIndicator(4000, 0);
 		var oDatabase = this.Database;
 
-		var TransCode = this.getView().byId("Docnum").getValue();
+		var TransCode = this.fGetRecord();//this.getView().byId("Docnum").getValue();
 		var oVendor = this.VendorCode;
 		var oRetention = this.POData.getData().POCreation.Retention;
 		var oPostingDate = this.getView().byId("DateFrom").getValue();
@@ -667,7 +691,7 @@ sap.ui.define([
 	fDraftUpdate: function () {
 		this.fShowBusyIndicator(4000, 0);
 
-		var TransacCode = this.getView().byId("Docnum").getValue(); 
+		var TransacCode = this.fGetRecord();//this.getView().byId("Docnum").getValue(); 
 		var Contractor = this.getView().byId("BPCode").getValue();
 		var ContractAmount = this.getView().byId("CntAmount").getValue();
 		var ProjectCode = this.getView().byId("ProjCode").getValue();
