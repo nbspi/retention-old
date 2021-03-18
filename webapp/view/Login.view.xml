@@ -59,7 +59,7 @@ xmlns:l="sap.ui.layout"
 											<l:GridData span="L2 M4 S12"/>
 										</layoutData>
 									</Label>
-									<Button xmlns="sap.m" text="Login" id="button3" icon="sap-icon://visits" iconFirst="false" type="Emphasized" press="onLogin"
+									<Button xmlns="sap.m" text="Logins" id="button3" icon="sap-icon://visits" iconFirst="false" type="Emphasized" press="onLogin"
 										xmlns:action="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 										action:wiring="\{'press':\{'navigation':\{'routeName':'Main'\}\}\}">
 										<layoutData>
