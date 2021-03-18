@@ -138,7 +138,7 @@ sap.ui.define([
 
           // POsting Project in SAP
 			    $.ajax({
-			    	url: "https://18.138.78.210:50000/b1s/v1/Projects",
+			    	url: "https://sl-eut.biotechfarms.net/b1s/v1/Projects",
 			    	data: JSON.stringify(Project),
 			    	type: "POST",
 			    	xhrFields: {
@@ -188,7 +188,7 @@ sap.ui.define([
   
         // Update Project in SAP
         $.ajax({
-          url: "https://18.138.78.210:50000/b1s/v1/Projects('"+ sCode +"')",
+          url: "https://sl-eut.biotechfarms.net/b1s/v1/Projects('"+ sCode +"')",
           data: JSON.stringify(Project),
           type: "PATCH",
           xhrFields: {

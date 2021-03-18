@@ -1948,7 +1948,7 @@ sap.ui.define([
 					var sBodyRequest = this.fPrepareBatchRequestBody(batchArray);
 					// Post Draft Using Batch
 					$.ajax({
-						url: "https://18.138.78.210:50000/b1s/v1/$batch",
+						url: "https://sl-eut.biotechfarms.net/b1s/v1/$batch",
 						type: "POST",
 						contentType: "multipart/mixed;boundary=a",
 						data: sBodyRequest,
@@ -2082,7 +2082,7 @@ sap.ui.define([
 
 			$.ajax({
 
-				url: "https://18.138.78.210:50000/b1s/v1/U_APP_ORPT('" + oHeaderCode + "')",
+				url: "https://sl-eut.biotechfarms.net/b1s/v1/U_APP_ORPT('" + oHeaderCode + "')",
 				data: JSON.stringify(oHeader),
 				type: "PATCH",
 				xhrFields: {
@@ -2147,7 +2147,7 @@ sap.ui.define([
 
 				$.ajax({
 
-					url: "https://18.138.78.210:50000/b1s/v1/U_APP_RPT1('" + oDetaileCode + "')",
+					url: "https://sl-eut.biotechfarms.net/b1s/v1/U_APP_RPT1('" + oDetaileCode + "')",
 					data: JSON.stringify(Detailes),
 					type: "PATCH",
 					xhrFields: {
@@ -2341,7 +2341,7 @@ sap.ui.define([
 
 				// POsting DownPayment in SAP
 				$.ajax({
-					url: "https://18.138.78.210:50000/b1s/v1/PurchaseDownPayments",
+					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDownPayments",
 					data: JSON.stringify(oAPDown),
 					type: "POST",
 					xhrFields: {
@@ -2441,7 +2441,7 @@ sap.ui.define([
 
 				//Posting GRPO in SAP
 				$.ajax({
-					url: "https://18.138.78.210:50000/b1s/v1/PurchaseDeliveryNotes",
+					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					type: "POST",
 					async:false,
@@ -2575,7 +2575,7 @@ sap.ui.define([
 
 								//Posting A/P Invoice in SAP
 								$.ajax({
-									url: "https://18.138.78.210:50000/b1s/v1/PurchaseInvoices",
+									url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
 									async:false,
@@ -2682,7 +2682,7 @@ sap.ui.define([
 
 				//Posting GRPO in SAP
 				$.ajax({
-					url: "https://18.138.78.210:50000/b1s/v1/PurchaseDeliveryNotes",
+					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					type: "POST",
 					async:false,
@@ -2786,7 +2786,7 @@ sap.ui.define([
 
 								//Posting A/P Invoice in SAP
 								$.ajax({
-									url: "https://18.138.78.210:50000/b1s/v1/PurchaseInvoices",
+									url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
 									async:false,
@@ -2810,7 +2810,7 @@ sap.ui.define([
 								// For Closing A/P Invoice	
 										this.oTransID = new JSONModel();
 										$.ajax({
-											url: "https://18.138.78.210:50000/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+											url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
 											type: "POST",
 											async:false,
 											xhrFields: {
@@ -2927,7 +2927,7 @@ sap.ui.define([
 				$.ajax({
 
 					// Posting GRPO in SAP
-					url: "https://18.138.78.210:50000/b1s/v1/PurchaseDeliveryNotes",
+					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					async:false,
 					type: "POST",
@@ -3083,7 +3083,7 @@ sap.ui.define([
 
 								//Posting AP Invoice in SAP
 								$.ajax({
-									url: "https://18.138.78.210:50000/b1s/v1/PurchaseInvoices",
+									url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
 									async:false,
@@ -3108,7 +3108,7 @@ sap.ui.define([
 										// For Forced Close GRPO
 										this.oTransID = new JSONModel();
 										$.ajax({
-											url: "https://18.138.78.210:50000/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+											url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
 											type: "POST",
 											async:false,
 											xhrFields: {
@@ -3181,7 +3181,7 @@ sap.ui.define([
 
 			//Posting GRPO in
 			$.ajax({
-				url: "https://18.138.78.210:50000/b1s/v1/PurchaseDeliveryNotes",
+				url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
 				type: "POST",
 				async:false,
@@ -3238,7 +3238,7 @@ sap.ui.define([
 
 							//Posting AP Invoice in SAP
 							$.ajax({
-								url: "https://18.138.78.210:50000/b1s/v1/PurchaseInvoices",
+								url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
 								type: "POST",
 								async:false,
@@ -3775,7 +3775,7 @@ sap.ui.define([
 			oPo.U_APP_Processed = "-";
 
 			$.ajax({
-				url: "https://18.138.78.210:50000/b1s/v1/PurchaseInvoices(" + DocEntry + ")",
+				url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices(" + DocEntry + ")",
 				data: JSON.stringify(oPo),
 				type: "PATCH",
 				xhrFields: {
@@ -3811,7 +3811,7 @@ sap.ui.define([
 
 		//Postinf Attachment in SAP
 		$.ajax({
-			url: "https://18.138.78.210:50000/b1s/v1/Attachments2",
+			url: "https://sl-eut.biotechfarms.net/b1s/v1/Attachments2",
 			data: form,
 			type: "POST",
 			processData:false,
