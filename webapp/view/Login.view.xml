@@ -22,7 +22,7 @@ xmlns:l="sap.ui.layout"
 							</headerToolbar>
 							<f:SimpleForm editable="true" layout="ResponsiveGridLayout" id="form0" width="100%">
 								<f:content>
-									<Label text="Company" width="100%" id="label00">
+									<Label text="Company" required="true" width="100%" id="label00">
 										<layoutData>
 											<l:GridData span="L2 M4 S12"/>
 										</layoutData>
