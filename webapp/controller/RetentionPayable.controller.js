@@ -2808,30 +2808,30 @@ sap.ui.define([
 										this.fHideBusyIndicator();	
 
 								// For Closing A/P Invoice	
-										this.oTransID = new JSONModel();
-										$.ajax({
-											url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
-											type: "POST",
-											async:false,
-											xhrFields: {
-												withCredentials: true
-											},
-											error: function (xhr, status, error) {
-												var ErrorMassage = xhr.responseJSON["error"].message.value;
-												sap.m.MessageToast.show(ErrorMassage);
-												this.fHideBusyIndicator();
-												console.error(ErrorMassage);
-												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
-											},
-											success: function (json) {},
-											context: this
-										}).done(function (oresults) {
-											if (oresults) {
-												this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]						", "") + "}");
-												this.getView().setModel(this.oTransID, "oTransID");
-												this.fHideBusyIndicator();
-											}
-										});
+										// this.oTransID = new JSONModel();
+										// $.ajax({
+										// 	url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+										// 	type: "POST",
+										// 	async:false,
+										// 	xhrFields: {
+										// 		withCredentials: true
+										// 	},
+										// 	error: function (xhr, status, error) {
+										// 		var ErrorMassage = xhr.responseJSON["error"].message.value;
+										// 		sap.m.MessageToast.show(ErrorMassage);
+										// 		this.fHideBusyIndicator();
+										// 		console.error(ErrorMassage);
+										// 		AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
+										// 	},
+										// 	success: function (json) {},
+										// 	context: this
+										// }).done(function (oresults) {
+										// 	if (oresults) {
+										// 		this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]						", "") + "}");
+										// 		this.getView().setModel(this.oTransID, "oTransID");
+										// 		this.fHideBusyIndicator();
+										// 	}
+										// });
 
 									}
 
@@ -3106,31 +3106,31 @@ sap.ui.define([
 										this.fHideBusyIndicator();
 
 										// For Forced Close GRPO
-										this.oTransID = new JSONModel();
-										$.ajax({
-											url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
-											type: "POST",
-											async:false,
-											xhrFields: {
-												withCredentials: true
-											},
-											error: function (xhr, status, error) {
-												var ErrorMassage = xhr.responseJSON["error"].message.value;
-												sap.m.MessageToast.show(ErrorMassage);
-												this.fHideBusyIndicator();
-												console.error(ErrorMassage);
-												AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
-											},
-											success: function (json) {
-												this.fHideBusyIndicator();
-											},
-											context: this
-										}).done(function (oresults) {
-											if (oresults) {
-												this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]						", "") + "}");
-												this.getView().setModel(this.oTransID, "oTransID");
-											}
-										});
+										// this.oTransID = new JSONModel();
+										// $.ajax({
+										// 	url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+										// 	type: "POST",
+										// 	async:false,
+										// 	xhrFields: {
+										// 		withCredentials: true
+										// 	},
+										// 	error: function (xhr, status, error) {
+										// 		var ErrorMassage = xhr.responseJSON["error"].message.value;
+										// 		sap.m.MessageToast.show(ErrorMassage);
+										// 		this.fHideBusyIndicator();
+										// 		console.error(ErrorMassage);
+										// 		AppUI5.fErrorLogs("OPCH & PCH1","Add A/P Invoice",DpDocEntry,"null",ErrorMassage,"Retention Adding A/P Invoice",this.UserNmae,"null",this.Database,"-");
+										// 	},
+										// 	success: function (json) {
+										// 		this.fHideBusyIndicator();
+										// 	},
+										// 	context: this
+										// }).done(function (oresults) {
+										// 	if (oresults) {
+										// 		this.oTransID.setJSON("{\"count\" : " + JSON.stringify(results).replace("[", "").replace("]						", "") + "}");
+										// 		this.getView().setModel(this.oTransID, "oTransID");
+										// 	}
+										// });
 
 									}
 
@@ -3156,7 +3156,7 @@ sap.ui.define([
 			var APRemarks = this.getView().byId("TextArea").getValue();
 
 			if (GRPOCardCode === ""){
-				sap.m.MessageToast.show("No Data to Post in SAP");
+				// sap.m.MessageToast.show("No Data to Post in SAP");
 				this.fHideBusyIndicator();
 			} else{
 
