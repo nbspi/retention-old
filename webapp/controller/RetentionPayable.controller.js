@@ -2327,11 +2327,11 @@ sap.ui.define([
 				var APWTCode = this.oModelPurchase.getData().POFields.WTCode;
 				var APWTX = this.DTRetention.getData().DetailesRetention[0].WTX;
 
-				if(APWTCode==="" || APWTCode===null){
-					this.fHideBusyIndicator();
-					sap.m.MessageToast.show("No Assigned WTXCode on Contractor");
-					return
-				}
+				// if(APWTCode==="" || APWTCode===null){
+				// 	this.fHideBusyIndicator();
+				// 	sap.m.MessageToast.show("No Assigned WTXCode on Contractor");
+				// 	return
+				// }
 
 				oAPDown.WithholdingTaxDataCollection = [];
 				oAPINVWTlines.WTCode = APWTCode;
