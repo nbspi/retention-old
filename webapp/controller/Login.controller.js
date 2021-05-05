@@ -32,7 +32,7 @@ sap.ui.define([
 			oLoginCredentials.UserName = this.oLogin.getData().Login.User;
 			oLoginCredentials.Password = this.oLogin.getData().Login.Pass;
 			$.ajax({
-				url: "https://18.138.78.210:50000/b1s/v1/Login",
+				url: "https://sl-eut.biotechfarms.net/b1s/v1/Login",
 				data: JSON.stringify(oLoginCredentials),
 				type: "POST",
 				crossDomain: true,
