@@ -23,7 +23,7 @@ sap.ui.define([
 			var generatedCode = "";
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName="+ Database +"&procName=SPAPP_GENERATENUMBER&DocType="+ docType,
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ Database +"&procName=SPAPP_GENERATENUMBER&DocType="+ docType,
 				type: "GET",
 				async: false,
 				beforeSend: function (xhr) {
@@ -95,7 +95,7 @@ sap.ui.define([
         fGetButtons: function(sDatabase,sUserCode,sModule){
 			var aReturnResult = [];
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName="+ sDatabase +"&procName=spAppRetention&QUERYTAG=getButtons" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ sDatabase +"&procName=spAppRetention&QUERYTAG=getButtons" +
 				"&VALUE1="+ sUserCode +"&VALUE2="+ sModule +"&VALUE3=&VALUE4=",
 				type: "GET",
 				async: false,

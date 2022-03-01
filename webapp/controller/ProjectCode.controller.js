@@ -48,7 +48,7 @@ sap.ui.define([
     fGetAllProjectCode: function (queryTag) {
 
       $.ajax({
-        url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+        url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
           "&value1=&value2=&value3=&value4=",
         type: "GET",
         beforeSend: function(xhr) {
@@ -252,7 +252,7 @@ sap.ui.define([
     fGetFilterValues: function (queryTag, oValue) {
       this.oMdlAllProjects = new JSONModel();
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 					"&value1=" + oValue + "&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -331,7 +331,7 @@ sap.ui.define([
         var sInputValue = this.byId("ProjMAnager").getValue();
     
           $.ajax({
-            url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + Database +
+            url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
               "&procName=spAppRetention&queryTag=getEmployee&value1=&value2=&value3=&value4=",
             type: "GET",
             dataType: "json",

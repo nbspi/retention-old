@@ -127,7 +127,7 @@ sap.ui.define([
 			var sInputValue = this.byId("BPCode").getValue();
 	
 				$.ajax({
-					url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + Database +
+					url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 						"&procName=spAppRetention&queryTag=getBPMaster&value1=&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -182,7 +182,7 @@ sap.ui.define([
 		var sInputValue = this.byId("BPCode").getValue();
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 					"&procName=spAppRetention&queryTag=getAllActiveProjectCode&value1=&value2=&value3=&value4=",
 				type: "GET",
 				dataType: "json",
@@ -506,7 +506,7 @@ sap.ui.define([
 
 			//To Get Code for UDT
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
 				type: "GET",
 				async: false,
 				beforeSend: function (xhr) {
@@ -536,7 +536,7 @@ sap.ui.define([
 			// Viewing Transaction Number
 			this.oTransIDs = new JSONModel();
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 					"&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function (xhr) {
@@ -559,7 +559,7 @@ sap.ui.define([
 		// Viewing Transaction Number
 		this.oTransIDs = new JSONModel();
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 			type: "GET",
 			async: false,
@@ -655,7 +655,7 @@ sap.ui.define([
 
 		//To Get Code for UDT
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 			"&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" +
 			Active + "&value2=&value3=&value4=",
 			type: "GET",

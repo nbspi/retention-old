@@ -462,7 +462,7 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 			// To get PO Transaction 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2="+ this.ColType +"&value3=&value4=",
 					type: "GET",
@@ -486,7 +486,7 @@ sap.ui.define([
 
 			// To Get Header Value in UDT and set on Fields
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
@@ -573,7 +573,7 @@ sap.ui.define([
 			});
 			//To get value in UDT and set on fields
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
@@ -753,7 +753,7 @@ sap.ui.define([
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 					"&value1=&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
@@ -994,7 +994,7 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=" + ColType + "&value3=&value4=",
 					type: "GET",
@@ -1033,7 +1033,7 @@ sap.ui.define([
 			// Viewing Transaction Number
 			this.oTransIDs = new JSONModel();
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 					"&procName=spAppRetention&queryTag=getTransCount&value1=&value2=&value3=&value4=",
 					type: "GET",
 					beforeSend: function(xhr) {
@@ -1236,7 +1236,7 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=" + ColType + "&value3=&value4=",
 					type: "GET",
@@ -1309,7 +1309,7 @@ sap.ui.define([
 
 				// To get Data in UDT Details
 				$.ajax({
-					url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+					url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 						"&procName=spAppRetention&queryTag=getUDTdtls&value1=" +
 						oDocEntry +
 						"&value2=&value3=&value4=",
@@ -2001,7 +2001,7 @@ sap.ui.define([
 			var generatedCode = "";
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
 				type: "GET",
 				async: false,
 				beforeSend: function (xhr) {
@@ -2178,7 +2178,7 @@ sap.ui.define([
 		// To Get Data From Header UDT
 		onGetHeaderUDT: function (sCode, oDocStatus) {
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
@@ -2197,7 +2197,7 @@ sap.ui.define([
 		// To Get Data from Detailes UDT
 		onGetDetailsUDT: function (sCode, oDocStatus) {
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
@@ -2466,7 +2466,7 @@ sap.ui.define([
 
 						this.oModelAPINV = new JSONModel();
 						$.ajax({
-							url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&	queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
+							url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&	queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
 							type: "GET",
 							async:false,
 							beforeSend: function (xhr) {
@@ -3277,7 +3277,7 @@ sap.ui.define([
 		// To get the Remainin Progress Billing Rate
 		fGetRemainingPrograte: function (oDocEntry) {
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getProgRate&value1=" +
 					oDocEntry + "&value2=&value3=&value4=",
 				type: "GET",
@@ -3448,7 +3448,7 @@ sap.ui.define([
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 					"&value1=" + oValue + "&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -3512,7 +3512,7 @@ sap.ui.define([
 		fgetPOLineTotal: function (DocNum,Row){
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getPOLineTotal&value1=" + DocNum + "&value2=" + Row + "&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getPOLineTotal&value1=" + DocNum + "&value2=" + Row + "&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
@@ -3536,7 +3536,7 @@ sap.ui.define([
 			var value = "";
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDocTotalAPDP&value1=" + DocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
@@ -3564,7 +3564,7 @@ sap.ui.define([
 			var value = "";
 			
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag="+ QueryTag +"&value1=" + DocEntry +"&value2=&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag="+ QueryTag +"&value1=" + DocEntry +"&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
@@ -3592,7 +3592,7 @@ sap.ui.define([
 			var value = "";
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" + DocEntry + "&value2=&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" + DocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
@@ -3620,7 +3620,7 @@ sap.ui.define([
 			var value = "";
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getPORentAmount&value1=" + DocEntry + "&value2=&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getPORentAmount&value1=" + DocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
@@ -3645,7 +3645,7 @@ sap.ui.define([
 		fRetTransaction: function (DocEntry,Row){
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
@@ -3697,7 +3697,7 @@ sap.ui.define([
 		var sInputValue = this.byId("RetCode").getValue();
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
 				type: "GET",
 				dataType: "json",
 			  beforeSend: function (xhr) {
@@ -3841,7 +3841,7 @@ sap.ui.define([
 		// fgetFileAbsEntry: function (){
 
 		// $.ajax({
-		// 	url: "https://xs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+		// 	url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 		// 		"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
 		// 	type: "GET",
 		// 	dataType: "json",
