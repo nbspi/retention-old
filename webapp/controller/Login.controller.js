@@ -119,7 +119,7 @@ sap.ui.define([
 			
 			// var aReturnResult = [];
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=051021_TEST_DEV_PROD_BIOTECH&procName=spAppRetention&QUERYTAG="+ queryTag +"&value1=&value2=&value3=&value4=",
+				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=011122_PROD_BIOTECH&procName=spAppRetention&QUERYTAG="+ queryTag +"&value1=&value2=&value3=&value4=",
 				type: "GET",
 				dataType: "json",
 				  beforeSend: function (xhr) {
