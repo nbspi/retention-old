@@ -157,11 +157,11 @@ sap.ui.define([
 		var sInputValue = this.byId("BPCode").getValue();
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+				url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 					"&procName=spAppRetention&queryTag=getBPMaster&value1=&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				},
 				error: function(xhr, status, error) {
 					MessageToast.show(error);
@@ -193,11 +193,11 @@ sap.ui.define([
 		// Viewing Transaction Number
 		this.oTransIDs = new JSONModel();
 		$.ajax({
-		    url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
+		    url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 		    "&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			},
 			error: function(xhr, status, error) {
 				MessageToast.show(error);
@@ -216,12 +216,12 @@ sap.ui.define([
 		// Viewing Transaction Number
 		this.oTransIDs = new JSONModel();
 		$.ajax({
-		    url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+		    url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 		    "&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 			type: "GET",
 			async:false,
 			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			},
 			error: function(xhr, status, error) {
 				MessageToast.show(error);
@@ -304,12 +304,12 @@ sap.ui.define([
 	// Get Header Data In UDT
 	fGetDatafromHeaderUDT: function (sCode) {
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDataUDTCPOR&value1=" +
 				sCode + "&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			},
 			error: function(xhr, status, error) {
 				MessageToast.show(error);
@@ -347,12 +347,12 @@ sap.ui.define([
 	// To get PO Datas
 	fGetDatafromPO: function (sCode) {
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDataPOTransactions&value1=" +
 			sCode + "&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			},
 			error: function(xhr, status, error) {
 				MessageToast.show(error);
@@ -440,11 +440,11 @@ sap.ui.define([
 
 		this.oModelOpenPO = new JSONModel();
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			},
 			error: function(xhr, status, error) {
 				MessageToast.show(error);
@@ -536,7 +536,7 @@ sap.ui.define([
 
 				$.ajax({
 					//Posting PO in SAP
-					url: "https://sl-test.biotechfarms.net/b1s/v1/PurchaseOrders",
+					url: "https://18.142.200.63:50000/b1s/v1/PurchaseOrders",
 					data: JSON.stringify(oPO),
 					type: "POST",
 					xhrFields: {
@@ -610,7 +610,7 @@ sap.ui.define([
 
 				$.ajax({
 					// Posting PO in SAP
-					url: "https://sl-test.biotechfarms.net/b1s/v1/PurchaseOrders",
+					url: "https://18.142.200.63:50000/b1s/v1/PurchaseOrders",
 					data: JSON.stringify(oPO),
 					type: "POST",
 					xhrFields: {
@@ -662,7 +662,7 @@ sap.ui.define([
 
 		//To Update Data in UDT
 		$.ajax({
-			url: "https://sl-test.biotechfarms.net/b1s/v1/U_APP_CPOR('" + oCode + "')",
+			url: "https://18.142.200.63:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
 			data: JSON.stringify(oPo),
 			type: "PATCH",
 			xhrFields: {
@@ -721,7 +721,7 @@ sap.ui.define([
 			oPo.U_App_UpdatedBy = this.UserName;
 	
 			$.ajax({
-				url: "https://sl-test.biotechfarms.net/b1s/v1/U_APP_CPOR('" + oCode + "')",
+				url: "https://18.142.200.63:50000/b1s/v1/U_APP_CPOR('" + oCode + "')",
 				data: JSON.stringify(oPo),
 				type: "PATCH",
 				xhrFields: {
@@ -815,11 +815,11 @@ sap.ui.define([
 
 		this.oModelOpenPO = new JSONModel();
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=" + oValue + "&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				},
 				error: function(xhr, status, error) {
 					MessageToast.show(error);
@@ -865,12 +865,12 @@ sap.ui.define([
 		var DocEntry  = "";
 
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
+				url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
 					"&value1=" + oDocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 					error: function (xhr, status, error) {
 						sap.m.MessageToast.show(error);
@@ -889,7 +889,7 @@ sap.ui.define([
 		
 		$.ajax({
 			//Posting PO in SAP
-			url: "https://sl-test.biotechfarms.net/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
+			url: "https://18.142.200.63:50000/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
 			type: "POST",
 			xhrFields: {
 				withCredentials: true
@@ -940,12 +940,12 @@ sap.ui.define([
 			var sInputValue = this.byId("BPCode").getValue();
 
 				$.ajax({
-					url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+					url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 						"&procName=spAppRetention&queryTag=getAllActiveProjectCode&value1=&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				  },
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -1013,7 +1013,7 @@ sap.ui.define([
 
 		//Postinf Attachment in SAP
 		$.ajax({
-			url: "https://sl-test.biotechfarms.net/b1s/v1/Attachments2",
+			url: "https://18.142.200.63:50000/b1s/v1/Attachments2",
 			data: form,
 			type: "POST",
 			processData:false,
@@ -1045,13 +1045,13 @@ sap.ui.define([
 
 		//To Get Code for UDT
 		$.ajax({
-			url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 			"&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" +
 			Active + "&value2=&value3=&value4=",
 			type: "GET",
 			async: false,
 			beforeSend: function (xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 		  	},
 
 			error: function (xhr, status, error) {
