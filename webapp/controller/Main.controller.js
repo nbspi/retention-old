@@ -142,7 +142,7 @@ sap.ui.define([
         },
         fGetAllMenu: function(){
 			$.ajax({
-				url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
+				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
 				"&VALUE1="+ this.UserName +"&VALUE2=&VALUE3=&VALUE4=",
 				type: "GET",
 				async: false,

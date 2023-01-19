@@ -157,7 +157,7 @@ sap.ui.define([
 		var sInputValue = this.byId("BPCode").getValue();
 
 			$.ajax({
-				url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 					"&procName=spAppRetention&queryTag=getBPMaster&value1=&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
@@ -193,7 +193,7 @@ sap.ui.define([
 		// Viewing Transaction Number
 		this.oTransIDs = new JSONModel();
 		$.ajax({
-		    url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
+		    url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 		    "&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
@@ -216,7 +216,7 @@ sap.ui.define([
 		// Viewing Transaction Number
 		this.oTransIDs = new JSONModel();
 		$.ajax({
-		    url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+		    url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 		    "&procName=spAppRetention&queryTag=getPODraftCount&value1=&value2=&value3=&value4=",
 			type: "GET",
 			async:false,
@@ -304,7 +304,7 @@ sap.ui.define([
 	// Get Header Data In UDT
 	fGetDatafromHeaderUDT: function (sCode) {
 		$.ajax({
-			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDataUDTCPOR&value1=" +
 				sCode + "&value2=&value3=&value4=",
 			type: "GET",
@@ -347,7 +347,7 @@ sap.ui.define([
 	// To get PO Datas
 	fGetDatafromPO: function (sCode) {
 		$.ajax({
-			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDataPOTransactions&value1=" +
 			sCode + "&value2=&value3=&value4=",
 			type: "GET",
@@ -440,7 +440,7 @@ sap.ui.define([
 
 		this.oModelOpenPO = new JSONModel();
 		$.ajax({
-			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=&value2=&value3=&value4=",
 			type: "GET",
 			beforeSend: function(xhr) {
@@ -815,7 +815,7 @@ sap.ui.define([
 
 		this.oModelOpenPO = new JSONModel();
 		$.ajax({
-			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 				"&value1=" + oValue + "&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
@@ -865,7 +865,7 @@ sap.ui.define([
 		var DocEntry  = "";
 
 			$.ajax({
-				url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
+				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag +
 					"&value1=" + oDocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -940,7 +940,7 @@ sap.ui.define([
 			var sInputValue = this.byId("BPCode").getValue();
 
 				$.ajax({
-					url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
+					url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + Database +
 						"&procName=spAppRetention&queryTag=getAllActiveProjectCode&value1=&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
@@ -1045,7 +1045,7 @@ sap.ui.define([
 
 		//To Get Code for UDT
 		$.ajax({
-			url: "https://18.142.200.63:4300/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 			"&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" +
 			Active + "&value2=&value3=&value4=",
 			type: "GET",
