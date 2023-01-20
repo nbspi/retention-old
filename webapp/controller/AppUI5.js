@@ -70,7 +70,7 @@ sap.ui.define([
 			sBodyRequest.U_INPUTBODY = BatchLogs
 
 			$.ajax({
-				url: "https://18.142.200.63:50000/b1s/v1/U_APP_ERRORLOGS",
+				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/U_APP_ERRORLOGS",
 				type: "POST",
 				contentType: "multipart/mixed;boundary=a",
 				data: JSON.stringify(sBodyRequest),
