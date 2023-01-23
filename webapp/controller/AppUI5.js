@@ -34,13 +34,13 @@ sap.ui.define([
 					jQuery.sap.log.error("This should never have happened!");
 				},
 				success: function (json) {
-					generatedCode = json[0][""];
+					generatedCode = json[0]["Code"];
 
 				},
 				context: this
 			}).done(function (results) {
 				if (results) {
-					generatedCode = results[0][""];
+					generatedCode = results[0]["Code"];
 				}
 			});
 			return generatedCode;
