@@ -536,7 +536,7 @@ sap.ui.define([
 
 				$.ajax({
 					//Posting PO in SAP
-					url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/PurchaseOrders",
+					url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/PurchaseOrders",
 					data: JSON.stringify(oPO),
 					type: "POST",
 					xhrFields: {
@@ -610,7 +610,7 @@ sap.ui.define([
 
 				$.ajax({
 					// Posting PO in SAP
-					url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/PurchaseOrders",
+					url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/PurchaseOrders",
 					data: JSON.stringify(oPO),
 					type: "POST",
 					xhrFields: {
@@ -662,7 +662,7 @@ sap.ui.define([
 
 		//To Update Data in UDT
 		$.ajax({
-			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/U_APP_CPOR('" + oCode + "')",
+			url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/U_APP_CPOR('" + oCode + "')",
 			data: JSON.stringify(oPo),
 			type: "PATCH",
 			xhrFields: {
@@ -721,7 +721,7 @@ sap.ui.define([
 			oPo.U_App_UpdatedBy = this.UserName;
 	
 			$.ajax({
-				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/U_APP_CPOR('" + oCode + "')",
+				url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/U_APP_CPOR('" + oCode + "')",
 				data: JSON.stringify(oPo),
 				type: "PATCH",
 				xhrFields: {
@@ -889,7 +889,7 @@ sap.ui.define([
 		
 		$.ajax({
 			//Posting PO in SAP
-			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
+			url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/PurchaseOrders("+ oDocEntry +")/Cancel",
 			type: "POST",
 			xhrFields: {
 				withCredentials: true
@@ -1013,7 +1013,7 @@ sap.ui.define([
 
 		//Postinf Attachment in SAP
 		$.ajax({
-			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/Attachments2",
+			url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/Attachments2",
 			data: form,
 			type: "POST",
 			processData:false,

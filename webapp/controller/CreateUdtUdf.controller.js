@@ -145,7 +145,7 @@ sap.ui.define([
 
 			var stringTableInfo = JSON.stringify(tableInfo);
 			$.ajax({
-				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/UserTablesMD",
+				url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/UserTablesMD",
 				data: stringTableInfo,
 				type: "POST",
 				async: false,
@@ -189,7 +189,7 @@ sap.ui.define([
 			var dataString = JSON.stringify(oFieldInfo);
 
 			$.ajax({
-				url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/UserFieldsMD",
+				url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/UserFieldsMD",
 				data: dataString,
 				type: "POST",
 				async: false,

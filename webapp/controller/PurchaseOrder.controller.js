@@ -315,7 +315,7 @@ sap.ui.define([
 					
 					//Posting of PO in SAP
 					$.ajax({
-						url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/PurchaseOrders",
+						url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/PurchaseOrders",
 						data: JSON.stringify(oPO),
 						type: "POST",
 						xhrFields: {
@@ -371,7 +371,7 @@ sap.ui.define([
 					oPO.Comments = Remarks;
 
 					$.ajax({
-						url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/PurchaseOrders",
+						url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/PurchaseOrders",
 						data: JSON.stringify(oPO),
 						type: "POST",
 						xhrFields: {
@@ -452,7 +452,7 @@ sap.ui.define([
 				
 				//Postinf Draft in SAP
 				$.ajax({
-					url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/U_APP_CPOR",
+					url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/U_APP_CPOR",
 					data: JSON.stringify(oDraft),
 					type: "POST",
 					xhrFields: {
@@ -624,7 +624,7 @@ sap.ui.define([
 
 		//Postinf Attachment in SAP
 		$.ajax({
-			url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/Attachments2",
+			url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/Attachments2",
 			data: form,
 			type: "POST",
 			processData:false,

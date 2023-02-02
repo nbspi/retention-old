@@ -117,7 +117,7 @@ sap.ui.define([
         fLogout: function() {
 
             $.ajax({
-                url: "https://test-saphanav10.biotechfarms.net/xsjs/app_xsjs/b1s/v1/Logout",
+                url: "https://test-sapsldv10.biotechfarms.net/b1s/v1/Logout",
                 type: "POST",
                 xhrFields: {
 					withCredentials: true
