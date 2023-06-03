@@ -462,12 +462,12 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 			// To get PO Transaction 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2="+ this.ColType +"&value3=&value4=",
 					type: "GET",
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					},
 					error: function(xhr, status, error) {
 						MessageToast.show(error);
@@ -486,12 +486,12 @@ sap.ui.define([
 
 			// To Get Header Value in UDT and set on Fields
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					},
 					error: function(xhr, status, error) {
 						MessageToast.show(error);
@@ -573,12 +573,12 @@ sap.ui.define([
 			});
 			//To get value in UDT and set on fields
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					},
 					error: function(xhr, status, error) {
 						MessageToast.show(error);
@@ -753,11 +753,11 @@ sap.ui.define([
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 					"&value1=&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function(xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				},
 				error: function(xhr, status, error) {
 					MessageToast.show(error);
@@ -994,13 +994,13 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=" + ColType + "&value3=&value4=",
 					type: "GET",
 					async:false,
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					},
 					error: function(xhr, status, error) {
 						MessageToast.show(error);
@@ -1033,11 +1033,11 @@ sap.ui.define([
 			// Viewing Transaction Number
 			this.oTransIDs = new JSONModel();
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase +
 					"&procName=spAppRetention&queryTag=getTransCount&value1=&value2=&value3=&value4=",
 					type: "GET",
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					},
 					error: function(xhr, status, error) {
 						MessageToast.show(error);
@@ -1236,13 +1236,13 @@ sap.ui.define([
 			this.oModelOpenPO = new JSONModel();
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getPOTransaction&value1=" +
 					sCode + "&value2=" + ColType + "&value3=&value4=",
 					type: "GET",
 					async:false,
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					},
 					error: function(xhr, status, error) {
 						MessageToast.show(error);
@@ -1309,13 +1309,13 @@ sap.ui.define([
 
 				// To get Data in UDT Details
 				$.ajax({
-					url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+					url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 						"&procName=spAppRetention&queryTag=getUDTdtls&value1=" +
 						oDocEntry +
 						"&value2=&value3=&value4=",
 						type: "GET",
 						beforeSend: function(xhr) {
-							xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+							xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 						},
 						error: function(xhr, status, error) {
 							MessageToast.show(error);
@@ -1948,7 +1948,7 @@ sap.ui.define([
 					var sBodyRequest = this.fPrepareBatchRequestBody(batchArray);
 					// Post Draft Using Batch
 					$.ajax({
-						url: "https://sl-eut.biotechfarms.net/b1s/v1/$batch",
+						url: "https://slv10.biotechfarms.net/b1s/v1/$batch",
 						type: "POST",
 						contentType: "multipart/mixed;boundary=a",
 						data: sBodyRequest,
@@ -2001,11 +2001,11 @@ sap.ui.define([
 			var generatedCode = "";
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=SPAPP_GENERATENUMBER&DocType=" + docType,
 				type: "GET",
 				async: false,
 				beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 
 				error: function (xhr, status, error) {
@@ -2082,7 +2082,7 @@ sap.ui.define([
 
 			$.ajax({
 
-				url: "https://sl-eut.biotechfarms.net/b1s/v1/U_APP_ORPT('" + oHeaderCode + "')",
+				url: "https://slv10.biotechfarms.net/b1s/v1/U_APP_ORPT('" + oHeaderCode + "')",
 				data: JSON.stringify(oHeader),
 				type: "PATCH",
 				xhrFields: {
@@ -2147,7 +2147,7 @@ sap.ui.define([
 
 				$.ajax({
 
-					url: "https://sl-eut.biotechfarms.net/b1s/v1/U_APP_RPT1('" + oDetaileCode + "')",
+					url: "https://slv10.biotechfarms.net/b1s/v1/U_APP_RPT1('" + oDetaileCode + "')",
 					data: JSON.stringify(Detailes),
 					type: "PATCH",
 					xhrFields: {
@@ -2178,12 +2178,12 @@ sap.ui.define([
 		// To Get Data From Header UDT
 		onGetHeaderUDT: function (sCode, oDocStatus) {
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDThdr&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
 					beforeSend: function (xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					  },
 					error: function (xhr, status, error) {
 						MessageToast.show(error);
@@ -2197,12 +2197,12 @@ sap.ui.define([
 		// To Get Data from Detailes UDT
 		onGetDetailsUDT: function (sCode, oDocStatus) {
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getUDTdtl&value1=" +
 					sCode +
 					"&value2=" + oDocStatus + "&value3=&value4=",
 					type: "GET",
 					beforeSend: function (xhr) {
-						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+						xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 					  },
 					error: function (xhr, status, error) {
 						MessageToast.show(error);
@@ -2341,7 +2341,7 @@ sap.ui.define([
 
 				// POsting DownPayment in SAP
 				$.ajax({
-					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDownPayments",
+					url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDownPayments",
 					data: JSON.stringify(oAPDown),
 					type: "POST",
 					xhrFields: {
@@ -2441,7 +2441,7 @@ sap.ui.define([
 
 				//Posting GRPO in SAP
 				$.ajax({
-					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
+					url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					type: "POST",
 					async:false,
@@ -2466,11 +2466,11 @@ sap.ui.define([
 
 						this.oModelAPINV = new JSONModel();
 						$.ajax({
-							url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&	queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
+							url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + oDatabase + "&procName=spAppRetention&	queryTag=getAPINVDoc&value1=" + PoDocEntry + "&value2=&value3=&value4=",
 							type: "GET",
 							async:false,
 							beforeSend: function (xhr) {
-								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+								xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 							  },
 							error: function (xhr, status, error) {
 								MessageToast.show(error);
@@ -2575,7 +2575,7 @@ sap.ui.define([
 
 								//Posting A/P Invoice in SAP
 								$.ajax({
-									url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
+									url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
 									async:false,
@@ -2682,7 +2682,7 @@ sap.ui.define([
 
 				//Posting GRPO in SAP
 				$.ajax({
-					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
+					url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					type: "POST",
 					async:false,
@@ -2786,7 +2786,7 @@ sap.ui.define([
 
 								//Posting A/P Invoice in SAP
 								$.ajax({
-									url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
+									url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
 									async:false,
@@ -2810,7 +2810,7 @@ sap.ui.define([
 								// For Closing A/P Invoice	
 										// this.oTransID = new JSONModel();
 										// $.ajax({
-										// 	url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+										// 	url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
 										// 	type: "POST",
 										// 	async:false,
 										// 	xhrFields: {
@@ -2927,7 +2927,7 @@ sap.ui.define([
 				$.ajax({
 
 					// Posting GRPO in SAP
-					url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
+					url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 					data: JSON.stringify(oFGRPO),
 					async:false,
 					type: "POST",
@@ -3083,7 +3083,7 @@ sap.ui.define([
 
 								//Posting AP Invoice in SAP
 								$.ajax({
-									url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
+									url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseInvoices",
 									data: JSON.stringify(oAPINV),
 									type: "POST",
 									async:false,
@@ -3108,7 +3108,7 @@ sap.ui.define([
 										// For Forced Close GRPO
 										// this.oTransID = new JSONModel();
 										// $.ajax({
-										// 	url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
+										// 	url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes(" + GRPODocEntry + ")/Close",
 										// 	type: "POST",
 										// 	async:false,
 										// 	xhrFields: {
@@ -3181,7 +3181,7 @@ sap.ui.define([
 
 			//Posting GRPO in
 			$.ajax({
-				url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
+				url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseDeliveryNotes",
 				data: JSON.stringify(oFGRPO),
 				type: "POST",
 				async:false,
@@ -3238,7 +3238,7 @@ sap.ui.define([
 
 							//Posting AP Invoice in SAP
 							$.ajax({
-								url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices",
+								url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseInvoices",
 								data: JSON.stringify(oAPINV),
 								type: "POST",
 								async:false,
@@ -3277,12 +3277,12 @@ sap.ui.define([
 		// To get the Remainin Progress Billing Rate
 		fGetRemainingPrograte: function (oDocEntry) {
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 					"&procName=spAppRetention&queryTag=getProgRate&value1=" +
 					oDocEntry + "&value2=&value3=&value4=",
 				type: "GET",
 				beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 				error: function (xhr, status, error) {
 					MessageToast.show(error);
@@ -3448,12 +3448,12 @@ sap.ui.define([
 
 			this.oModelOpenPO = new JSONModel();
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +
 					"&value1=" + oValue + "&value2=&value3=&value4=",
 					type: "GET",
 					dataType: "json",
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -3512,11 +3512,11 @@ sap.ui.define([
 		fgetPOLineTotal: function (DocNum,Row){
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getPOLineTotal&value1=" + DocNum + "&value2=" + Row + "&value3=&value4=",
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=getPOLineTotal&value1=" + DocNum + "&value2=" + Row + "&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -3536,12 +3536,12 @@ sap.ui.define([
 			var value = "";
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 				"&procName=spAppRetention&queryTag=getDocTotalAPDP&value1=" + DocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 				error: function (xhr, status, error) {
 					// var Message = xhr.responseJSON["error"].message.value;
@@ -3564,11 +3564,11 @@ sap.ui.define([
 			var value = "";
 			
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag="+ QueryTag +"&value1=" + DocEntry +"&value2=&value3=&value4=",
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag="+ QueryTag +"&value1=" + DocEntry +"&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  	},
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -3592,11 +3592,11 @@ sap.ui.define([
 			var value = "";
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" + DocEntry + "&value2=&value3=&value4=",
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + QueryTag + "&value1=" + DocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				  },
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -3620,11 +3620,11 @@ sap.ui.define([
 			var value = "";
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getPORentAmount&value1=" + DocEntry + "&value2=&value3=&value4=",
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getPORentAmount&value1=" + DocEntry + "&value2=&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				  },
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -3645,11 +3645,11 @@ sap.ui.define([
 		fRetTransaction: function (DocEntry,Row){
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
 					type: "GET",
 					async: false,
 				  beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				  },
 					error: function (xhr, status, error) {
 						// var Message = xhr.responseJSON["error"].message.value;
@@ -3697,11 +3697,11 @@ sap.ui.define([
 		var sInputValue = this.byId("RetCode").getValue();
 
 			$.ajax({
-				url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
+				url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +"&procName=spAppRetention&queryTag=getRetentionTransaction&value1=" + DocEntry + "&value2="+ Row +"&value3=&value4=",
 				type: "GET",
 				dataType: "json",
 			  beforeSend: function (xhr) {
-				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+				xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 			  },
 				error: function (xhr, status, error) {
 					// var Message = xhr.responseJSON["error"].message.value;
@@ -3775,7 +3775,7 @@ sap.ui.define([
 			oPo.U_APP_Processed = "-";
 
 			$.ajax({
-				url: "https://sl-eut.biotechfarms.net/b1s/v1/PurchaseInvoices(" + DocEntry + ")",
+				url: "https://slv10.biotechfarms.net/b1s/v1/PurchaseInvoices(" + DocEntry + ")",
 				data: JSON.stringify(oPo),
 				type: "PATCH",
 				xhrFields: {
@@ -3811,7 +3811,7 @@ sap.ui.define([
 
 		//Postinf Attachment in SAP
 		$.ajax({
-			url: "https://sl-eut.biotechfarms.net/b1s/v1/Attachments2",
+			url: "https://slv10.biotechfarms.net/b1s/v1/Attachments2",
 			data: form,
 			type: "POST",
 			processData:false,
@@ -3841,13 +3841,13 @@ sap.ui.define([
 		// fgetFileAbsEntry: function (){
 
 		// $.ajax({
-		// 	url: "https://xsjs.biotechfarms.net/app-xsjs/ExecQuery.xsjs?dbName=" + this.Database +
+		// 	url: "https://xsjsv10.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database +
 		// 		"&procName=spAppRetention&queryTag=getFileAbsEntry&value1=&value2=&value3=&value4=",
 		// 	type: "GET",
 		// 	dataType: "json",
 		// 	async:false,
 		// 	beforeSend: function (xhr) {
-		// 		xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987$"));
+		// 		xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 		// 	},
 		// 		error: function (xhr, status, error) {
 		// 			sap.m.MessageToast.show(error);
