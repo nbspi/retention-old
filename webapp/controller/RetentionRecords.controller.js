@@ -45,10 +45,10 @@ sap.ui.define([
 	fGetAllRecords: function (queryTag,Param) {
 
 		$.ajax({
-		  url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +"&value1=" + Param + "&value2=&value3=&value4=",
+		  url: "https://xsjs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName=" + this.Database + "&procName=spAppRetention&queryTag=" + queryTag +"&value1=" + Param + "&value2=&value3=&value4=",
 		  type: "GET",
 		  beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+			xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 		  },
 		  error: function(xhr, status, error) {
 			MessageToast.show(error);

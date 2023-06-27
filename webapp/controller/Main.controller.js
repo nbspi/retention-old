@@ -117,7 +117,7 @@ sap.ui.define([
         fLogout: function() {
 
             $.ajax({
-                url: "https://sl-test.biotechfarms.net/b1s/v1/Logout",
+                url: "https://sl-eut.biotechfarms.net/b1s/v1/Logout",
                 type: "POST",
                 xhrFields: {
 					withCredentials: true
@@ -142,13 +142,13 @@ sap.ui.define([
         },
         fGetAllMenu: function(){
 			$.ajax({
-				url: "https://xs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
+				url: "https://xsjs.biotechfarms.net/app_xsjs/ExecQuery.xsjs?dbName="+ this.Database +"&procName=spAppRetention&QUERYTAG=getAllMenu" +
 				"&VALUE1="+ this.UserName +"&VALUE2=&VALUE3=&VALUE4=",
 				type: "GET",
 				async: false,
 				dataType: "json",
 				beforeSend: function (xhr) {
-					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:P@ssw0rd805~"));
+					xhr.setRequestHeader("Authorization", "Basic " + btoa("SYSTEM:Qwerty0987"));
 				},
 				error: function (xhr, status, error) {
 					var Message = xhr.responseJSON["error"].message.value;			
